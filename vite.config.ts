@@ -4,12 +4,4 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   plugins: [remix({ appDirectory: 'ui' }), tsconfigPaths()],
-  optimizeDeps: {
-    include: ['iterated'],
-  },
-  build: {
-    commonjsOptions: {
-      include: ['iterated'],
-    },
-  },
 })

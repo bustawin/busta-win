@@ -1,8 +1,7 @@
 import './styles.sass'
 import { Link, useLoaderData } from '@remix-run/react'
-import { LoaderArgs } from '@remix-run/node'
-
-export const loader = async ({ context: { commands } }: LoaderArgs) => {
+import * as commands from '@src/service/commands'
+export const loader = async () => {
   const posts = await commands.posts()
   return {
     posts,

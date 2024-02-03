@@ -3,7 +3,6 @@ import { installGlobals } from '@remix-run/node'
 import compression from 'compression'
 import express from 'express'
 import morgan from 'morgan'
-import * as commands from '@src/service/commands'
 
 installGlobals()
 
@@ -22,9 +21,6 @@ const remixHandler = createRequestHandler({
   build: viteDevServer
     ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
     : await import('./../../build/server/index.js'),
-  getLoadContext() {
-    return { commands }
-  },
 })
 
 export const app = express()

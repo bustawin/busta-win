@@ -4,14 +4,15 @@ import it from 'iterated'
 import { readdir, readFile } from 'fs/promises'
 import matter from 'gray-matter'
 import { fileURLToPath } from 'url'
+import * as utils from '@src/service/utils'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const POSTS_DIR = path.resolve(__dirname, '../../../posts')
+const REL_PATH = utils.envPro ? '../..' : '../../..'
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
+const POSTS_DIR = path.resolve(dirname, REL_PATH, 'posts')
 const POST_FILENAME = 'post.md'
 
 export async function posts(): Promise<Array<Post>> {
-  console.log(it.sort, 'what is it?')
   return it.pipe(
     await readdir(POSTS_DIR),
     it.map.p(post),
