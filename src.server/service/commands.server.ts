@@ -1,6 +1,6 @@
 import { json } from '@remix-run/node'
 
-function getPosts() {
+export function getPosts() {
   return json({
     posts: [
       {
@@ -13,8 +13,4 @@ function getPosts() {
       },
     ],
   })
-}
-
-export const commands = {
-  getPosts,
 }

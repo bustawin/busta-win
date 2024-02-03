@@ -7,7 +7,6 @@ export const loader = async ({ context: { commands } }: LoaderArgs) => {
 }
 
 export default function Posts() {
-  console.log('hi')
   const { posts } = useLoaderData<typeof loader>()
   return (
     <main>
