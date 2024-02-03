@@ -1,10 +1,12 @@
+import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from '@remix-run/react'
 
 export default function App() {
   return (
@@ -19,7 +21,8 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
-  );
+  )
 }
