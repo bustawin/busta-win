@@ -1,6 +1,6 @@
-type Post = {
-  slug: string
+export type Post = {
   title: string
+  slug: string
 }
 
 export async function getPosts(): Promise<Array<Post>> {

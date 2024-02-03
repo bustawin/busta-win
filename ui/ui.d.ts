@@ -1,5 +1,5 @@
 import '@remix-run/node'
-import * as commands from '@src/service/commands.server'
+import * as commands from '@src/service/commands'
 declare module '@remix-run/node' {
   export interface LoaderArgs extends DataFunctionArgs {
     context: { commands: typeof commands }

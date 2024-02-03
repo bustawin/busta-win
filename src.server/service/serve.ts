@@ -3,7 +3,7 @@ import { installGlobals } from '@remix-run/node'
 import compression from 'compression'
 import express from 'express'
 import morgan from 'morgan'
-import * as commands from '@src/service/commands.server'
+import * as commands from '@src/service/commands'
 
 installGlobals()
 
