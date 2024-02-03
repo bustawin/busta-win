@@ -1,17 +1,13 @@
 export type Post = {
+  id: string
   title: string
-  slug: string
+  content: string
+  categories: string[]
+  tags: string[]
+  summary: string
+  created: Date
 }
 
-export async function getPosts(): Promise<Array<Post>> {
-  return [
-    {
-      slug: 'my-first-post',
-      title: 'My First Post',
-    },
-    {
-      slug: '90s-mixtape',
-      title: 'A Mixtape I Made Just For You',
-    },
-  ]
+export function postChronologicalComparator(a: Post, b: Post) {
+  return a.created <= b.created
 }

@@ -3,7 +3,10 @@ import { Link, useLoaderData } from '@remix-run/react'
 import { LoaderArgs } from '@remix-run/node'
 
 export const loader = async ({ context: { commands } }: LoaderArgs) => {
-  return commands.getPosts()
+  const posts = await commands.posts()
+  return {
+    posts,
+  }
 }
 
 export default function Posts() {
@@ -12,8 +15,8 @@ export default function Posts() {
     <main>
       <h1>Posts</h1>
       {posts.map((post) => (
-        <li key={post.slug}>
-          <Link to={post.slug} className="text-blue-600 underline">
+        <li key={post.id}>
+          <Link to={post.id} className="text-blue-600 underline">
             {post.title}
           </Link>
         </li>
