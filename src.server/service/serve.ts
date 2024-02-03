@@ -17,7 +17,8 @@ const viteDevServer =
       )
 
 const remixHandler = createRequestHandler({
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   build: viteDevServer
     ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
     : await import('./../../build/server/index.js'),
