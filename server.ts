@@ -3,6 +3,7 @@ import { installGlobals } from "@remix-run/node";
 import compression from "compression";
 import express from "express";
 import morgan from "morgan";
+import {x} from './server/file'
 
 installGlobals();
 
@@ -16,9 +17,13 @@ const viteDevServer =
       );
 
 const remixHandler = createRequestHandler({
+    // @ts-ignore
   build: viteDevServer
     ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
     : await import("./build/server/index.js"),
+    getLoadContext() {
+      return {x}
+    }
 });
 
 const app = express();
@@ -50,5 +55,5 @@ app.all("*", remixHandler);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () =>
-  console.log(`Express server listening at http://localhost:${port}`)
+  console.log(`bustawin server listening at http://localhost:${port}`)
 );
