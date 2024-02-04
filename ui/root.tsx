@@ -1,3 +1,4 @@
+import './styles/index.sass'
 import {
   Links,
   Meta,
@@ -10,6 +11,7 @@ import type { MetaFunction } from '@remix-run/node'
 import * as commands from '@src/service/commands'
 import MainNavigation from '@ui/root/MainNavigation'
 import { categoriesToSimple } from '@ui/domain/post'
+import { SSRProvider } from 'react-bootstrap'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'bustawin' }]
@@ -25,7 +27,7 @@ export const loader = async () => {
 export default function App() {
   const { categories } = useLoaderData<typeof loader>()
   return (
-    <html lang="en">
+    <html lang="en" data-bs-theme="auto">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,8 +35,10 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <MainNavigation categories={categories} />
-        <Outlet />
+        <SSRProvider>
+          <MainNavigation categories={categories} />
+          <Outlet />
+        </SSRProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
