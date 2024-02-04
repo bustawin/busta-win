@@ -11,7 +11,7 @@ import type { MetaFunction } from '@remix-run/node'
 import * as commands from '@src/service/commands'
 import MainNavigation from '@ui/root/MainNavigation'
 import { categoriesToSimple } from '@ui/domain/post'
-import { SSRProvider } from 'react-bootstrap'
+import { Col, Container, Row, SSRProvider } from 'react-bootstrap'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'bustawin' }]
@@ -37,7 +37,13 @@ export default function App() {
       <body>
         <SSRProvider>
           <MainNavigation categories={categories} />
-          <Outlet />
+          <Container>
+            <Row>
+              <Col>
+                <Outlet />
+              </Col>
+            </Row>
+          </Container>
         </SSRProvider>
         <ScrollRestoration />
         <Scripts />

@@ -12,7 +12,13 @@ export default function Index() {
   const { posts } = useLoaderData<typeof loader>()
   return (
     <main>
-      <h1>Posts</h1>
+      <p>
+        Hello, I'm bustawin (aka Xavier Bustamante).
+        <br />
+        I'm a geeky software engineer focused on product development, with a
+        spice of academic research and python.
+      </p>
+      <p>In here, I talk about things I do—publications, notes, and tricks.</p>
       {posts.map((post) => (
         <li key={post.id}>
           <Link to={`posts/${post.id}`} className="text-blue-600 underline">

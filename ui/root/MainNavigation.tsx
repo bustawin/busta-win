@@ -12,7 +12,7 @@ interface MainNavigationProps {
 export default function MainNavigation({ categories }: MainNavigationProps) {
   return (
     <Container className="main-navigation">
-      <Row className="justify-content-md-center">
+      <Row className="d-flex justify-content-center">
         <Col xs="auto" className="d-flex align-items-center">
           <Image src={timmy} id="timmy" />
         </Col>
@@ -20,25 +20,34 @@ export default function MainNavigation({ categories }: MainNavigationProps) {
           <Row>
             <Col>
               <Row>
-                <NavLink to="/" id="logo">
-                  busta<span id="logo__period">.</span>win
-                </NavLink>
+                <Col>
+                  <NavLink to="/" id="logo">
+                    busta<span id="logo__period">.</span>win
+                  </NavLink>
+                </Col>
               </Row>
               <Row>
-                <Nav className="me-auto">
-                  {categories.map((category) => (
+                <Col>
+                  <Nav className="me-auto main-navigation__nav-row__nav">
+                    {categories.map((category) => (
+                      <Nav.Link
+                        key={category}
+                        as={NavLink}
+                        to={`/categories/${category}`}
+                        className={`main-navigation__nav-link main-navigation__nav-link--${category}`}
+                      >
+                        {changeCase.capitalCase(category)}
+                      </Nav.Link>
+                    ))}
                     <Nav.Link
-                      key={category}
                       as={NavLink}
-                      to={`/categories/${category}`}
+                      to="/about"
+                      className="main-navigation__nav-link"
                     >
-                      {changeCase.capitalCase(category)}
+                      About
                     </Nav.Link>
-                  ))}
-                  <Nav.Link as={NavLink} to="/about">
-                    About
-                  </Nav.Link>
-                </Nav>
+                  </Nav>
+                </Col>
               </Row>
             </Col>
           </Row>

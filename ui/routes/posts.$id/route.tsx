@@ -3,6 +3,7 @@ import * as commands from '@src/service/commands'
 import { LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import Markdown from 'react-markdown'
+import { Col, Container, Row } from 'react-bootstrap'
 
 export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   invariant(id, 'id required')

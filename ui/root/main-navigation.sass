@@ -13,3 +13,15 @@
   width: 10vw
   min-width: 50px
   max-width: 120px
+
+// Align to the logo
+.main-navigation
+  &__nav-link
+    padding-left: 0 !important
+
+
+@include media-breakpoint-down(sm)
+  .main-navigation
+
+    &__nav-link
+      padding: $nav-link-padding-y $nav-link-padding-x/2
