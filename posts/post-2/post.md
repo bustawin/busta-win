@@ -1,10 +1,10 @@
 ---
-title: Building bustawin
+title: Post 2
 categories:
   - software
 tags:
   - frontend
-created: 2024-02-03
+created: 2024-01-01
 summary: This is a small summary to show as a preview.
 ---
 

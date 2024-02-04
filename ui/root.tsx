@@ -1,13 +1,29 @@
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react'
+import type { MetaFunction } from '@remix-run/node'
+import * as commands from '@src/service/commands'
+import MainNavigation from '@ui/root/MainNavigation'
+import { categoriesToSimple } from '@ui/domain/post'
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'bustawin' }]
+}
+
+export const loader = async () => {
+  const categories = commands.categories()
+  return {
+    categories: categoriesToSimple(categories),
+  }
+}
 
 export default function App() {
+  const { categories } = useLoaderData<typeof loader>()
   return (
     <html lang="en">
       <head>
@@ -17,6 +33,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <MainNavigation categories={categories} />
         <Outlet />
         <ScrollRestoration />
         <Scripts />

@@ -1,20 +1,25 @@
-import type { MetaFunction } from '@remix-run/node'
-import { Link } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
+import * as commands from '@src/service/commands'
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
-  ]
+export const loader = async () => {
+  const posts = await commands.posts()
+  return {
+    posts,
+  }
 }
 
 export default function Index() {
+  const { posts } = useLoaderData<typeof loader>()
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <Link to="/posts">Posts</Link>
-      </ul>
-    </div>
+    <main>
+      <h1>Posts</h1>
+      {posts.map((post) => (
+        <li key={post.id}>
+          <Link to={`posts/${post.id}`} className="text-blue-600 underline">
+            {post.title}
+          </Link>
+        </li>
+      ))}
+    </main>
   )
 }
