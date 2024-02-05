@@ -1,4 +1,4 @@
-import './styles/index.sass'
+import './root.sass'
 import {
   Links,
   Meta,

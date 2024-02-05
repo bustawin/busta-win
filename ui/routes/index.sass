@@ -1,0 +1,30 @@
+@use 'sass:color'
+@use '../styles/style' as *
+
+.post-preview
+  border: none
+  background-color: var(--#{$prefix}card-cap-bg)
+
+  &:hover
+    background-color: rgba($secondary, .25)
+
+    .post-preview__image
+      filter: sepia(.2) brightness(.9)
+
+  .card-footer
+    border: none
+    text-align: center
+
+  .card-title
+    color: $primary
+
+  &__link
+    text-decoration: unset
+    color: unset
+
+  &__image
+    @include border-top-end-radius()
+    @include img-fluid()
+    background-repeat: no-repeat
+    background-position: center
+    background-size: cover

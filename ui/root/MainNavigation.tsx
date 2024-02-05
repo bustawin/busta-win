@@ -1,4 +1,3 @@
-import './main-navigation.sass'
 import timmy from './timmy.png'
 import { Category } from '@src/domain/category'
 import { Col, Container, Image, Nav, Row } from 'react-bootstrap'
