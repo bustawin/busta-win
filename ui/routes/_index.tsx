@@ -1,12 +1,11 @@
 import { Link, useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
 import { Card, Col, Container, Row } from 'react-bootstrap'
-import * as postConverter from '@ui/domain/post'
-import { RawPost } from '@ui/domain/post'
+import * as postSer from '@src/adapters/serializers/post'
 
 export const loader = async () => {
   const posts = await commands.posts()
-  const rawPosts = postConverter.toJson(...posts)
+  const rawPosts = postSer.dump(...posts)
   return {
     rawPosts,
   }
@@ -14,7 +13,7 @@ export const loader = async () => {
 
 export default function Index() {
   const { rawPosts } = useLoaderData<typeof loader>()
-  const posts = postConverter.fromJson(...(rawPosts as RawPost[]))
+  const posts = postSer.load(...(rawPosts as postSer.RawPost[]))
   return (
     <main>
       <div className="my-4">

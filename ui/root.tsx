@@ -10,8 +10,8 @@ import {
 import type { MetaFunction } from '@remix-run/node'
 import * as commands from '@src/service/commands'
 import MainNavigation from '@ui/root/MainNavigation'
-import { categoriesToSimple } from '@ui/domain/post'
-import { Col, Container, Row, SSRProvider } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
+import { dump } from '@src/adapters/serializers/categories'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'bustawin' }]
@@ -20,7 +20,7 @@ export const meta: MetaFunction = () => {
 export const loader = async () => {
   const categories = commands.categories()
   return {
-    categories: categoriesToSimple(categories),
+    categories: dump(categories),
   }
 }
 
@@ -35,16 +35,14 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <SSRProvider>
-          <MainNavigation categories={categories} />
-          <Container>
-            <Row>
-              <Col>
-                <Outlet />
-              </Col>
-            </Row>
-          </Container>
-        </SSRProvider>
+        <MainNavigation categories={categories} />
+        <Container>
+          <Row>
+            <Col>
+              <Outlet />
+            </Col>
+          </Row>
+        </Container>
         <ScrollRestoration />
         <Scripts />
       </body>

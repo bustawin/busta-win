@@ -1,4 +1,5 @@
 @use 'sass:color'
+@use 'sass:math'
 @use '/ui/styles/style' as *
 
 #logo
@@ -24,4 +25,4 @@
   .main-navigation
 
     &__nav-link
-      padding: $nav-link-padding-y $nav-link-padding-x/2
+      padding: $nav-link-padding-y math.div($nav-link-padding-x, 2)

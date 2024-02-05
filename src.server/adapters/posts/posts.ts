@@ -10,6 +10,7 @@ import matter from 'gray-matter'
 import { fileURLToPath } from 'url'
 import * as utils from '@src/service/utils'
 import { Category } from '@src/domain/category'
+import * as postSerializer from '@src/adapters/serializers/post'
 
 const REL_PATH = utils.envPro ? '../..' : '../../..'
 const filename = fileURLToPath(import.meta.url)
@@ -35,11 +36,9 @@ export async function post(id: string): Promise<Post> {
   const filepath = path.join(POSTS_DIR, id, POST_FILENAME)
   const rawPost = await readFile(filepath, 'utf-8')
   const { content, data } = matter(rawPost)
-  return {
+  return postSerializer.load({
     id,
     content,
     ...data,
-    categories: it.set(data.categories),
-    tags: it.set(data.tags),
-  } as Post
+  } as postSerializer.RawPost)
 }
