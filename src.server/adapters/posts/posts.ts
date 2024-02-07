@@ -7,15 +7,16 @@ import * as path from 'path'
 import it from 'iterated'
 import { readdir, readFile } from 'fs/promises'
 import matter from 'gray-matter'
-import { fileURLToPath } from 'url'
 import * as utils from '@src/service/utils'
 import { Category } from '@src/domain/category'
 import * as postSerializer from '@src/adapters/serializers/post'
+import { relativePath } from '@jutils/path'
 
-const REL_PATH = utils.envPro ? '../..' : '../../..'
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
-const POSTS_DIR = path.resolve(dirname, REL_PATH, 'posts')
+const POSTS_DIR = relativePath(
+  import.meta.url,
+  utils.envPro ? '../..' : '../../..',
+  'posts'
+)
 const POST_FILENAME = 'post.md'
 
 export async function posts(category?: Category): Promise<Array<Post>> {

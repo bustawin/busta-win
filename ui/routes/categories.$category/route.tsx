@@ -2,7 +2,7 @@ import { Link, useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
 import { LoaderFunctionArgs } from '@remix-run/node'
 import { isCategory } from '@src/domain/category'
-import { raiseNotFound } from '@ui/utils/responses'
+import { raiseNotFound } from '@jutils/ui/responses'
 import invariant from 'tiny-invariant'
 
 export const loader = async ({ params: { category } }: LoaderFunctionArgs) => {

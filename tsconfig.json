@@ -22,7 +22,8 @@
         "src.server/*"
       ],
       "@ui": ["ui"],
-      "@ui/*": ["ui/*"]
+      "@ui/*": ["ui/*"],
+      "@jutils/*": ["./../jutils/src/*"]
     },
 
     // Vite takes care of building everything, not tsc.
