@@ -17,7 +17,8 @@ export default function Index() {
   return (
     <main>
       <div className="my-4">
-        <div className="lead">Hello, I'm bustawin (aka Xavier Bustamante).</div>
+        <div className="lead">Hello, I'm bustawin.</div>
+        <p>—aka Xavier Bustamante.</p>
         <p>
           I'm a geeky software engineer focused on product development, with a
           spice of academic research and python.
