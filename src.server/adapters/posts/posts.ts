@@ -6,18 +6,19 @@ import {
 import * as path from 'path'
 import it from 'iterated'
 import { readdir, readFile } from 'fs/promises'
-import matter from 'gray-matter'
 import * as utils from '@src/service/utils'
 import { Category } from '@src/domain/category'
 import * as postSerializer from '@src/adapters/serializers/post'
 import { relativePath } from '@jutils/path'
+import { bundleMDX } from 'mdx-bundler'
+import { remarkMdxToc } from 'remark-mdx-toc'
 
 const POSTS_DIR = relativePath(
   import.meta.url,
   utils.envPro ? '../..' : '../../..',
   'posts'
 )
-const POST_FILENAME = 'post.md'
+const POST_FILENAME = 'post.mdx'
 
 export async function posts(category?: Category): Promise<Array<Post>> {
   return it.pipe(
@@ -36,10 +37,26 @@ export async function posts(category?: Category): Promise<Array<Post>> {
 export async function post(id: string): Promise<Post> {
   const filepath = path.join(POSTS_DIR, id, POST_FILENAME)
   const rawPost = await readFile(filepath, 'utf-8')
-  const { content, data } = matter(rawPost)
+  const { code, frontmatter } = await bundleMDX({
+    source: rawPost,
+    globals: { rb: 'rb' },
+    esbuildOptions(options) {
+      options.minify = false
+      return options
+    },
+    mdxOptions(options) {
+      // this is the recommended way to add custom remark/rehype plugins:
+      // The syntax might look weird, but it protects you in case we add/remove
+      // plugins in the future.
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMdxToc]
+
+      return options
+    },
+  })
+
   return postSerializer.load({
     id,
-    content,
-    ...data,
+    content: code,
+    ...frontmatter,
   } as postSerializer.RawPost)
 }
