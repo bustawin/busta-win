@@ -12,6 +12,7 @@ import * as postSerializer from '@src/adapters/serializers/post'
 import { relativePath } from '@jutils/path'
 import { bundleMDX } from 'mdx-bundler'
 import { remarkMdxToc } from 'remark-mdx-toc'
+import remarkHeaderId from 'remark-heading-id'
 
 const POSTS_DIR = relativePath(
   import.meta.url,
@@ -39,16 +40,18 @@ export async function post(id: string): Promise<Post> {
   const rawPost = await readFile(filepath, 'utf-8')
   const { code, frontmatter } = await bundleMDX({
     source: rawPost,
-    globals: { rb: 'rb' },
-    esbuildOptions(options) {
-      options.minify = false
-      return options
+    globals: {
+      '@ui/utils/posts': 'ui',
     },
     mdxOptions(options) {
       // this is the recommended way to add custom remark/rehype plugins:
       // The syntax might look weird, but it protects you in case we add/remove
       // plugins in the future.
-      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMdxToc]
+      options.remarkPlugins = [
+        ...(options.remarkPlugins ?? []),
+        [remarkHeaderId, { defaults: true }],
+        remarkMdxToc,
+      ]
 
       return options
     },

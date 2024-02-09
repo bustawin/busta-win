@@ -2,11 +2,13 @@ import { useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
 import { LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
-import * as rb from 'react-bootstrap'
-import { getMDXComponent } from 'mdx-bundler/client'
+import { getMDXExport } from 'mdx-bundler/client'
+import ui from '@ui/utils/posts'
+import React from 'react'
+import Toc from './toc'
 
 const MDX_BUNDLE = {
-  rb: rb,
+  ui,
 }
 
 export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
@@ -19,10 +21,16 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
 
 export default function Posts() {
   const { post } = useLoaderData<typeof loader>()
-  const Component = getMDXComponent(post.content, MDX_BUNDLE)
+
+  const mdxExport = getMDXExport(post.content, MDX_BUNDLE)
+
+  const Component = React.useMemo(() => mdxExport.default, [post.content])
+
+  //const Component = getMDXComponent(post.content, MDX_BUNDLE)
   return (
     <main>
       <h1>{post.title}</h1>
+      <Toc toc={mdxExport.toc} />
       <Component />
     </main>
   )
