@@ -2,9 +2,14 @@ import { unstable_vitePlugin as remix } from '@remix-run/dev'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import path from 'path'
+import mdx from '@mdx-js/rollup'
 
 export default defineConfig({
-  plugins: [remix({ appDirectory: 'ui' }), tsconfigPaths()],
+  plugins: [
+    { enforce: 'pre', ...mdx(/* jsxImportSource: …, otherOptions… */) },
+    remix({ appDirectory: 'ui' }),
+    tsconfigPaths(),
+  ],
   server: {
     fs: {
       // Allow serving from jutils
