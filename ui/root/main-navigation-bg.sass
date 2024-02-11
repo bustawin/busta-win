@@ -1,0 +1,41 @@
+@use '/ui/styles/style' as *
+
+.main-navigation
+  position: relative
+
+.main-navigation-bg
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  z-index: -1
+
+  svg
+    width: 100%
+    height: 100%
+
+
+@include color-mode($mode: dark)
+  .main-navigation-bg
+    #primary
+      path
+        fill: $primary-dark !important
+        stroke: $primary !important
+
+    #secondary
+      fill: $secondary-dark !important
+      stroke: $secondary !important
+
+    #green
+      path
+        fill: $green-dark !important
+        stroke: $green !important
+
+    #blue
+      path
+        fill: $blue-dark !important
+        stroke: $blue !important
+
+    #cyan
+      fill: $cyan-dark !important

@@ -18,7 +18,6 @@
 
 // Align to the logo
 .main-navigation
-  background-color: $primary-faded
   background-size: 100% 100%
   background-repeat: no-repeat
   border-bottom: 3px solid $secondary-faded
@@ -27,10 +26,11 @@
     padding-left: 0 !important
     color: $white !important
 
-
 @include media-breakpoint-down(sm)
   .main-navigation
 
     &__nav-link
       padding: $nav-link-padding-y math.div($nav-link-padding-x, 2)
+
+
 
