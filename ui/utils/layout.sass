@@ -1,0 +1,14 @@
+@use 'sass:color'
+@use '../styles/style' as *
+
+.layout__aside
+  @extend .d-none
+  @extend .d-lg-block
+
+.layout__top
+  @include padding-top($spacer)
+  text-align: center
+  background-color: $secondary-faded-extra
+
+.layout__main-container
+  @include margin-top($spacer)

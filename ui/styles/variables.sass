@@ -1,16 +1,16 @@
-// Use this file to overwrite the basic Bootstrap variables and add your own variables
+@use 'sass:color'
 
-$font-family-sans-serif: "Source Serif 4", serif !default
-$headings-font-family: "Roboto Slab", serif !default
+$font-family-sans-serif: "Ubuntu", serif !default
+$headings-font-family: "Source Serif 4", serif !default
 $headings-font-weight: 300 !default
 
-$white: #fff !default
-
 $white-yellow: #fffbf9
+$white: $white-yellow
+
 $body-bg: $white-yellow
 $gray-900: #212529 !default
 
-$black:    #000 !default
+$black: #000 !default
 $red: #CD4F64
 $yellow: #cda06e
 $orange: #9D510B
@@ -20,7 +20,11 @@ $blue: #1D7F76
 
 
 $primary: $red
+$primary-faded: color.scale($primary, $lightness: 30%)
+$primary-faded-extra: color.scale($primary, $lightness: 50%)
 $secondary: $yellow
+$secondary-faded: color.scale($secondary, $lightness: 30%)
+$secondary-faded-extra: color.scale($secondary, $lightness: 50%)
 $danger: rgb(244, 67, 54)
 $body-color: $gray-900
 
@@ -55,7 +59,7 @@ $code-color: $orange
 $table-head-bg: $secondary
 
 $border-style: none !important
-$border-color: rgba(0,0,0,0)
+$border-color: rgba(0, 0, 0, 0)
 $border-color-translucent: $border-color
 $border-radius: 12px !default
 $border-radius-lg: 18px !default

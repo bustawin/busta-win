@@ -3,22 +3,29 @@
 @use '/ui/styles/style' as *
 
 #logo
-  font: italic bold 2.5em "Roboto Slab"
+  font: italic bolder 2.5em "Permanent Marker", sans-serif
   text-decoration: none
-  text-shadow: 1px 1px 1px color.scale($primary, $lightness: -50%)
+  color: $white
+  text-shadow: 2px 2px 0 color.scale($primary, $lightness: -50%)
 
   &__period
-    letter-spacing: -.2em
+    letter-spacing: -.1em
 
 #timmy
-  width: 10vw
+  width: 19vw
   min-width: 50px
   max-width: 120px
 
 // Align to the logo
 .main-navigation
+  background-color: $primary-faded
+  background-size: 100% 100%
+  background-repeat: no-repeat
+  border-bottom: 3px solid $secondary-faded
+
   &__nav-link
     padding-left: 0 !important
+    color: $white !important
 
 
 @include media-breakpoint-down(sm)
@@ -26,3 +33,4 @@
 
     &__nav-link
       padding: $nav-link-padding-y math.div($nav-link-padding-x, 2)
+

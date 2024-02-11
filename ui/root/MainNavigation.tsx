@@ -1,4 +1,6 @@
 import timmy from './timmy.png'
+import bg from './bg.svg'
+
 import { Category } from '@src/domain/category'
 import { Col, Container, Image, Nav, Row } from 'react-bootstrap'
 import { NavLink } from '@remix-run/react'
@@ -10,7 +12,11 @@ interface MainNavigationProps {
 
 export default function MainNavigation({ categories }: MainNavigationProps) {
   return (
-    <Container className="main-navigation">
+    <Container
+      className="main-navigation"
+      fluid
+      style={{ backgroundImage: `url(${bg})` }}
+    >
       <Row className="d-flex justify-content-center">
         <Col xs="auto" className="d-flex align-items-center">
           <Image src={timmy} id="timmy" />

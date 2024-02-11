@@ -10,7 +10,6 @@ import {
 import type { MetaFunction } from '@remix-run/node'
 import * as commands from '@src/service/commands'
 import MainNavigation from '@ui/root/MainNavigation'
-import { Col, Container, Row } from 'react-bootstrap'
 import { dump } from '@src/adapters/serializers/categories'
 
 export const meta: MetaFunction = () => {
@@ -36,13 +35,7 @@ export default function App() {
       </head>
       <body>
         <MainNavigation categories={categories} />
-        <Container>
-          <Row>
-            <Col>
-              <Outlet />
-            </Col>
-          </Row>
-        </Container>
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>

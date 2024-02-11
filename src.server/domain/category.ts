@@ -1,10 +1,10 @@
 import it from 'iterated'
 
-export type Category = 'Software' | 'Research' | 'Management'
+export type Category = 'Software' | 'Research' | 'Manage'
 export const categories = it.set([
   'software',
   'research',
-  'management',
+  'manage',
 ]) as Set<Category>
 
 export function isCategory(val: unknown): val is Category {
