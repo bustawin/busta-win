@@ -1,4 +1,5 @@
 @use 'sass:color'
+@import '/node_modules/bootstrap/scss/mixins/color-mode'
 
 $font-family-sans-serif: "Ubuntu", serif !default
 $headings-font-family: "Source Serif 4", serif !default
@@ -84,3 +85,14 @@ $tooltip-color: $body-color
 $tooltip-box-shadow: $box-shadow
 
 $color-mode-type: media-query
+
+
+@include color-mode(light, true)
+  --ui-primary: #{$primary}
+  --ui-primary-dark: #{$primary-dark}
+  --ui-secondary-faded: #{$secondary-faded}
+  --ui-secondary-faded-extra: #{$secondary-faded-extra}
+
+@include color-mode(dark, true)
+  --ui-secondary-faded: #{$secondary-dark}
+  --ui-secondary-faded-extra: #{$secondary}

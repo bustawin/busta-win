@@ -6,9 +6,13 @@
   @extend .d-lg-block
 
 .layout__top
+  --layout-top-bg: var(--ui-secondary-faded-extra)
+
   @include padding-top($spacer)
   text-align: center
-  background-color: $secondary-faded-extra
+  background-color: var(--layout-top-bg)
 
 .layout__main-container
   @include margin-top($spacer)
+
+
