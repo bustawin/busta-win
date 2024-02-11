@@ -3,8 +3,8 @@ import timmy from './timmy.png'
 import { Category } from '@src/domain/category'
 import { Col, Container, Image, Nav, Row } from 'react-bootstrap'
 import { NavLink } from '@remix-run/react'
-import * as changeCase from 'change-case'
 import MainNavigationBg from './mainNavigationBg'
+import { humanize } from '@ui/utils/categories'
 
 interface MainNavigationProps {
   categories: Category[]
@@ -38,7 +38,7 @@ export default function MainNavigation({ categories }: MainNavigationProps) {
                         to={`/categories/${category}`}
                         className={`main-navigation__nav-link main-navigation__nav-link--${category}`}
                       >
-                        {changeCase.capitalCase(category)}
+                        {humanize(category)}
                       </Nav.Link>
                     ))}
                     <Nav.Link

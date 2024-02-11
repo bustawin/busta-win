@@ -9,7 +9,7 @@ export function MainContainer({ children, top }) {
       {top && (
         <rb.Container fluid className="layout__top">
           <rb.Row>
-            <rb.Col>{top}</rb.Col>
+            <rb.Col>{<h1>{top}</h1>}</rb.Col>
           </rb.Row>
         </rb.Container>
       )}

@@ -27,7 +27,7 @@ export default function Post() {
 
   const Component = React.useMemo(() => mdxExport.default, [post.content])
   return (
-    <layout.MainContainer top={<h1 className="post__title">{post.title}</h1>}>
+    <layout.MainContainer top={post.title}>
       <layout.Main className="post">
         <Component />
       </layout.Main>
