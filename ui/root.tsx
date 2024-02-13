@@ -81,7 +81,7 @@ export function ErrorBoundary() {
           <layout.Main>
             {description}
             <p>
-              <Link to="/">Let's go back home</Link>
+              <Link to="/">Let&apos;s go back home</Link>
             </p>
           </layout.Main>
         </layout.MainContainer>

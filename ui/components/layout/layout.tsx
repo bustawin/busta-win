@@ -3,7 +3,7 @@ import * as ut from '@jutils/ui/reactUtils'
 
 export { Col, Row, Container } from 'react-bootstrap'
 
-interface MainContainerProps {
+export interface MainContainerProps {
   children?: ut.Children
   top?: ut.ReactNode
 }

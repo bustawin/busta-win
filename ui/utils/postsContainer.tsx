@@ -1,8 +1,15 @@
 import { Link } from '@remix-run/react'
 import * as layout from '@ui/components/layout/layout'
 import card from '@jutils/ui/components/card/card'
+import { Post } from '@src/domain/post'
 
-export default function PostsContainer({ children, posts, top }) {
+export interface Props {
+  posts: Post[]
+  children: layout.MainContainerProps['children']
+  top: layout.MainContainerProps['top']
+}
+
+export default function PostsContainer({ children, posts, top }: Props) {
   return (
     <layout.MainContainer top={top}>
       <layout.Main className="post">
