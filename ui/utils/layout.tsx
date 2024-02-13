@@ -3,7 +3,12 @@ import * as ut from '@jutils/ui/reactUtils'
 
 export { Col, Row, Container } from 'react-bootstrap'
 
-export function MainContainer({ children, top }) {
+interface MainContainerProps {
+  children?: ut.Children
+  top?: ut.ReactNode
+}
+
+export function MainContainer({ children, top }: MainContainerProps) {
   return (
     <>
       {top && (
@@ -20,7 +25,12 @@ export function MainContainer({ children, top }) {
   )
 }
 
-export function Main({ children, className }) {
+interface MainProps {
+  className?: ut.ClassName
+  children?: ut.Children
+}
+
+export function Main({ children, className }: MainProps) {
   return (
     <>
       <rb.Col
@@ -35,7 +45,11 @@ export function Main({ children, className }) {
   )
 }
 
-export function Aside({ children }) {
+interface AsideProps {
+  children?: ut.Children
+}
+
+export function Aside({ children }: AsideProps) {
   return (
     <rb.Col className="layout__aside" lg="3">
       <aside>{children}</aside>
