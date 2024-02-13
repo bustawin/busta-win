@@ -1,6 +1,6 @@
 import { Link } from '@remix-run/react'
 import * as layout from '@ui/utils/layout'
-import * as card from '@ui/utils/card'
+import card from '@jutils/ui/components/card/card'
 
 export default function PostsContainer({ children, posts, top }) {
   return (
@@ -17,10 +17,10 @@ export default function PostsContainer({ children, posts, top }) {
                 <layout.Container>
                   <layout.Row>
                     <layout.Col xs="8">
-                      <card.Card.Body>
-                        <card.Card.Title>{post.title}</card.Card.Title>
-                        <card.Card.Text>{post.summary}</card.Card.Text>
-                      </card.Card.Body>
+                      <card.Body>
+                        <card.Title>{post.title}</card.Title>
+                        <card.Text>{post.summary}</card.Text>
+                      </card.Body>
                     </layout.Col>
                     <layout.Col
                       className="post-preview__image"
@@ -30,10 +30,10 @@ export default function PostsContainer({ children, posts, top }) {
                     ></layout.Col>
                   </layout.Row>
                 </layout.Container>
-                <card.Card.Footer>
+                <card.Footer>
                   {post.created.getFullYear()}-{post.created.getMonth()}-
                   {post.created.getDay()}
-                </card.Card.Footer>
+                </card.Footer>
               </Link>
             </card.Card>
           </layout.Col>

@@ -1,7 +1,7 @@
 import { TocEntry } from 'remark-mdx-toc'
-import * as rb from 'react-bootstrap'
 import { Link } from '@remix-run/react'
 import invariant from 'tiny-invariant'
+import card from '@jutils/ui/components/card/card'
 
 interface Props {
   toc: TocEntry[]
@@ -28,10 +28,10 @@ export default function Toc({ toc }: Props) {
 
   return (
     <aside className="toc">
-      <rb.Card>
-        <rb.Card.Header>Table of contents</rb.Card.Header>
-        <rb.Card.Body className="toc__body">{list(toc)}</rb.Card.Body>
-      </rb.Card>
+      <card.Card>
+        <card.Header>Table of contents</card.Header>
+        <card.Body className="toc__body">{list(toc)}</card.Body>
+      </card.Card>
     </aside>
   )
 }
