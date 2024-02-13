@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react'
-import * as layout from '@ui/utils/layout'
+import * as layout from '@ui/components/layout/layout'
 import card from '@jutils/ui/components/card/card'
 
 export default function PostsContainer({ children, posts, top }) {

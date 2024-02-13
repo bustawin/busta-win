@@ -6,7 +6,7 @@ import { getMDXExport } from 'mdx-bundler/client'
 import ui from '@ui/utils/posts'
 import React from 'react'
 import Toc from './toc'
-import * as layout from '@ui/utils/layout'
+import * as layout from '@ui/components/layout/layout'
 
 const MDX_BUNDLE = {
   ui,

@@ -14,7 +14,7 @@ import type { MetaFunction } from '@remix-run/node'
 import * as commands from '@src/service/commands'
 import MainNavigation from '@ui/root/MainNavigation'
 import { dump } from '@src/adapters/serializers/categories'
-import * as layout from '@ui/utils/layout'
+import * as layout from '@ui/components/layout/layout'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'bustawin' }]
