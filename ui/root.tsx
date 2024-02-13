@@ -85,6 +85,16 @@ function AppLayout({ categories = [], children }: Props) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: light)"
+          content="#45695F"
+        />
+        <meta
+          name="theme-color"
+          media="(prefers-color-scheme: dark)"
+          content="#233530"
+        />
         <Meta />
         <Links />
       </head>
