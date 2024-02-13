@@ -37,6 +37,9 @@
       ],
       "@jutils/*": [
         "jutils/src/*"
+      ],
+      "@bootstrap/*": [
+        "node_modules/bootstrap/scss"
       ]
     },
     // Vite takes care of building everything, not tsc.
