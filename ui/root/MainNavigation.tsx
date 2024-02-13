@@ -15,7 +15,7 @@ export default function MainNavigation({ categories }: MainNavigationProps) {
     <Container className="main-navigation" fluid>
       <MainNavigationBg />
       <Row className="d-flex justify-content-center">
-        <Col xs="auto" className="d-flex align-items-center">
+        <Col xs="auto" className="d-flex align-items-center p-0">
           <Image src={timmy} id="timmy" />
         </Col>
         <Col xs="auto" className="d-flex align-items-center">
