@@ -12,6 +12,7 @@ import * as postSerializer from '@src/adapters/serializers/post'
 import { relativePath } from '@jutils/path'
 import { bundleMDX } from 'mdx-bundler'
 import { remarkMdxToc } from 'remark-mdx-toc'
+// @ts-expect-error We don't have types for this
 import remarkHeaderId from 'remark-heading-id'
 
 const POSTS_DIR = relativePath(
