@@ -10,7 +10,7 @@ import {
   useLoaderData,
   useRouteError,
 } from '@remix-run/react'
-import type { MetaFunction } from '@remix-run/node'
+import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import * as commands from '@src/service/commands'
 import { dump } from '@src/adapters/serializers/categories'
 import * as layout from '@ui/components/layout/layout'
@@ -20,7 +20,47 @@ import * as ut from '@jutils/ui/reactUtils'
 import { Category } from '@src/domain/category'
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'bustawin' }]
+  return [
+    { title: 'bustawin' },
+    { charSet: 'utf-8' },
+    {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1',
+    },
+    {
+      name: 'theme-color',
+      media: '(prefers-color-scheme: light)',
+      content: '#45695F',
+    },
+    {
+      name: 'theme-color',
+      media: '(prefers-color-scheme: dark)',
+      content: '#233530',
+    },
+  ]
+}
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'icon',
+      type: 'image/png',
+      size: '512x512',
+      href: '/public/favicon.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      size: '32x32',
+      href: '/public/favicon-32.png',
+    },
+    {
+      rel: 'icon',
+      size: '16x16',
+      type: 'image/png',
+      href: '/public/favicon-16.png',
+    },
+  ]
 }
 
 export const loader = async () => {
@@ -83,18 +123,6 @@ function AppLayout({ categories = [], children }: Props) {
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="theme-color"
-          media="(prefers-color-scheme: light)"
-          content="#45695F"
-        />
-        <meta
-          name="theme-color"
-          media="(prefers-color-scheme: dark)"
-          content="#233530"
-        />
         <Meta />
         <Links />
       </head>
