@@ -40,6 +40,12 @@
       ],
       "@bootstrap/*": [
         "node_modules/bootstrap/scss"
+      ],
+      "@posts/*": [
+        "posts/*"
+      ],
+      "@style": [
+        "ui/styles/style.sass"
       ]
     },
     // Vite takes care of building everything, not tsc.

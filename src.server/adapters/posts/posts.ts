@@ -11,14 +11,19 @@ import { Category } from '@src/domain/category'
 import * as postSerializer from '@src/adapters/serializers/post'
 import { relativePath } from '@jutils/path'
 import { bundleMDX } from 'mdx-bundler'
-import { remarkMdxToc } from 'remark-mdx-toc'
-// @ts-expect-error We don't have types for this
+import { remarkMdxToc } from 'remark-mdx-toc' // @ts-expect-error We don't have types for this
 import remarkHeaderId from 'remark-heading-id'
+import remarkMdxImages from 'remark-mdx-images'
 
 const POSTS_DIR = relativePath(
   import.meta.url,
   utils.envPro ? '../..' : '../../..',
   'posts'
+)
+const PUBLIC_DIR = relativePath(
+  import.meta.url,
+  utils.envPro ? '../..' : '../../..',
+  'public'
 )
 const POST_FILENAME = 'post.mdx'
 
@@ -29,6 +34,7 @@ export async function posts(category?: Category): Promise<Array<Post>> {
     it.async,
     it.await,
     it.filter.p((post) => {
+      if (post.id.startsWith('_')) return false
       if (category) return isPostInCategory(post, category)
       return true
     }),
@@ -41,6 +47,7 @@ export async function post(id: string): Promise<Post> {
   const rawPost = await readFile(filepath, 'utf-8')
   const { code, frontmatter } = await bundleMDX({
     source: rawPost,
+    cwd: POSTS_DIR,
     globals: {
       '@ui/utils/posts': 'ui',
     },
@@ -52,8 +59,22 @@ export async function post(id: string): Promise<Post> {
         ...(options.remarkPlugins ?? []),
         [remarkHeaderId, { defaults: true }],
         remarkMdxToc,
+        remarkMdxImages,
       ]
 
+      return options
+    },
+    esbuildOptions: (options) => {
+      options.outdir = `${PUBLIC_DIR}/posts`
+      options.loader = {
+        ...options.loader,
+        '.gif': 'file',
+        '.png': 'file',
+        '.webp': 'file',
+        '.jpg': 'file',
+      }
+      options.publicPath = '/posts'
+      options.write = true
       return options
     },
   })

@@ -3,7 +3,7 @@
 @use '/ui/styles/style' as *
 
 #logo
-  font: italic bolder 3em "Permanent Marker", sans-serif
+  font: italic bolder 2em "Permanent Marker", sans-serif
   text-decoration: none
   color: $white
   text-shadow: 2px 2px 0 color.scale($primary, $lightness: -50%)
@@ -16,9 +16,9 @@
     color: $primary-faded
 
 #timmy
-  width: 19vw
-  min-width: 50px
-  max-width: 120px
+  width: 12vw
+  min-width: 30px
+  max-width: 90px
 
 // Align to the logo
 .main-navigation
@@ -28,6 +28,7 @@
 
   &__nav-link
     padding-left: 0 !important
+    padding-top: 0 !important
     color: $white !important
 
 @include media-breakpoint-down(sm)

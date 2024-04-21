@@ -1,13 +1,10 @@
 import { useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
-import { LoaderFunctionArgs } from '@remix-run/node'
-import invariant from 'tiny-invariant'
 import { getMDXExport } from 'mdx-bundler/client'
 import ui from '@ui/utils/posts'
-import Image from 'react-bootstrap/Image'
 import React from 'react'
-import Toc from './toc'
 import * as layout from '@ui/components/layout/layout'
+import { Image } from 'react-bootstrap'
 
 const MDX_BUNDLE = {
   ui,
@@ -17,9 +14,8 @@ function PostImage(props) {
   return <Image className="post__image" {...props} />
 }
 
-export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
-  invariant(id, 'id required')
-  const post = await commands.post(id)
+export const loader = async () => {
+  const post = await commands.post('_about')
   return {
     post,
   }
@@ -32,13 +28,10 @@ export default function Post() {
 
   const Component = React.useMemo(() => mdxExport.default, [post.content])
   return (
-    <layout.MainContainer top={post.title}>
+    <layout.MainContainer top="About me and this place">
       <layout.Main className="post">
         <Component components={{ img: PostImage }} />
       </layout.Main>
-      <layout.Aside>
-        <Toc toc={mdxExport.toc} />
-      </layout.Aside>
     </layout.MainContainer>
   )
 }

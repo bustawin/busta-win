@@ -2,7 +2,7 @@
 @import '/node_modules/bootstrap/scss/mixins/color-mode'
 @import '/node_modules/bootstrap/scss/functions'
 
-$font-family-sans-serif: "Verdana", serif !default
+$font-family-sans-serif: "EB Garamond", "Garamond", serif !default
 $headings-font-family: "EB Garamond", "Garamond", serif !default
 $headings-font-weight: 800 !default
 
@@ -99,7 +99,7 @@ $color-mode-type: media-query
 
 // Fonts
 // Bootstrap's default
-$font-size-base: 1rem
+$font-size-base: 1.1rem
 $h1-font-size: $font-size-base * 3
 
 $headings-color: $secondary
@@ -119,3 +119,9 @@ $headings-color-dark: $headings-color
 
 // Card
 $card-bg: var(--ui-card-bg)
+
+
+// Same transition as in bootstrap but adding fill
+$btn-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, fill .15s ease-in-out, scale .15s ease-in-out
+$btn-hover-transform: scale(1.1)
+$btn-active-transform: scale(.9)
