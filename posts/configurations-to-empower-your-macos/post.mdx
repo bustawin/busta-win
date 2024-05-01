@@ -1,0 +1,124 @@
+---
+title: "Configurations to empower your macOS"
+created: 2018-08-23
+categories:
+  - software
+tags:
+  - "bash"
+  - "debian"
+  - "hacks"
+  - "macos"
+  - "psql"
+summary: Personalize the mac beyond what System Preferences offers. I talk about quick-look plugins, spotlight extensions, terminal configuration, and brew tricks.
+---
+
+Personalize the mac beyond what _System Preferences_ offers. I talk about quick-look plugins,
+spotlight extensions, terminal configuration, and brew tricks.
+
+Note that 1) I keep updated this list with the things that I actually use on my Mac, and 2) I work
+close to the OS guidelines: these are not ugly hacks but (what I think) more or less correct ways
+of achieving stuff.
+
+## Quick-look plugins
+
+Quick-look is the preview window of Mac that appears when you press spacebar on a file in
+Finder. [In this page](https://github.com/sindresorhus/quick-look-plugins) you can get plug-ins
+that allow you expand the number of files you can quick-look. I have the
+following: `brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlvideo`.
+
+## Search in JSON, Markdown… using spotlight
+
+You can upgrade Spotlight to search more file types, for example Markdown, YAML, or JSON.
+
+1. Download [this zip file](http://cdn3.brettterpstra.com/downloads/Markdown.mdimporter.zip)
+from [Bretter Pstra's post](http://brettterpstra.com/2011/10/18/fixing-spotlight-indexing-of-markdown-content/),
+which is a base extension for Spotlight.
+2. Unzip it to `~/Library/Spotlight/` (create the _Spotlight_folder if it does not exist).
+3. Edit with a text editor like nano `~/Library/Spotlight/Markdown.mdimporter/Contents/Info.plist`.
+You will see a line with the following: `<string>net.daringfireball.markdown</string>`, which is
+inside an `<array>`. You can add more `<string>` elements to this `<array>`defining file types
+that you want to be searcheable. For example, I have `<string>public.json</string>`
+and `<string>public.yaml</string>`. Find other
+types[in here](https://gist.github.com/gereon/3150445#mac-osx-spotlight-enhancement).
+4.
+As [the post from Pastras](http://brettterpstra.com/2011/10/18/fixing-spotlight-indexing-of-markdown-content/)
+says, execute `mdimport -r ~/Library/Spotlight/Markdown.mdimporter` to load this new configuration.
+5. Execute `sudo mdutil -E /` to re-index (with the new configuration). This will take time.
+
+## Terminal
+
+Enhancements to the default bash terminal. Many of them can be performed to any Unix with bash (
+like debian).
+
+### Personalize the terminal
+
+The default _bash_terminal in the Mac is just too plain and too white. You can upgrade the
+expierence by personalizing bash, for example changing colors or the information it displays (ex.
+the path you are in, username, name of active virtualenv...). To achieve this:
+
+- (Mac only): download a terminal theme
+from [macos-therminal-theme](https://github.com/lysyi3m/macos-terminal-themes)and follow the
+instructions of the website.
+- To personalize what bash prints on screen you will need to make some bash code. This bash code
+must be placed in your `~/.bash_profile`. What I do is have this code in a file in a sync folder
+in the cloud, and then write the following in
+_bash\_profile_: `. /path/to/my/file.sh`. [Here you have](http://ezprompt.net) a WYSIWYG that
+auto-generates the code for you.
+
+### Set locale to UTF8
+
+Mac messes with your locales in the terminal, which caused me some problems. For me has proven good
+to just do the following at every mac installation and forget about it.
+
+1. Go to _Preferences_in the terminal > _Profiles_\> select your profile > _Advanced_\> untick _set
+locale environment variables during startup_.
+2. Paste the following in your `~/.bash_profile`:
+
+```shell
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF
+```
+
+Mac does not have **nano**as the default terminal text editor. Add the following to
+your `~/.bash_profile`: `export EDITOR=nano`. Softwares like _git_
+\[note\]Reference https://superuser.com/a/504561\[/note\] select an editor from this variable.
+
+## Brew
+
+Interesting stuff with the defacto package manager of Mac, [brew](https://brew.sh/).
+
+### Execute packages installed with brew
+
+Brew installs packages in a way that it doesn't mess with your system, meaning that you cannot do
+something like (imagine we installed postgres through brew): `$ psql`–it will print a
+nice `command not found`.
+
+Write something like the following in your `~./bash_profile` (in this example we want to access
+_node_and _postgresql_:
+
+```shell
+OPT='/usr/local/opt'
+PATH="$OPT/postgresql@9.6/bin:$PATH"
+PATH="$OPT/node@8/bin:$PATH"
+export PATH
+```
+
+### Managing brew services
+
+Managing other services, like databases as Postgres, with brew is easy with `brew services`.
+Use `brew services list` to list the installed services, `brew services run` to run a service...
+execute `brew services` to get a list of commands.
+
+Using postgres again as an example, to run it just do `brew services run postgresql@9.6`.
+
+### Install fonts using brew
+
+Fonts that are open-source or free to use (like from google fonts) are usually
+in[brew's cask fonts](https://github.com/Homebrew/homebrew-cask-fonts):
+
+```shell
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
+```
+
+Happy configuring :-)

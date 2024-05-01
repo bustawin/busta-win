@@ -5,3 +5,28 @@ h1
 .card-header
   font-family: $headings-font-family
   color: $headings-color
+
+pre
+  code
+    &::before
+      white-space: pre
+      color: $figure-caption-color
+      font-family: $font-family-base
+      font-size: .875rem
+
+    &:not([class^="language-"])
+      &::before
+        content: ">_ code" "\A"
+
+    &.language-
+      &shell
+        &::before
+          content: ">_ shell" "\A"
+
+      &python
+        &::before
+          content: ">_ python" "\A"
+
+      &sql
+        &::before
+          content: ">_ SQL" "\A"

@@ -1,0 +1,138 @@
+---
+title: Create a custom live Debian the pro way
+created: 2017-12-26
+categories:
+  - software
+tags:
+  - debian
+  - debian-live
+  - workbench
+summary: A tutorial to create a custom Debian live installation image by using debian-live.
+---
+
+In the following tutorial we create a custom Debian 9-12 live installation image by using _debian-live._ Our live image carries some private software that we want to execute every time someone boots the live cd. The resulting live-cd boots with an USB stick, a CD, and the network by PXE.
+
+Other tutorials achieve the same goal by unpacking hacking existing live-cds and meddling with its files, instead of using the _official_ tool _debian-live,_ which creates fresh up-to-date ISOs from scratch, downloading and caching all packages from a Debian repository, and allowing you to use a version control tool like git over the ISOs files.
+
+In eReuse.org, the project I am working, we want to create a live-cd that, when booted through network to target computers, executes our software (which erases hard-drives, for example). [Here you can see the project](https://github.com/ereuse/workbench-live).
+
+_debian-live_ has a [magnificent guide](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html), which I recommend reading to understand the deeps of the software. In this tutorial we streamline it [using our project as an example](https://github.com/ereuse/workbench-live).
+
+Finally note that, as per the official docs, this process should work on any Debian derived distribution, like Ubuntu or Linux Mint, and it even allows you to create one of those distributions from a Debian (ex. creating an Ubuntu live cd from a Debian host computer). I have not tested it, though.
+
+## Installation
+
+To execute _debian-live_ you need a Debian-like distribution (it can be a virtual one). We tried creating a Debian 9 from a Debian 9 and a Debian 10 from a Debian 10. Install the software through `apt install live-build`.
+
+### Speed-up the building (optional)
+
+_debian-live_ needs to download many Debian packages every time you execute it. Although it caches them, you will still want to set a close Debian mirror. Paste the following to `/etc/live/build.conf` (you might have to create the file):
+
+```
+LB_MIRROR_BOOTSTRAP="http://ftp.caliu.cat/debian/"
+LB_MIRROR_CHROOT_SECURITY="http://security.debian.org/"
+LB_MIRROR_CHROOT_BACKPORTS="http://ftp.caliu.cat/debian/"
+```
+
+Replace `ftp.caliu.cat` with your best debian mirror. If you don't know which one to use, the package `netselect-apt` (just install it through _apt_) tests the speed of several debian mirrors and selects the best candidate for you.
+
+## Generate the ISO
+
+The process of creating the build is as follows:
+
+1. We execute `lb config` in a blank directory, generating a bunch of files that represent the file structure of our future ISO. We pass parameters to _lb config_ to personalize the generation of these files.
+2. We keep further personalizing these file structure by manually modifying it: adding scripts that we want to execute in different steps of the ISO generation or when the ISO bootstraps, adding files to the ISO's user folder, etc.
+3. We execute `lb build`, which reads those files and scripts and magically builds the ISO, resulting in an expected _.iso_ file.
+
+In the following sections we go in detail through those three steps.
+
+### lb config: customize the live image
+
+Create a folder that hosts the project. This folder is the root folder of the project and you can set up a control version (git) too, as you would in any normal project.
+
+Execute `lb config`, creating some folders and files, similar to what we have in our Workbench Live project in GitHub. The files and folders inside the **config** folder is what we call the ISO **skeleton**.
+
+We can pass parameters to `lb config` to customize the ISO for us; for example to set a 32 or a 64 bit OS. We write those parameters to a bash file to fasten execution and be able to commit them to our CVS. In the folder of the project, execute `cp /usr/share/doc/live-build/examples/auto/* auto/`. This copies three new files inside **auto**. Open `auto/config` to read the following:
+
+```shell
+#!/bin/sh
+set -e
+lb config noauto \
+        "${@}"
+```
+
+If we compare it to the Workbench-Live project file [auto/config](https://github.com/eReuse/workbench-live/blob/master/auto/config) file, we can see many options missing:
+
+```shell
+#!/bin/sh
+set -e
+lb config noauto \
+    --mode debian \
+    --architectures i386 \
+    --debian-installer false \
+    --archive-areas "main contrib non-free" \
+    --apt-indices false \
+    --memtest none \
+    "${@}"
+```
+
+Those lines personalize the ISO skeleton _lb config_ generates. You can type the ones you see fit in your file —just **ensure you add a backslash at the end of each line, as we do.** This is what our commands do (in order of appearance):
+
+1. Enforce installing Debian. Theoretically, you can change _debian_ for _ubuntu_ and it should work (we didn't try it).
+2. Use a 32 bit architecture (by default it uses the one of your machine), so it can be used in almost any computer.
+3. Don't include the Debian installer (reduce ISO weight).
+4. Allow and auto-install propietary software, like many WiFi or graphic drivers that are not free or open source.
+5. Don't add apt indices (delete apt update information and enforce performing `apt update` before performing `apt install`, reducing ISO weight).
+6. Remove _memtest_ (reduce ISO weight).
+
+You can see which options `lb config` accepts by executing `man lb config`. Once done adding options, save the file and execute again `lb config`. It will automatically read the configuration options from the file and generate a new skeleton.
+
+Know more about auto scripts [here](https://live-team.pages.debian.net/live-manual/html/live-manual/managing-a-configuration.en.html#334).
+
+### Customizing the skeleton
+
+The _config_ folder is where the skeleton of the ISO exists. It is where _lb config_ dumps the files and what _lb build_ uses to generate the ISO. Here we can add or change files to deep personalize our ISO. Some insights:
+
+- The folder `config/includes.chroot` contains the file structure of the new ISO. If you create a folder called opt inside, it will be the `/opt` folder inside the ISO.
+- The default user of the image is called `user`. The image automatically performs login with this user after booting. The home directory of the user is `config/includes.chroot/home/user`, which translates to just `/home/user` in the live-cd.
+- _debian-live_ executes script files inside `config/hooks/live` in different moments of the building process. We call them **hooks**. Use them to execute code that modifies the ISO **while it is being built**.
+- For example, our script [config/hooks/live/0100-workbench.hook.chroot](https://github.com/eReuse/workbench-live/blob/master/config/hooks/live/0100-workbench.hook.chroot) installs our _python_ software in the ISO, so the resulting _.iso_ has our software pre-installed. Note how our script is accessing `/opt/workbench`, which is a folder we created in `config/includes.chroot/opt/workbench`, containing our _python_ code.
+- When writing the script, think that it is executing **inside the live-cd's OS** and not in the host machine you are using to build the live-cd: as we mentioned, our script directly accesses `/opt/workbench` and not `config/includes.chroot...`. This happens because of the arcane magic of [chroot](https://en.wikipedia.org/wiki/Chroot).
+- Use [package-lists](http://debian-live.alioth.debian.org/live-manual/stable/manual/html/live-manual.en.html#398) to easy install packages inside the live-cd. For example, from the official docs: `echo vlc >> config/package-lists/my.list.chroot` makes _lb build_ to install vlc in the live-cd's OS. `my.list.chroot` is just a new empty file we create. Separate each package to install by a line:
+
+```
+package1
+package2
+package3
+```
+
+
+You can know more about [customizing the skeleton and hooks from the official guide](https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-contents.en.html#498).
+
+### lb build: build the ISO from the skeleton
+
+Once you finish to configure the ISO, execute `sudo lb clean; sudo lb build` and grab a coffee, as it takes a while. After this, you should get the _\*.iso_ file. See below the chapter _Problem solving_ otherwise.
+
+You can try the image with Virtualbox; use [Etcher](https://etcher.io) (or similar) to copy it to a pen-drive, or burn it to a CD/DVD. In a following guide I will explain how we set up a PXE environment to load this ISO through network.
+
+#### lb clean: clean the working directory
+
+`lb clean` cleans the directory from files `lb build` creates, but not the ones `lb config` creates. `lb build` caches a few stages from the building process, so you want to execute `lb clean` if you change the skeleton of the ISO. The default setting for _lb clean_ is to erase the cache up to the skeleton generation —it does not erase by default the cache of downloaded packages (and I have never had the need for it).
+
+#### Problem solving
+
+If `lb build` failed, consider the following:
+
+- You have a 100% stable connection to a Debian mirror. debian-live **doesn't like at all** unstable connections when downloading packages.
+- The Debian mirror is up-to-date. It happened to me. Just try another Debian mirror.
+- Don't try to create a netboot image; it didn't work for me. We use regular (hybrid) ISOs as netboot images and it works well. We will explain it in another post.
+- If you added scripts ensure they executed well. You can see in the output of _lb build_ what your scripts print, including errors.
+
+## Committing our work
+
+Which kind of developers we are if we don't use CVS? Some details before committing the project:
+
+- Execute `cp /usr/share/doc/live-build/examples/gitignore .gitignore` to get a suitable .gitignore.
+- Execute lb clean to avoid any file created by lb build ends up committed.
+
+Happy coding :-)

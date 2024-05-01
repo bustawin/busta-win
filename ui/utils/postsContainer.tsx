@@ -6,7 +6,7 @@ import { Post } from '@src/domain/post'
 export interface Props {
   posts: Post[]
   children: layout.MainContainerProps['children']
-  top: layout.MainContainerProps['top']
+  top?: layout.MainContainerProps['top']
 }
 
 export default function PostsContainer({ children, posts, top }: Props) {
@@ -23,23 +23,33 @@ export default function PostsContainer({ children, posts, top }: Props) {
               <Link to={`posts/${post.id}`} className="post-preview__link">
                 <layout.Container>
                   <layout.Row>
-                    <layout.Col xs="8">
+                    <layout.Col xs={post.image ? '8' : '12'}>
                       <card.Body>
                         <card.Title>{post.title}</card.Title>
                         <card.Text>{post.summary}</card.Text>
                       </card.Body>
                     </layout.Col>
-                    <layout.Col
-                      className="post-preview__image"
-                      style={{
-                        backgroundImage: `url('${'https://www.bustawin.com/wp-content/uploads/2022/05/map-2019-1.svg'}')`,
-                      }}
-                    ></layout.Col>
+                    {post.image && (
+                      <layout.Col
+                        className="post-preview__image"
+                        style={{
+                          backgroundImage: `url('${post.image}')`,
+                        }}
+                      ></layout.Col>
+                    )}
                   </layout.Row>
                 </layout.Container>
                 <card.Footer>
-                  {post.created.getFullYear()}-{post.created.getMonth()}-
-                  {post.created.getDay()}
+                  <ul className="list-inline mb-0">
+                    <li className="list-inline-item ">
+                      {post.created.toISOString().split('T')[0]}
+                    </li>
+                    {Array.from(post.categories).map((category) => (
+                      <li key={category} className="list-inline-item">
+                        {category}
+                      </li>
+                    ))}
+                  </ul>
                 </card.Footer>
               </Link>
             </card.Card>

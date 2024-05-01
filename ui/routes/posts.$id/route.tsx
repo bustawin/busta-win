@@ -4,17 +4,22 @@ import { LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { getMDXExport } from 'mdx-bundler/client'
 import ui from '@ui/utils/posts'
-import Image from 'react-bootstrap/Image'
 import React from 'react'
 import Toc from './toc'
 import * as layout from '@ui/components/layout/layout'
+import { Figure } from 'react-bootstrap'
 
 const MDX_BUNDLE = {
   ui,
 }
 
 function PostImage(props) {
-  return <Image className="post__image" {...props} />
+  return (
+    <Figure className="post__figure">
+      <Figure.Image {...props} />
+      {props.title && <Figure.Caption>{props.title}</Figure.Caption>}
+    </Figure>
+  )
 }
 
 export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {

@@ -9,6 +9,7 @@ export type Post = {
   tags: Set<string>
   summary: string
   created: Date
+  image?: string
 }
 
 /**

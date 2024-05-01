@@ -1,0 +1,71 @@
+---
+title: "pip, python packages and venv"
+created: "2018-08-13"
+categories:
+  - software
+summary: Python package and virtual environment management can be a bit tricky. This post has some best and bad practices.
+---
+
+Python package and virtual environment management can be a bit tricky. This post has some best and
+bad practices from a personal point of view.
+
+## Virtual environment findings
+
+- Use**venv** (`python3 -m venv`) instead of**virtualenv** (`virtualenv venv`) when you don't need
+virtual environments with different python versions. venv is the python 3.3+ default one and we
+have not had the need for using the other one. You can get
+some [feedback from here](https://stackoverflow.com/a/47559925/2710757). However, if your virtual
+environments use different python versions, _venv_simply does not support it.
+- Try to never install anything that you could use in a python project outside of a virtualenv. Or
+better; think twice before using `pip install`outside of a virtual environment in general. I
+promise you it will get messy in the future, specially if you use site packages.
+- Try not to use `--system-site-packages`until strictly needed. This can easily go wrong because of
+the point above; you end up having projects competing for different versions of packages and
+similar things.
+- For now we have only one reason to use `--system-site-packages`, and it is to access apt-ed
+installed packages from the command-line directly.
+- Some packages can have special needs, like suggested
+for [Tkinter](https://stackoverflow.com/a/15937719). We will need to check this approach.
+- regardless of the pip that you have installed globally. This is_a feature :-) ._Unluckily it
+means that because of the SSL fiasco of pip we cannot install packages in the virtual
+environment,
+
+### A peak in how virtual environment works
+
+So, to create a virtual environment we just do `python3 -m venv`, which creates a virtual
+environment inside a folder_venv_with the same python version that we have installed.
+
+To activate the virtual env, _cd_ to the project folder and use `source venv/bin/activate`in a Unix
+system. Note that `source` is a Unix command, not a python one, and it just executes the contents
+of the script in_venv/bin/activate_, which temporarily loads variables in our terminal. Some of
+those variables that virtual environment sets replace the python executable, the pip executable,
+and the directory where pip looks for packages, to directories inside the _venv_ folder. So when we
+execute python we execute the python inside the _venv_ folder (try to do _which python_ after you
+performed _source_).
+
+You can safely modify_/venv/bin/activate_ to do things when you execute
+_source,_[for example this](http://flask.pocoo.org/docs/1.0/cli/#environment-variables-from-virtualenv).
+
+I will keep this post updated with new findings and practices. The next update will probably be how
+to correctly access `apt`packages.
+
+## Delete all python packages
+
+If you screwed-up and want to delete all pip-installed python packages you can
+do\[note\]From [here](https://stackoverflow.com/questions/11248073/what-is-the-easiest-way-to-remove-all-packages-installed-by-pip)
+.\[/note\]:
+
+```shell
+pip3 freeze --local | grep -v "^-e" | xargs sudo pip3 uninstall -y
+```
+
+## Fixing pip 9 in Mac
+
+If you are using Python 3.5 or under and are in a Mac you will have the problem that you cannot
+install any package due some network error. This is because Mac's library is outdated and Pypi
+rejects it. Use the following to update pip\[note\]
+Fromhttps://github.com/pypa/pip/issues/5236#issuecomment-381678057 \[/note\]:
+
+```shell
+curl https://bootstrap.pypa.io/get-pip.py | python3
+```
