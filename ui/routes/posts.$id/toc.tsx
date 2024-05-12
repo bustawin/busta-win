@@ -1,6 +1,5 @@
 import { TocEntry } from 'remark-mdx-toc'
 import { Link } from '@remix-run/react'
-import invariant from 'tiny-invariant'
 import card from '@jutils/ui/components/card/card'
 
 interface Props {
@@ -24,7 +23,7 @@ function list(entries: TocEntry[]) {
 }
 
 export default function Toc({ toc }: Props) {
-  invariant(toc.length > 0, 'No entries found')
+  if (toc.length == 0) return null
 
   return (
     <aside className="toc">

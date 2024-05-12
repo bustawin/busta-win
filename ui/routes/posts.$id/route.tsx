@@ -8,6 +8,7 @@ import React from 'react'
 import Toc from './toc'
 import * as layout from '@ui/components/layout/layout'
 import { Figure } from 'react-bootstrap'
+import Note from '@jutils/ui/components/note/note'
 
 const MDX_BUNDLE = {
   ui,
@@ -29,7 +30,16 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
     post,
   }
 }
+const Paragraph = (props) => {
+  if (props.children.type === PostImage) {
+    // Remove <p> from figures as it's invalid HTML
+    //  failing hydration
+    //  from https://github.com/kentcdodds/mdx-bundler/blob/main/README.md#image-bundling
+    return <>{props.children}</>
+  }
 
+  return <p {...props} />
+}
 export default function Post() {
   const { post } = useLoaderData<typeof loader>()
 
@@ -39,7 +49,7 @@ export default function Post() {
   return (
     <layout.MainContainer top={post.title}>
       <layout.Main className="post">
-        <Component components={{ img: PostImage }} />
+        <Component components={{ img: PostImage, Note, p: Paragraph }} />
       </layout.Main>
       <layout.Aside>
         <Toc toc={mdxExport.toc} />

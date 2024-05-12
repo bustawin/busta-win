@@ -1,0 +1,96 @@
+---
+title: Router as a WiFi extender & switch
+created: 2018-01-30
+categories:
+  - software
+tags:
+  - iot
+summary: Add WiFi signal to all your home using an old router, at 0 cost.
+---
+
+Do you know you can use your old and abandoned router as a switch and a WiFi extender? If you plug
+an ethernet cable to the router it will broadcast that connection through WiFi and the other
+remaining ethernet ports. So you can, for example, take the router to another room with poor WiFi
+signal and improve it for free. In this guide we will configure it for that purpose.
+
+The process is not very difficult, however you can't do it if your router is blocked. It can happen
+in some ISP (ISP = your internet provider) routers. The only way to know is going to be to try to
+follow the tutorial. Professionals can unblock a router by installing a <Note text="Like vyos.io">custom operative system to
+it</Note>, but this is something we don't cover here as it is
+difficult.
+
+Routers have different configuration pages. I will put here the ones from an Orange LiveBox to
+illustrate, but it won't probably be the one you face with; it's fine. This is going to be like
+playing hide-and-seek: you will need to look for the **keywords** I say through the configuration
+pages of your router. It is not so difficult as it seems, as they follow the same logic and routers
+have only a few pages.
+
+You will need a computer. I recommend macOS, which is a breeze in networking; then Linux, which
+depends on the distro; and finally Windows... which can mess with networking, but it is doable.
+
+1. Connect your computer to the normal LAN/WLAN/Internet you want to connect your router. Go to the
+**network settings** and annotate the IP address, as it follows. For example, in my case I take
+note of `192.168.1.102`. We will need this
+later.![](router-as-a-wifi-repeater-switch/images/Screen_Shot_2018-01-30_at_15_37_07.png)
+2. Reset the router to ensure there is no messy configuration. Routers usually have the typical
+button you need to press with a clip for some seconds until they restart.
+3. Connect the router to the PC **directly** through an ethernet cable and disconnect the PC from
+other networks (like the WiFi).
+4. The computer will try to reach the Internet through the router but it won't be able, as the
+router is not connected to the Internet. <Note text="We suppose the router's default IP address is
+192.168.1.1, which is the most common. However, it could be another IP. Un such case you will
+need to write that IP. You can know that if you Google for the router
+model."> We go to the **wired network setting** of the computer
+and configure it **Manually** as follows</Note>:
+![](router-as-a-wifi-repeater-switch/images/Screen-Shot-2018-01-30-at-14.43.52.png)We **apply**. Note how the
+computer is not connected to other networks.
+5. We go to the browser and write `http://192.168.1.1`to access the router. If we have a _welcoming
+screen_ asking for a password we did well. However, if we get a connection error it means we
+didn't configure our machine correctly or the cable is not properly connected. Ensure your
+machine is well configured and try again.![](router-as-a-wifi-repeater-switch/images/Screen-Shot-2018-01-30-at-15.24.44.png)
+6. Introduce your router credentials. If you don't know them, which is the normal thing:
+ 1. The credentials can be stuck in the rear part of the router.
+ 2. Just try to guess them. Example of credentials for you to try are:
+ 1. admin / admin
+ 2. admin / 0000
+ 3. 1234 / 1234
+ 4. admin / 1234
+ 5. admin / (blank)
+ 6. admin / 123
+ 7. Any combination of the above.
+ 3. Google the model of the router like `router livebox XYZ password`.
+7. Disable **DHCP (Server)**. This is where the hide-and-seek starts, as where this option is
+depends on the router model. In my case, it is under Basic -> LAN -> LAN IP -> DHCP Server. Look
+for those keywords in your router configuration. For example, DHCP is usually under a LAN page.
+If you can't find the option, it can be that your router is blocked, and there is nothing else
+you can do here :-(. Finally, **uncheck** the DHCP (Server) option and
+save:![](router-as-a-wifi-repeater-switch/images/192_168_1_1_index0_stm.png)Now your router it doesn't act as a router anymore
+but as a switch.
+8. Look for an option (through all the router settings) called**DHCP Client**, which is usually
+unchecked. Check it and go to step 10. If you don't find it is fine (I don't have it neither),
+just continue to the next step.
+9. Look for an **IP Address**field. In my case, that field is just above the DHCP Server one, but
+it might not be the case for you, in which case you will need to find it again :-). Recover the
+IP number we took in step 1., which in my case is `192.168.1.102`, and substitute the number
+after the period with `200`, so it is like `192.168.1.200`in my case. Take note of this new
+number.
+10. Save it. You will notice that while saving your computer will be disconnected from the router,
+which is fine.
+11. Connect your router to your LAN/Internet through an ethernet cable.
+12. Connect your computer to your LAN/Internet, through cable or WiFi –it doesn't matter. Remember
+to go to_network settings_ and set the connection back to _automatically_or_Using DHCP_ (they
+are the same).
+13. Go to the browser of your computer and type the number from step 9., which for me
+is`http://192.168.1.200`. You will access the router again :-), which means that your router is
+already acting as a switch. If you can't connect, try to reset the central router that provides
+you Internet and then recheck that you did everything correctly.
+14. Create a WiFi: Go to the WiFi settings in the router (hide-and-seek again) and set-up a WiFi
+connection, like as follows (SSID = name of the WiFi):![](router-as-a-wifi-repeater-switch/images/192_168_1_1_index_stm-1.png)As
+a tip, if you set the same SSID (name of the WiFi), WiFi key, and WiFi security (WPA2...) as
+another WiFi you have near there, your devices will switch between WiFis transparently, giving
+the illusion that you are on a big WiFi.
+15. Done.
+
+If you need to undo everything just reset the router again.
+
+Happy coding :-)
