@@ -1,0 +1,47 @@
+---
+title: Execute anything when booting using systemd
+created: 2020-07-12
+categories:
+  - software
+tags:
+  - "debian"
+  - "linux"
+  - "systemd"
+---
+
+A concise explanation about executing a script at boot by using systemd and a regular user account,
+instead of root.
+
+I wanted to execute a docker container every time I boot my Ubuntu / Debian accessing some
+directories from my user directory. This should work in any linux using systemd, like Fedora or
+ArchLinux.
+
+First, create the following file at `~/.config/systemd/user/<myscript>.service`, where `~` is the
+home folder of the user you want to run the script as, and `<myscript>` is any name you want to use
+to identify the script. Note that you might have to create those directories:
+
+```
+[Unit]
+Description=A description of this service
+
+[Service]
+ExecStart=<path to execute script> <script argument1...>
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+```
+
+I choose to restart on failure, so I have my service on all the time I want it to be. You can
+change or even remove the `Restart` directive. To change the directory your script executes, use
+the `WorkingDirectory=<abs/path>` directive after `[Service]`.
+
+Then, enable the service so it starts at boot: `systemctl --user enable <myscript>`.
+
+Optionally, you can try to run the script with `systemctl --user start <myscript>` to check for
+errors and `journalctl --user-unit <myscript>` to check the logs.
+
+Now, the script runs only when you login with that user. To really enable it on boot,
+execute `loginctl enable-linger <username>`.
+
+Happy coding :-)

@@ -10,9 +10,6 @@ tags:
 summary: Build hierarchies with multiple parents efficiently with Postgres.
 ---
 
-
-import ui from '@ui/utils/posts'
-
 Building [Acyclic Directed Graphs](https://wikipedia.org/wiki/Directed_acyclic_graph) (DAGs) using materialized paths with Postgre's ltree.
 
 
@@ -34,7 +31,7 @@ Taking the same example as the post I mention above:
 
 First let's define the paths for all animals (nodes):
 
-<ui.rb.Table striped bordered hover responsive>
+<Table>
   <caption>Lists of node Ids and paths</caption>
   <thead>
   <tr>
@@ -96,7 +93,7 @@ First let's define the paths for all animals (nodes):
     <td>1.3.5.9</td>
   </tr>
   </tbody>
-</ui.rb.Table>
+</Table>
 
 We can see how we end up with repeating nodeID, as many as paths we have. For nodes that do not have parent, their path is only themselves (ex. node 1's path is just `1`). All nodes have at least one path where they are a leaf.
 

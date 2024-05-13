@@ -9,6 +9,7 @@ import Toc from './toc'
 import * as layout from '@ui/components/layout/layout'
 import { Figure } from 'react-bootstrap'
 import Note from '@jutils/ui/components/note/note'
+import { Plot } from '@ui/utils/graph'
 
 const MDX_BUNDLE = {
   ui,
@@ -23,23 +24,32 @@ function PostImage(props) {
   )
 }
 
-export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
-  invariant(id, 'id required')
-  const post = await commands.post(id)
-  return {
-    post,
-  }
-}
-const Paragraph = (props) => {
+function Paragraph(props) {
   if (props.children.type === PostImage) {
     // Remove <p> from figures as it's invalid HTML
     //  failing hydration
     //  from https://github.com/kentcdodds/mdx-bundler/blob/main/README.md#image-bundling
     return <>{props.children}</>
   }
-
   return <p {...props} />
 }
+
+function Table({ children }) {
+  return (
+    <ui.rb.Table striped bordered hover responsive>
+      {children}
+    </ui.rb.Table>
+  )
+}
+
+export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
+  invariant(id, 'Post ID Required')
+  const post = await commands.post(id)
+  return {
+    post,
+  }
+}
+
 export default function Post() {
   const { post } = useLoaderData<typeof loader>()
 
@@ -49,7 +59,15 @@ export default function Post() {
   return (
     <layout.MainContainer top={post.title}>
       <layout.Main className="post">
-        <Component components={{ img: PostImage, Note, p: Paragraph }} />
+        <Component
+          components={{
+            img: PostImage,
+            Note,
+            p: Paragraph,
+            Table,
+            Plot,
+          }}
+        />
       </layout.Main>
       <layout.Aside>
         <Toc toc={mdxExport.toc} />

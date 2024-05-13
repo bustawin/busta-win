@@ -1,0 +1,217 @@
+---
+title: "Create a sphinx extension to customize your docs"
+created: "2019-06-15"
+categories:
+  - "tech"
+tags:
+  - "programming"
+  - "python"
+  - "sphinx"
+---
+
+With Sphinx is easy to generate documentation of your python project, as long as you don't require
+some custom code. This is a tutorial of how to create a quick & dirty Sphinx extension to
+personalize the docs of your project.
+
+In our open-source project, [Devicehub](https://github.com/ereuse/devicehub-teal), we have some
+Schemas that configures our API (like a User schema), and we want to generate documentation for
+those. The documentation takes variables from the schemas and prints them
+nicely. [This is the code](https://github.com/eReuse/devicehub-teal/blob/master/docs/conf.py#L196), [this is where our extension is called in a .rst](https://github.com/eReuse/devicehub-teal/blob/master/docs/devices.rst#schema)
+file, and [this is the outcome](http://devicehub.ereuse.org/devices.html#dh-thing).
+
+In this tutorial we use our extension as an example of a simple Sphinx custom extension. We assume
+you
+already [know the basics of Sphinx and reStructured text](https://buildmedia.readthedocs.org/media/pdf/brandons-sphinx-tutorial/latest/brandons-sphinx-tutorial.pdf).
+
+A minimalist Sphinx extension requires two things:
+
+1. A class that extends from `docutils.parsers.rst.Directive` that has our code.
+2. A function called `setup` that manually adds our class to Sphinx.
+
+Both things can be in our project's sphinx's`conf.py`. If you check our
+code, [you see our class](https://github.com/eReuse/devicehub-teal/blob/master/docs/conf.py#L196)
+and our [setup function](https://github.com/eReuse/devicehub-teal/blob/master/docs/conf.py#L309).
+Read[this Sphinx page that explains this class and setup function](http://www.sphinx-doc.org/en/master/development/tutorials/helloworld.html)
+and then come back here :-). The following sections explore parts not covered by the sphinx's
+tutorial.
+
+## Extension class skeleton and arguments
+
+Our extension has only one parameter (called too "argument"): a string with the path where our
+Schema is, and we want our extension to print some variables of the schema and its subschemas.
+
+```python
+class DhlistDirective(Directive):
+    has_content = False
+    option_spec = {'module': directives.unchanged}
+```
+
+The first portion of our extension class is about configurations of our directive, passed-in as
+class variables (here you have
+the [full list of configurations](https://www.sphinx-doc.org/en/master/extdev/markupapi.html#docutils.parsers.rst.Directive)
+of the directive). Leave `has_content`as `False`.`option_spec`is a dictionary of the parameters of
+your directive and their type. Sphinx coerces the type for each argument, and the safest one to use
+is`directives.unchanged`, which returns the argument as a string, just as the user writes it. In
+our case we define a parameter called _module_, and the user has to write it like this in a .rst
+file:
+
+```python
+.. dhlist::
+    :module: ereuse_devicehub.resources.device.schemas
+```
+
+And our directive gets the value "ereuse\_devicehub.resources.device.schemas"
+in`self.options['module']`:
+
+```python
+    def run(self):
+        my_argument = self.options['module']
+```
+
+`run` is the main method of our extension. It is executed every time the user writes `..dhlist::` in
+a_.rst_ file. In our case we use the string of `self.options['module']` as a path to import the
+Schema is referencing at.
+
+## Docutil's elements
+
+The objective of our extension is to return_something_ to Sphinx so that it can translate it to
+HTML or to a PDF file. This _something_ is a list of Docutil's **element**, and they define a
+_link_, a _bullet list_, a _section_ of a document,
+etc. [Here you have the reference docs](http://docutils.sourceforge.net/docs/ref/doctree.html). In
+fact, when reading a_rst_ file, we can think that Sphinx parses the rst syntax into Docutil's
+elements, and then tranforms them to HTML, PDF...
+
+So, we have that a_section_ element in_rst_is the same as the Docutil's_section_ element.
+
+### Element hierarchy
+
+These elements have a strong hierarchy that you always have to have in mind when using them,
+otherwise it fails:
+
+```
++--------------------------------------------------------------------+
+| document  [may begin with a title, subtitle, decoration, docinfo]  |
+|                             +--------------------------------------+
+|                             | sections  [each begins with a title] |
++-----------------------------+-------------------------+------------+
+| [body elements:]                                      | (sections) |
+|         | - literal | - lists  |       | - hyperlink  +------------+
+|         |   blocks  | - tables |       |   targets    |
+| para- | - doctest | - block  | foot- | - sub. defs  |
+| graphs  |   blocks  |   quotes | notes | - comments   |
++---------+-----------+----------+-------+--------------+
+| [text]+ | [text]    | (body elements)  | [text]       |
+| (inline +-----------+------------------+--------------+
+| markup) |
++---------+
+```
+
+In our extension we return a list of `section` elements, as we create full blocks of content. If we
+do something like this in our _.rst_ file:
+
+```rst
+Schema
+******
+The following schema represents all the device types and their
+properties.
+
+.. dhlist::
+    :module: ereuse_devicehub.resources.device.schemas
+
+```
+
+Note that the header Schema is a subsection (HTML's `<h2>`), our module is inserted inside Schema's
+subsection, so our module ends up being a subsubsection (HTML's `<h3>`), which means that our
+module plays nice with the rest of content.
+
+In the following sections we learn how to use docutil's elements by showing the ones that appear in
+our project.
+
+### Base: section, title, link
+
+The following example of `run`returns a list of elements (which is what Sphinx expects). There is
+only one element, a`section`.
+
+```python
+import docutils.nodes as n
+
+def run(self):
+    section = n.section(ids=n.make_id('the-html-anchor'))
+    section += n.title('Text', 'Text') # Just add the text twice
+    section += n.any_other_element_that_can_be_in_a_section()
+    sections = [section]
+    return sections<br>
+```
+
+The section can have an id, which is the anchor used in HTML/PDF for linking. In this case we add a
+title (we need to add its value twice for some strange reason), and any other element that we want
+inside the section (note the `section += ...`)
+
+The following code shows ho to generate the hyperlink that takes you to the section (this generates
+the `<a>`HTML tag, for example):
+
+```python
+ref = n.reference(text='a link!')
+ref['refuri'] = '#the-html-anchor'
+p = n.paragraph()
+p += ref
+# We can add the paragraph to a section
+section += p
+```
+
+### Lists (bullet points)
+
+```python
+l = n.bullet_list('')
+l += n.list_item('', n.paragraph('Text'))
+sublist = n.bullet_list('')
+sublist += n.list_item('', n.paragraph('Sublist!'))
+l += sublist
+# We can add to a section:
+section += l
+```
+
+### Fields
+
+```python
+# Create a field list
+fields = n.field_list()
+# Create a field
+field_name = n.field_name(text='Some text')
+field_body = n.field_body('', 
+    n.paragraph('Some text'),
+    n.paragraph('Some more text in another paragraph.')
+)
+field = n.field('', field_name, field_body)
+# Add the field to the field list
+fields += field
+# We can add fields to an existing section, for example:
+section += fields
+```
+
+### Parse rst strings to docutil's elements
+
+In our project we end up reading string variables with rst syntax. The following code allows us to
+transform those strings into docutil's elements that we can add, for example, in our
+sections([check the source code here](https://github.com/eReuse/devicehub-teal/blob/master/docs/conf.py#L300)):
+
+```python
+from docutils.statemachine import StringList, string2lines
+import inspect
+
+def parse(self, text) -> n.container:
+    """Parses text possibly containing ReST stuff and adds it in
+     a node."""
+    p = n.container('')
+    self.state.nested_parse(StringList(string2lines(inspect.cleandoc(text))), 0, p)
+    return p
+```
+
+## Further info
+
+The following tutorials can help you dive deeper into Sphinx extension development:
+
+- [Custom Directive on Sphinx](http://www.xavierdupre.fr/blog/2015-06-07_nojs.html).
+- [More Sphinx extension tutorials](http://www.sphinx-doc.org/en/master/development/tutorials/index.html).
+
+Happy coding :-)

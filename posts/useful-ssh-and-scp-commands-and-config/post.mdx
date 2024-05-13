@@ -1,0 +1,103 @@
+---
+title: Useful SSH and SCP commands and config
+created: 2018-01-16
+categories:
+  - software
+tags:
+  - hacks
+summary: Mid-advanced SSH commands and configurations to squeeze its power.
+---
+
+SSH and SCP are _really_ powerful commands. In this entry I quickly explain them and show nice
+usage cases and configurations.
+
+## SSH
+
+Easily put, SSH connects to another machine via
+terminal: `ssh [user]@[ip, domain or hostName] -p [port]`
+
+- Execute commands in another machine through SSH, all in one command, so it can be used in
+scripts:`ssh -t [connexionParams] "bash command 1; bash command 2; ..."`. If one of the commands
+use`sudo`, it will prompt for the user/pass for the user to add it, in a way as you would expect.
+
+SCP copies files from one machine to another by using SSH.
+
+- SCP takes 2 SSH commands as parameters. The first ssh is the origin (where you copy) and the
+second the destination (where you
+paste): `scp [sshCommand1]:[pathWhereFileIs] [sshCommand2]:[destinationDirectoryOrFile]`.
+Note the usage of `:`to separate between ssh command and path.
+Example: `scp foo@bar.com:relativePath/to/foo's/home fee@dogo.com:/abs/path`.
+- If you want to copy or paste to the actual machine we are using, just avoid a ssh
+command: `scp foo@bar.com:/file1 ~/destination/path/in/my/computer`.
+
+- SCP accepts the same parameters as ssh, which transmits to ssh. However be careful when, for
+example, setting a port, as will set the port to both ssh's.
+- You can copy multiple files/dirs with `-R`: `scp -R ssh1:dir1 ssh2:dir2`
+- Copy the contents of a file from machine 1 to our
+clipboard: `scp [ssh1]:file /dev/stdout | pbcopy`. Note that `bcopy`is in macOS, just change it
+for your clipboard.
+- Paste in multiple machines: `scp [ssh1]:[file1] [ssh2]:[file2] [ssh3]:[file3]...`It will copy
+from ssh1 to ssh2 ... sshN.
+
+## SSH config
+
+If you SSH often, **do use**a config. Seriously, it will simplify your life.
+
+Write in the file `~/.ssh/config`:
+
+```
+Host foo
+    HostName www.foo.com # It can be an IP too.
+    User dogo # Optional. If you don't add it it will prompt for it
+    Port 2222 # Optional. by default 22
+
+```
+
+And connect as `ssh foo` or use `scp foo:file1 ...`.
+
+### Don't check or save host keys
+
+This is useful if connecting to computers that often change but share the same IP, and you know the
+connection won't be compromised (man in the middle attack and those things).
+
+```
+Host foo
+        StrictHostKeyChecking no
+        UserKnownHostsFile=/dev/null
+```
+
+## Use wildcards and precedence to target multiple PCs
+
+For example, the following says: "For host foo, connect through a specific IP with user _foobar_.
+Don't check for host keys on computers from my local network and always, if I don't specify the
+contrary, login with the user_dogo_".
+
+```
+Host foo
+    HostName 192.168.1.10
+    User foobar
+Host 192.168.1.*
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+Host *
+    User dogo
+```
+
+### SSH to machine and use it's localhost
+
+For example to connect to a local server.
+
+```
+Host foo
+    HostName foo.com
+    LocalForward 8080 localhost:80
+```
+
+So, if after performing ssh to_foo_ I go to my pc and write in the browser `localhost:8080`, it
+will connect to the_foo's_80 port. foo will understand that this is a_local_ connection, so it will
+allow you even if foo blocks extraneous (ex: firewall) from accessing the port 80.
+
+There are more tricks on-line and I encourage you to `man ssh`, `man scp`, and `man ssh_config`.
+They are well documented.
+
+Happy coding :-)

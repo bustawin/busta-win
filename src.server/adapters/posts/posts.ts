@@ -64,19 +64,20 @@ export async function post(id: string): Promise<Post> {
 
       return options
     },
-    esbuildOptions: (options) => {
-      options.outdir = `${PUBLIC_DIR}/posts`
-      options.loader = {
+    esbuildOptions: (options) => ({
+      ...options,
+      outdir: `${PUBLIC_DIR}/posts`,
+      loader: {
         ...options.loader,
         '.gif': 'file',
         '.png': 'file',
+        '.svg': 'file',
         '.webp': 'file',
         '.jpg': 'file',
-      }
-      options.publicPath = '/posts'
-      options.write = true
-      return options
-    },
+      },
+      publicPath: '/posts',
+      write: true,
+    }),
   })
 
   return postSerializer.load({

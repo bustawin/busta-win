@@ -1,0 +1,20 @@
+---
+title: The retry-requests package
+created: 2019-12-28
+categories:
+  - software
+summary: "Networks and servers are unreliable: they can fail, saturate... our requests should handle these scenarios. I created a micro package in python to handle this."
+---
+
+Networks and servers are unreliable: they can fail, saturate... our requests should handle these
+scenarios. I created a small package in
+python — [retry-requests](https://github.com/bustawin/retry-requests) —to do it for us _easily_.
+
+The package [requests](https://pypi.org/project/requests/) and its
+underlying [urrlib3](https://github.com/urllib3/urllib3) can already handle it, however it is not
+by default nor straightforward to configure.
+
+The package retry-requests just writes the boilerplate so you don't have to — and of course you can
+personalize it.
+
+[Check it out here](https://github.com/bustawin/retry-requests).

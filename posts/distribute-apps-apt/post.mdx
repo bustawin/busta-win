@@ -1,0 +1,202 @@
+---
+title: "Distribute your apps with apt"
+created: "2019-07-30"
+categories:
+  - "tech"
+tags:
+  - "debian"
+  - "theory-of-networks"
+summary: "Learn how to package Debian apps: generating .deb files and distributing them through Debian's (including Ubuntu) apt command by creating a simple repository"
+---
+
+Debian's app distribution (apt) is a simple, native, and friction-less tool to manage apps and
+their dependencies. Just with the combo `apt update && apt upgrade` you ensure that systems are
+up-to-date, including your software and its dependencies —and it works with Ubuntu and friends.
+
+In this tutorial we learn how to package apps, generating .deb files, and distribute them through
+_apt_ by creating a simple repository.
+
+
+## Create a debian package
+
+A Debian package is a collection of files and folders compressed in a special way. Specifically it
+contains:
+
+- A folder called _DEBIAN_ that contains:
+- A file called _control_, that has information about the package (like the name, the
+version...).
+- Optional scripts to execute during different stages of the installation.
+- Other files and folders that apt will just copy to the system where you are installing it. The
+root of the package mimics the root of the computer you are installing it, and anything you put
+in the package will be copied exactly. For example, if you want `/etc/foo` in your system you
+create a folder called _etc_ in your package and add a file _foo_ inside.
+
+An example for a package is as follows:
+
+```
+|-- DEBIAN
+|   |-- control
+|   |-- postinst
+`-- etc
+    `-- my-program
+        |-- LICENSE
+        |-- config
+```
+
+In the package above we can see the required _DEBIAN/control_ file, a _postinst_ script (which we
+will analyze [later](#Mantainer_scripts)), and then an `etc/my-program/LICENSE`
+and `etc/my-program/config`, two files that will be copied to the system, automatically creating
+the directory `/etc/my-program` in the process.
+
+So, to create a package start with an empty folder and just add those files.
+
+### The DEBIAN/control file
+
+The _DEBIAN/control_ file includes metadata about the package. Items such as the package name,
+version number, and dependencies are specified here. An example with an explanation is as follows:
+
+```
+Package: mypkg
+Version: 1.0-1
+Architecture: all
+Maintainer: My Org <hello@my.org>
+Depends: foo,bar,baz
+Description: my.org’s snazzy app
+```
+
+1. Package: The name of the package. It must follow
+the [Debian naming conventions](https://www.debian.org/doc/manuals/maint-guide/first.en.html#namever).
+2. Version: The version of the package, explained [below](#Versioning).
+3. Architecture: If your package contains compiled code, the architecture for this binary,
+otherwise `all`.
+4. Maintainer: An RCF 822 e-mail address.
+5. Depends: A comma-separated list of packages that are dependencies, which _apt_ installs before
+installing your software.
+6. Description: A free-form, human-readable text.
+
+[Get here more information and options for the control file](https://www.debian.org/doc/debian-policy/ch-controlfields.html#binary-package-control-files-debian-control).
+
+#### Versioning
+
+The version number is a sensible part in the package, as a wrong value can make apt to _upgrade_
+the package to an older version, which is difficult to debug and fix later. The version number must
+follow [Debian versioning conventions](https://readme.phys.ethz.ch/documentation/debian_version_numbers/).
+
+However, such convention is quite open, so we have had better results by following the more
+restrictive version scheme of the Debian official repositories, simplified
+as `<software version>-<debian revision>`. A `1.3-2` means that is the software version 1.3 and the
+version 2 of the specific installation files and scripts. A `1.3-3` means that we changed the
+installation scripts and files, but it is still based on the 1.3 version of the software.
+
+You can compare versions and check their correctness
+with `dpkg --compare-versions <v1> <comparator> <v2>; echo $?`, outputting **0 if it is True**. The
+comparators are `lt le eq ne ge gt`. An example
+is `dpkg --compare-versions 1.1-1 lt 1.1-2; echo $?`. You can get more info in
+the [man page of dpkg](https://linux.die.net/man/1/dpkg) (look for _\--compare-versions_).
+
+Finally, the following example illustrates the hierarchy of
+versions: `1.9 < 1.12, 1.1~b1 < 1.1, 1.1 < 1.1-1 < 1.1-2`.
+
+### Mantainer scripts
+
+As we saw [above](#debian-packages), we can add scripts files in the DEBIAN folder. We can have up
+to four script files, called _preinst, postinst, prerm,_and_postrm_, representing the stage of the
+installation when the script is executed.
+
+- _preinst_ executes before unpacking the files.
+- _postinst_ executes after unpacking the files.
+- _prerm_ executes before deleting the files when uninstalling.
+- _postrm_ executes after removing the files when uninstalling.
+
+[Maintainer scripts](https://www.debian.org/doc/debian-policy/ch-files.html#s-scripts) are regular
+shell scripts with the following characteristics:
+
+- They must be idempotent, as they can be called several times. Because of it, add guards and
+prefer operations that are already idempotent (such as _chown, systemctl enable|disable_)
+- They must detect errors and propagate them upwards. If the script cannot perform its tasks, it
+has to notify the package system via its return code. In practice, we just add `set -e` at the
+beginning of the script.
+- They can be written in any scripting language by using
+a [shebang](https://bash.cyberciti.biz/guide/Shebang), as long as you ensure that such
+interpreter is available (
+see [pre-depends](https://www.debian.org/doc/debian-policy/ch-relationships.html#binary-dependencies-depends-recommends-suggests-enhances-pre-depends)).
+
+An example of a script is as follows:
+
+```
+#!/bin/bash
+
+systemctl disable bar
+systemctl enable foo
+
+if ! grep "mypkg-guard" /etc/NetworkManager/NetworkManager.conf; then
+  cat <<EOF >>/etc/NetworkManager/NetworkManager.conf
+
+#mypkg-guard
+[keyfile]
+unmanaged-devices=interface-name:$iface_inside
+#mypkg-guard-END
+EOF
+fi
+```
+
+[Here you have more information](https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html).
+
+### Building the .deb
+
+Once you have the folders and files of your future package, build it by
+executing `dpkg-deb -b <path/to/source/dir> <destination/dir>`. This results in a _.deb_ file
+called _package\_version\_arch.deb_. You can install it with `apt install <deb-file.deb>`.
+
+## Setting up an apt repository
+
+A Debian repository is an HTTP server that allows to access the _.deb_ files in a regular folder of
+your server machine. This folder includes too a special _Packages.gz_ file that is an index of the
+packages your repository offers, which apt gets when performing `apt update`.
+
+For this example we use Apache to setup the repository.
+
+1\. Install apache with `apt install apache2`.  
+2\. Create a file in `/etc/apache2/sites-available/packages.my.org.conf` with the following
+contents:
+
+```
+<VirtualHost *:80>
+        ServerName localhost
+        DocumentRoot /path/to/repo
+ 
+        <Directory /path/to/repo>
+        # We want the user to be able to browse the directory manually
+        Options Indexes FollowSymLinks Multiviews
+        Require all granted
+        </Directory>
+</VirtualHost>
+```
+
+`/path/to/repo` is the path you want your repository files to be in. An example
+is `/home/<user>/repository/`.
+
+3\. Give the apache user access to the folder. A quick way is by adding apache to the user group
+that created the folder: `adduser www-data my-user`.  
+4\. Enable the site: `a2enmod packages.my.org`.  
+5\. Restart apache: `apachectl restart`.  
+6\. Go to the URL of your repository with a browser to see an empty directory. Otherwise you should
+fix your configuration.  
+7\. Move the .deb files you built before to `/path/to/repo`, and do **not** change the
+name `dpkg-deb` gives them.  
+8\. Run `dpkg-scanpackages --multiversion -- /path/to/repo | gzip -9c > /path/to/repo/Packages.gz`,
+which generates a suitable index file for `apt update`.
+
+Redo step 6 and 7 every time you add new packages.
+
+Now, in every computer you want to install packages from the repository, add the following line, as
+usual, to `/etc/apt/sources.list`: `deb http://url.to.my.repo /`.
+
+_apt install / upgrade_ will fail because the repository is not signed. Use _apt-**get** install /
+upgrade_ instead and ignore the warning. Signed repositories are more difficult to create and,
+thus, are not part of this introductory tutorial. I would appreciate a guide or tutorial that
+explains it so I can link them here, or how to make apt work with unsigned repositories.
+
+Happy coding :-)
+
+_The original post was made by Daniel A. and it has been updated since by bustawin._

@@ -1,0 +1,81 @@
+---
+title: "The global interorganizational network before and during a global pandemic"
+created: "2022-02-28"
+categories:
+  - "research"
+tags:
+  - "big-data"
+  - "gdelt"
+  - "global-interorganizational-network"
+  - "networks"
+  - "open-data"
+  - "theory-of-networks"
+---
+
+
+
+import { data } from '@posts/interorg-network/graphs_data'
+
+In a study [published at the Social Networks journal](https://www.sciencedirect.com/science/article/pii/S037887332200034X)
+with [Ryan Federo](https://ryanfedero.com), we explored the structural characteristics of the
+global interorganizational network (GIN)—comprising multinational companies (MNCs),
+intergovernmental organizations (IGOs), and international non-governmental organizations (NGOs)
+—before and during a global pandemic (i.e. COVID-19).
+
+The main takeaway of this research is to demonstrate how to capture and analyze the global
+interorganizational network by using media-reported events extracted from big data compiled by
+the [GDELT project](https://www.gdeltproject.org) and
+the [Goldstein Scale](https://www.jstor.org/stable/174480).
+
+[You can access the open dataset we extracted from GDELT in here](https://www.bustawin.com/interorg-network-dataset/),
+which we used in our network analysis.
+
+## The interactive network graphs
+
+Here are the visual representations of the network that emerged from our analysis. The following
+two graphs are the interactive network graphs of the GIN before and during COVID-19, respectively.
+You can freely identify the organizations constituting the network by hovering the pointer over the
+nodes. The circles (nodes) in orange are MNCs; blue are IGOs; and gray are NGOs. The lines (edges)
+in green are on average cooperative interactions between the nodes, while those in red are
+conflictive ones.
+
+### Before the pandemic
+
+<Plot {...data.beforeThePandemic}/>
+
+### During the pandemic
+
+<Plot {...data.duringThePandemic}/>
+
+## The degree of coreness in the network
+
+The following graphs show the degree of coreness in the network.
+
+### Before the pandemic
+
+![](https://www.bustawin.com/wp-content/themes/bustawin-theme/img/coreness.before.svg)
+
+### During the pandemic
+
+![](https://www.bustawin.com/wp-content/themes/bustawin-theme/img/coreness.during.svg)
+
+## Sub-groups
+
+The next graphs display the sub-groups formed in the network.
+
+### Before the pandemic
+
+![](https://www.bustawin.com/wp-content/themes/bustawin-theme/img/subgroups.before.svg)
+
+### During the pandemic
+
+![](https://www.bustawin.com/wp-content/themes/bustawin-theme/img/subgroups.during.svg)
+
+Ultimately, our multi-level analysis of the network allowed us to conclude that the GIN is
+simultaneously characterized by fragmentation, polycentricity, and complexity. Interestingly, we
+find that this network is highly concentrated on the usual suspects and the actors forming the
+network behave differently before and during COVID-19.
+
+For more details about this research get the open-access Federo, R., & Bustamante, X.
+2022 [The ties that bind global Using media-reported events to disentangle the global interorganizational network in a global pandemic](https://www.sciencedirect.com/science/article/pii/S037887332200034X)
+Social Networks, 70, 253-266.
