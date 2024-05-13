@@ -15,7 +15,6 @@ import * as commands from '@src/service/commands'
 import { dump } from '@src/adapters/serializers/categories'
 import * as layout from '@ui/components/layout/layout'
 import MainNavigation from '@ui/root/MainNavigation'
-import { envPro } from '@src/service/utils'
 import * as ut from '@jutils/ui/reactUtils'
 import { Category } from '@src/domain/category'
 
@@ -129,8 +128,8 @@ function AppLayout({ categories = [], children }: Props) {
       <body>
         <MainNavigation categories={categories} />
         {children}
-        {!envPro && <Scripts />}
-        {!envPro && <ScrollRestoration />}
+        <Scripts />
+        <ScrollRestoration />
       </body>
     </html>
   )
