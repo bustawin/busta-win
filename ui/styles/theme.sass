@@ -34,3 +34,22 @@ pre
       &sql
         &::before
           content: ">_ SQL" "\A"
+
+// Subtitle
+h2 + .subtitle, h3 + .subtitle
+  top: -$headings-margin-bottom
+  position: relative
+
+.subtitle
+  font-style: italic
+  color: $headings-color
+
+dt
+  color: $headings-color
+
+dd
+  margin-left: 1em
+
+
+dfn
+  font-weight: bold

@@ -10,7 +10,7 @@ export interface MainContainerProps {
 
 export function MainContainer({ children, top }: MainContainerProps) {
   return (
-    <>
+    <main>
       {top && (
         <rb.Container fluid className="layout__top">
           <rb.Row>
@@ -21,7 +21,7 @@ export function MainContainer({ children, top }: MainContainerProps) {
       <rb.Container fluid="xl" className="layout__main-container">
         <rb.Row>{children}</rb.Row>
       </rb.Container>
-    </>
+    </main>
   )
 }
 
@@ -39,7 +39,7 @@ export function Main({ children, className }: MainProps) {
         lg={{ span: 7, offset: 2 }}
         xxl={{ span: 6, offset: 3 }}
       >
-        <main className={ut.cls(className)}>{children}</main>
+        <div className={ut.cls(className)}>{children}</div>
       </rb.Col>
     </>
   )

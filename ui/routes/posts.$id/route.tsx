@@ -10,6 +10,8 @@ import * as layout from '@ui/components/layout/layout'
 import { Figure } from 'react-bootstrap'
 import Note from '@jutils/ui/components/note/note'
 import { Plot } from '@ui/utils/graph'
+import Q from '@jutils/ui/components/quote/quote'
+import Icon from '@jutils/ui/components/icon/Icon'
 
 const MDX_BUNDLE = {
   ui,
@@ -42,6 +44,10 @@ function Table({ children }) {
   )
 }
 
+function Subtitle({ children }) {
+  return <strong className="subtitle">{children}</strong>
+}
+
 export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   invariant(id, 'Post ID Required')
   const post = await commands.post(id)
@@ -59,15 +65,20 @@ export default function Post() {
   return (
     <layout.MainContainer top={post.title}>
       <layout.Main className="post">
-        <Component
-          components={{
-            img: PostImage,
-            Note,
-            p: Paragraph,
-            Table,
-            Plot,
-          }}
-        />
+        <article>
+          <Component
+            components={{
+              img: PostImage,
+              Note,
+              p: Paragraph,
+              Table,
+              Plot,
+              Q,
+              Icon,
+              Subtitle,
+            }}
+          />
+        </article>
       </layout.Main>
       <layout.Aside>
         <Toc toc={mdxExport.toc} />
