@@ -18,14 +18,14 @@ export default function PostsContainer({ children, posts, top }: Props) {
         </layout.Row>
 
         {posts.map((post) => (
-          <layout.Col key={post.id}>
+          <layout.Col key={post.id} as="article">
             <card.Card className="post-preview">
               <Link to={`posts/${post.id}`} className="post-preview__link">
                 <layout.Container>
                   <layout.Row>
                     <layout.Col xs={post.image ? '8' : '12'}>
                       <card.Body>
-                        <card.Title>{post.title}</card.Title>
+                        <card.Title as="h5">{post.title}</card.Title>
                         <card.Text>{post.summary}</card.Text>
                       </card.Body>
                     </layout.Col>
@@ -39,10 +39,10 @@ export default function PostsContainer({ children, posts, top }: Props) {
                     )}
                   </layout.Row>
                 </layout.Container>
-                <card.Footer>
+                <card.Footer className="post-preview__footer" as="footer">
                   <ul className="list-inline mb-0">
                     <li className="list-inline-item ">
-                      {post.created.toISOString().split('T')[0]}
+                      <time>{post.created.toISOString().split('T')[0]}</time>
                     </li>
                     {Array.from(post.categories).map((category) => (
                       <li key={category} className="list-inline-item">

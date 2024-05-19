@@ -14,18 +14,17 @@ export const loader = async () => {
 export default function Index() {
   const { rawPosts } = useLoaderData<typeof loader>()
   const posts = postSer.load(...(rawPosts as postSer.RawPost[]))
-  const lead = (
-    <div>
-      <div className="lead">Hello, I'm bustawin.</div>
-    </div>
-  )
   return (
     <PostsContainer posts={posts}>
-      {lead}
-      <p>
-        In this website I talk about things I do—publications, notes, and
-        tricks.
-      </p>
+      <article>
+        <div>
+          <div className="lead">Hello, I'm bustawin.</div>
+        </div>
+        <p>
+          In this website I talk about things I do—publications, notes, and
+          tricks.
+        </p>
+      </article>
     </PostsContainer>
   )
 }
