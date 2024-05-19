@@ -80,9 +80,10 @@ export async function post(id: string): Promise<Post> {
     }),
   })
 
-  return postSerializer.load({
+  const [convertedPost] = postSerializer.load({
     id,
     content: code,
     ...frontmatter,
   } as postSerializer.RawPost)
+  return convertedPost
 }

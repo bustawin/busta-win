@@ -4,22 +4,17 @@ import it from 'iterated'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RawPost = { [K in keyof Post]: any }
 
-export function dump(...posts: [Post]): RawPost
-export function dump(...posts: Post[]): RawPost[]
-export function dump(...posts: Post[]): RawPost | RawPost[] {
-  const converted = posts.map((post) => ({
+export function dump(...posts: Post[]): RawPost[] {
+  return posts.map((post) => ({
     ...post,
     created: post.created.toJSON(),
     categories: it.array(post.categories) as string[],
     tags: it.array(post.tags),
   }))
-  return posts.length == 1 ? converted[0] : converted
 }
 
-export function load(...raw: [RawPost]): Post
-export function load(...raw: RawPost[]): Post[]
-export function load(...raw: RawPost[]): Post | Post[] {
-  const converted = raw.map(
+export function load(...raw: RawPost[]): Post[] {
+  return raw.map(
     (r) =>
       ({
         ...r,
@@ -28,5 +23,4 @@ export function load(...raw: RawPost[]): Post | Post[] {
         tags: it.set(r.tags),
       } as Post)
   )
-  return converted.length == 1 ? converted[0] : converted
 }
