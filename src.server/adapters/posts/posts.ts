@@ -5,7 +5,7 @@ import {
 } from '@src/domain/post'
 import * as path from 'path'
 import it from 'iterated'
-import { readdir, readFile } from 'fs/promises'
+import { readFile } from 'fs/promises'
 import * as utils from '@src/service/utils'
 import { Category } from '@src/domain/category'
 import * as postSerializer from '@src/adapters/serializers/post'
@@ -14,12 +14,8 @@ import { bundleMDX } from 'mdx-bundler'
 import { remarkMdxToc } from 'remark-mdx-toc' // @ts-expect-error We don't have types for this
 import remarkHeaderId from 'remark-heading-id'
 import remarkMdxImages from 'remark-mdx-images'
+import { postIds, POSTS_DIR } from '@src/adapters/posts/postsDir'
 
-const POSTS_DIR = relativePath(
-  import.meta.url,
-  utils.envPro ? '../..' : '../../..',
-  'posts'
-)
 const PUBLIC_DIR = relativePath(
   import.meta.url,
   utils.envPro ? '../..' : '../../..',
@@ -29,7 +25,7 @@ const POST_FILENAME = 'post.mdx'
 
 export async function posts(category?: Category): Promise<Array<Post>> {
   return it.pipe(
-    await readdir(POSTS_DIR),
+    await postIds(),
     it.map.p(post),
     it.async,
     it.await,
