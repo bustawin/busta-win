@@ -21,24 +21,22 @@ export default function PostsContainer({ children, posts, top }: Props) {
           <layout.Col key={post.id} as="article">
             <card.Card className="post-preview">
               <Link to={`posts/${post.id}`} className="post-preview__link">
-                <layout.Container>
-                  <layout.Row>
-                    <layout.Col xs={post.image ? '8' : '12'}>
-                      <card.Body>
-                        <card.Title as="h5">{post.title}</card.Title>
-                        <card.Text>{post.summary}</card.Text>
-                      </card.Body>
-                    </layout.Col>
-                    {post.image && (
-                      <layout.Col
-                        className="post-preview__image"
-                        style={{
-                          backgroundImage: `url('${post.image}')`,
-                        }}
-                      ></layout.Col>
-                    )}
-                  </layout.Row>
-                </layout.Container>
+                <layout.Row>
+                  <layout.Col xs={post.image ? '8' : '12'}>
+                    <card.Body>
+                      <card.Title as="h5">{post.title}</card.Title>
+                      <card.Text>{post.summary}</card.Text>
+                    </card.Body>
+                  </layout.Col>
+                  {post.image && (
+                    <layout.Col
+                      className="post-preview__image"
+                      style={{
+                        backgroundImage: `url('${post.image}')`,
+                      }}
+                    ></layout.Col>
+                  )}
+                </layout.Row>
                 <card.Footer className="post-preview__footer" as="footer">
                   <ul className="list-inline mb-0">
                     <li className="list-inline-item ">

@@ -18,7 +18,7 @@ export function MainContainer({ children, top }: MainContainerProps) {
           </rb.Row>
         </rb.Container>
       )}
-      <rb.Container fluid="xl" className="layout__main-container">
+      <rb.Container className="layout__main-container">
         <rb.Row>{children}</rb.Row>
       </rb.Container>
     </main>
@@ -32,16 +32,14 @@ interface MainProps {
 
 export function Main({ children, className }: MainProps) {
   return (
-    <>
-      <rb.Col
-        xs="12"
-        md={{ span: 10, offset: 1 }}
-        lg={{ span: 7, offset: 2 }}
-        xxl={{ span: 6, offset: 3 }}
-      >
-        <div className={ut.cls(className)}>{children}</div>
-      </rb.Col>
-    </>
+    <rb.Col
+      xs="12"
+      md={{ span: 10, offset: 1 }}
+      lg={{ span: 8, offset: 2 }}
+      xxl={{ span: 6, offset: 3 }}
+    >
+      <div className={ut.cls(className)}>{children}</div>
+    </rb.Col>
   )
 }
 
@@ -51,8 +49,8 @@ interface AsideProps {
 
 export function Aside({ children }: AsideProps) {
   return (
-    <rb.Col className="layout__aside" lg="3">
-      <aside>{children}</aside>
+    <rb.Col className="layout__aside" xl="2" xxl="3" as="aside">
+      {children}
     </rb.Col>
   )
 }

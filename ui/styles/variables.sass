@@ -1,4 +1,5 @@
 @use 'sass:color'
+@use "sass:map"
 @import '/node_modules/bootstrap/scss/mixins/color-mode'
 @import '/node_modules/bootstrap/scss/functions'
 
@@ -99,6 +100,7 @@ $color-mode-type: media-query
 // Fonts
 // Bootstrap's default
 $font-size-base: 1.1rem
+$font-size-sm: $font-size-base
 $h1-font-size: $font-size-base * 3
 
 $headings-color: $secondary
@@ -124,3 +126,6 @@ $card-bg: var(--ui-card-bg)
 $btn-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, fill .15s ease-in-out, scale .15s ease-in-out
 $btn-hover-transform: scale(1.1)
 $btn-active-transform: scale(.9)
+
+
+$container-max-widths: (sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1600px)
