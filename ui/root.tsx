@@ -17,6 +17,7 @@ import * as layout from '@ui/components/layout/layout'
 import MainNavigation from '@ui/root/MainNavigation'
 import * as ut from '@jutils/ui/reactUtils'
 import { Category } from '@src/domain/category'
+import { feedLink } from '@ui/routes/posts.feed/link'
 
 export const meta: MetaFunction = () => {
   return [
@@ -59,6 +60,7 @@ export const links: LinksFunction = () => {
       type: 'image/png',
       href: '/favicon-16x16.png',
     },
+    feedLink,
   ]
 }
 

@@ -7,16 +7,17 @@ import it from 'iterated'
 
 const bustawinUrl = 'http://busta.win'
 const postsUrl = `${bustawinUrl}/posts`
-const feedUrl = `${postsUrl}/feed`
+export const url = `${postsUrl}/feed`
 const author = {
   name: 'Xavier Bustamante Talavera',
   email: 'hello@bustawin.com',
 }
 const copyright = 'CC-BY-4.0'
+export const title = "bustawin's posts"
 
 export function feed(posts: Post[]): string {
   const feed = new Feed({
-    title: "bustawin's posts",
+    title,
     description: 'The collection of posts from busta.win',
     id: bustawinUrl,
     link: bustawinUrl,
@@ -25,7 +26,7 @@ export function feed(posts: Post[]): string {
     copyright,
     updated: posts[0].created,
     feedLinks: {
-      atom: feedUrl,
+      atom: url,
     },
     author,
   })
