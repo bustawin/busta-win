@@ -1,11 +1,15 @@
 import { serve, server } from '@jutils/src.server/service/serve'
-import { postIds } from '@src/adapters/posts/postsDir'
+import { RequestHandler } from 'express'
+import { readdir } from 'fs/promises'
 import it from 'iterated'
 
-const _posts = await postIds()
-const oldPosts = it.set(_posts.map((post) => `/${post}`))
+const oldPosts = it.pipe(
+  await readdir('posts'),
+  it.map.p((post) => `/${post}`),
+  it.set
+)
 
-function redirect(req, res, next) {
+const redirect: RequestHandler = (req, res, next) => {
   const normalizedPath =
     req.path[req.path.length - 1] == '/' ? req.path.slice(0, -1) : req.path
 
