@@ -39,8 +39,21 @@ export async function posts(category?: Category): Promise<Array<Post>> {
 }
 
 export async function post(id: string): Promise<Post> {
-  const filepath = path.join(POSTS_DIR, id, POST_FILENAME)
-  const rawPost = await readFile(filepath, 'utf-8')
+  const filepath = path.join(POSTS_DIR, id, POST_FILENAME) // Join normalizes
+
+  if (!filepath.startsWith(POSTS_DIR)) {
+    // Avoid people trying to access outside the posts dir
+    throw new PostNotFound(id)
+  }
+
+  let rawPost
+  try {
+    rawPost = await readFile(filepath, 'utf-8')
+  } catch (error) {
+    // File doesn't exist or is invalid
+    throw new PostNotFound(id)
+  }
+
   const { code, frontmatter } = await bundleMDX({
     source: rawPost,
     cwd: POSTS_DIR,
@@ -82,4 +95,10 @@ export async function post(id: string): Promise<Post> {
     ...frontmatter,
   } as postSerializer.RawPost)
   return convertedPost
+}
+
+export class PostNotFound extends Error {
+  constructor(id: string) {
+    super(`Post with id ${id} doesn't exist.`)
+  }
 }

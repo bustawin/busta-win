@@ -12,6 +12,8 @@ import Note from '@jutils/ui/components/note/note'
 import { Plot } from '@ui/utils/graph'
 import Q from '@jutils/ui/components/quote/quote'
 import Icon from '@jutils/ui/components/icon/Icon'
+import { PostNotFound } from '@src/adapters/posts/posts'
+import { raiseNotFound } from '@jutils/ui/responses'
 
 const MDX_BUNDLE = {
   ui,
@@ -50,7 +52,17 @@ function Subtitle({ children }) {
 
 export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   invariant(id, 'Post ID Required')
-  const post = await commands.post(id)
+  let post
+
+  try {
+    post = await commands.post(id)
+  } catch (err) {
+    if (err instanceof PostNotFound) {
+      raiseNotFound()
+    } else {
+      throw err
+    }
+  }
   return {
     post,
   }
