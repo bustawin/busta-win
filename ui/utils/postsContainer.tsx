@@ -20,7 +20,7 @@ export default function PostsContainer({ children, posts, top }: Props) {
         {posts.map((post) => (
           <layout.Col key={post.id} as="article">
             <card.Card className="post-preview">
-              <Link to={`posts/${post.id}`} className="post-preview__link">
+              <Link to={`/posts/${post.id}`} className="post-preview__link">
                 <layout.Row>
                   <layout.Col xs={post.image ? '8' : '12'}>
                     <card.Body>
