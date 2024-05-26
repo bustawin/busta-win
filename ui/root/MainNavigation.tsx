@@ -16,7 +16,9 @@ export default function MainNavigation({ categories }: MainNavigationProps) {
       <MainNavigationBg />
       <Row className="d-flex justify-content-center">
         <Col xs="auto" className="d-flex align-items-center p-0">
-          <Image src={timmy} id="timmy" />
+          <NavLink to="/" id="logo">
+            <Image src={timmy} id="timmy" />
+          </NavLink>
         </Col>
         <Col xs="auto" className="d-flex align-items-center">
           <Row>
@@ -37,6 +39,7 @@ export default function MainNavigation({ categories }: MainNavigationProps) {
                         as={NavLink}
                         to={`/categories/${category}`}
                         className={`main-navigation__nav-link main-navigation__nav-link--${category}`}
+                        prefetch="intent"
                       >
                         {humanize(category)}
                       </Nav.Link>
