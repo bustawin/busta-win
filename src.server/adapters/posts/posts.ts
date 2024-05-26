@@ -5,7 +5,7 @@ import {
 } from '@src/domain/post'
 import * as path from 'path'
 import it from 'iterated'
-import { readFile } from 'fs/promises'
+import { readFile, stat } from 'fs/promises'
 import * as utils from '@src/service/utils'
 import { Category } from '@src/domain/category'
 import * as postSerializer from '@src/adapters/serializers/post'
@@ -38,6 +38,9 @@ export async function posts(category?: Category): Promise<Array<Post>> {
   )
 }
 
+const cache: Record<Post['id'], number> = {}
+const cachedPosts: Record<Post['id'], Post> = {}
+
 export async function post(id: string): Promise<Post> {
   const filepath = path.join(POSTS_DIR, id, POST_FILENAME) // Join normalizes
 
@@ -45,6 +48,26 @@ export async function post(id: string): Promise<Post> {
     // Avoid people trying to access outside the posts dir
     throw new PostNotFound(id)
   }
+
+  let stats
+  try {
+    stats = await stat(filepath)
+  } catch (error) {
+    // File doesn't exist or is invalid
+    throw new PostNotFound(id)
+  }
+
+  if (cache[id] === stats.mtimeMs) {
+    return cachedPosts[id]
+  } else {
+    cachedPosts[id] = await _post(id)
+    cache[id] = stats.mtimeMs
+    return cachedPosts[id]
+  }
+}
+
+export async function _post(id: string): Promise<Post> {
+  const filepath = path.join(POSTS_DIR, id, POST_FILENAME) // Join normalizes
 
   let rawPost
   try {
