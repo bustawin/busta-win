@@ -18,8 +18,7 @@ import { postIds, POSTS_DIR } from '@src/adapters/posts/postsDir'
 
 const PUBLIC_DIR = relativePath(
   import.meta.url,
-  utils.envPro ? '../..' : '../../..',
-  'public'
+  utils.envPro ? '../client' : '../../../public'
 )
 const POST_FILENAME = 'post.mdx'
 
