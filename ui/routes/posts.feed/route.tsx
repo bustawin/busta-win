@@ -1,5 +1,6 @@
 import * as commands from '@src/service/commands'
 import { feed } from './feed'
+import { documentCache } from '@ui/utils/cache'
 
 export const loader = async () => {
   const posts = await commands.posts()
@@ -7,6 +8,7 @@ export const loader = async () => {
   return new Response(output, {
     headers: {
       'Content-Type': 'application/atom+xml',
+      ...documentCache,
     },
   })
 }

@@ -1,10 +1,12 @@
 import { useLoaderData } from '@remix-run/react'
+import { json } from '@remix-run/node'
 import * as commands from '@src/service/commands'
 import { getMDXExport } from 'mdx-bundler/client'
 import ui from '@ui/utils/posts'
 import React from 'react'
 import * as layout from '@ui/components/layout/layout'
 import { Image } from 'react-bootstrap'
+import { loaderCache } from '@ui/utils/cache'
 
 const MDX_BUNDLE = {
   ui,
@@ -16,9 +18,12 @@ function PostImage(props) {
 
 export const loader = async () => {
   const post = await commands.post('_about')
-  return {
-    post,
-  }
+  return json(
+    {
+      post,
+    },
+    { headers: { ...loaderCache } }
+  )
 }
 
 export default function Post() {

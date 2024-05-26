@@ -1,6 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
-import { LoaderFunctionArgs } from '@remix-run/node'
+import { json, LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { getMDXExport } from 'mdx-bundler/client'
 import ui from '@ui/utils/posts'
@@ -14,6 +14,7 @@ import Q from '@jutils/ui/components/quote/quote'
 import Icon from '@jutils/ui/components/icon/Icon'
 import { PostNotFound } from '@src/adapters/posts/posts'
 import { raiseNotFound } from '@jutils/ui/responses'
+import { loaderCache } from '@ui/utils/cache'
 
 const MDX_BUNDLE = {
   ui,
@@ -63,9 +64,12 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
       throw err
     }
   }
-  return {
-    post,
-  }
+  return json(
+    {
+      post,
+    },
+    { headers: { ...loaderCache } }
+  )
 }
 
 export default function Post() {

@@ -1,12 +1,13 @@
 import { useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
-import { LoaderFunctionArgs } from '@remix-run/node'
+import { json, LoaderFunctionArgs } from '@remix-run/node'
 import { isCategory } from '@src/domain/category'
 import { raiseNotFound } from '@jutils/ui/responses'
 import invariant from 'tiny-invariant'
 import PostsContainer from '@ui/utils/postsContainer'
 import * as postSer from '@src/adapters/serializers/post'
 import { humanize } from '@ui/utils/categories'
+import { loaderCache } from '@ui/utils/cache'
 
 export const loader = async ({ params: { category } }: LoaderFunctionArgs) => {
   invariant(category)
@@ -14,10 +15,13 @@ export const loader = async ({ params: { category } }: LoaderFunctionArgs) => {
 
   const posts = await commands.posts(category)
   const rawPosts = postSer.dump(...posts)
-  return {
-    rawPosts,
-    category,
-  }
+  return json(
+    {
+      rawPosts,
+      category,
+    },
+    { headers: { ...loaderCache } }
+  )
 }
 
 export default function PostsByCategory() {

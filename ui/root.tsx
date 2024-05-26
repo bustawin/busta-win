@@ -10,7 +10,12 @@ import {
   useLoaderData,
   useRouteError,
 } from '@remix-run/react'
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
+import type {
+  HeadersFunction,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from '@remix-run/node'
 import * as commands from '@src/service/commands'
 import { dump } from '@src/adapters/serializers/categories'
 import * as layout from '@ui/components/layout/layout'
@@ -18,6 +23,7 @@ import MainNavigation from '@ui/root/MainNavigation'
 import * as ut from '@jutils/ui/reactUtils'
 import { Category } from '@src/domain/category'
 import { feedLink } from '@ui/routes/posts.feed/link'
+import { documentCache } from '@ui/utils/cache'
 
 export const meta: MetaFunction = () => {
   return [
@@ -38,6 +44,12 @@ export const meta: MetaFunction = () => {
       content: '#233530',
     },
   ]
+}
+
+export const headers: HeadersFunction = () => {
+  return {
+    ...documentCache,
+  }
 }
 
 export const links: LinksFunction = () => {
@@ -64,7 +76,7 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader = async () => {
+export const loader: LoaderFunction = async () => {
   const categories = commands.categories()
   return {
     categories: dump(categories),
