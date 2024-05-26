@@ -1,4 +1,4 @@
-FROM node:current-bookworm-slim AS base
+FROM node:current-alpine AS base
 
 RUN mkdir -p /app
 WORKDIR /app
