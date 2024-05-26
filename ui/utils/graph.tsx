@@ -4,7 +4,7 @@ import { lazy, Suspense } from 'react'
 import Spinner from '@jutils/ui/components/spinner/spinner'
 
 // Plotly library can only be imported at client side
-const Plotly = lazy(() => import('react-plotly.js'))
+const Plotly = lazy(() => import('./plot'))
 
 export interface PlotProps {
   data: Record<string, unknown>
