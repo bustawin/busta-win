@@ -10,6 +10,7 @@ export type Post = {
   summary: string
   created: Date
   image?: string
+  js?: boolean
 }
 
 /**

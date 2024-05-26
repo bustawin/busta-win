@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { Scripts, useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
@@ -15,6 +15,7 @@ import Icon from '@jutils/ui/components/icon/Icon'
 import { PostNotFound } from '@src/adapters/posts/posts'
 import { raiseNotFound } from '@jutils/ui/responses'
 import { loaderCache } from '@ui/utils/cache'
+import { envPro } from '@src/service/utils'
 
 const MDX_BUNDLE = {
   ui,
@@ -79,26 +80,29 @@ export default function Post() {
 
   const Component = React.useMemo(() => mdxExport.default, [post.content])
   return (
-    <layout.MainContainer top={post.title}>
-      <layout.Main className="post">
-        <article>
-          <Component
-            components={{
-              img: PostImage,
-              Note,
-              p: Paragraph,
-              Table,
-              Plot,
-              Q,
-              Icon,
-              Subtitle,
-            }}
-          />
-        </article>
-      </layout.Main>
-      <layout.Aside>
-        <Toc toc={mdxExport.toc} />
-      </layout.Aside>
-    </layout.MainContainer>
+    <>
+      <layout.MainContainer top={post.title}>
+        <layout.Main className="post">
+          <article>
+            <Component
+              components={{
+                img: PostImage,
+                Note,
+                p: Paragraph,
+                Table,
+                Plot,
+                Q,
+                Icon,
+                Subtitle,
+              }}
+            />
+          </article>
+        </layout.Main>
+        <layout.Aside>
+          <Toc toc={mdxExport.toc} />
+        </layout.Aside>
+      </layout.MainContainer>
+      {envPro && post.js && <Scripts />}
+    </>
   )
 }
