@@ -25,9 +25,9 @@ Another approach is using Postgres [ltree](https://www.postgresql.org/docs/curre
 
 Taking the same example as the post I mention above:
 
-![Example of DAG from Kemal Erdogan](dags-with-materialized-paths-using-postgres-ltree/images/Figure3.gif "Example of DAG from Kemal Erdogan")
+![Example of DAG from Kemal Erdogan](dags-with-materialized-paths-using-postgres-ltree/images/figure3.gif "Example of DAG from Kemal Erdogan")
 
-[See an explanation of it from here](https://www.codeproject.com/Articles/22824/A-Model-to-Represent-Directed-Acyclic-Graphs-DAG#Figure3).
+[See an explanation of it from here](https://www.codeproject.com/Articles/22824/A-Model-to-Represent-Directed-Acyclic-Graphs-DAG#figure3).
 
 First let's define the paths for all animals (nodes):
 
@@ -138,7 +138,7 @@ INSERT INTO paths (nodeId, path) VALUES (1, '1');
 
 Erdogan [says](https://www.codeproject.com/Articles/22824/A-Model-to-Represent-Directed-Acyclic-Graphs-DAG#Figure4) that "in general, the connection of two vertices with a new edge has to be assumed to be the connection of two discrete graphs. We cannot assume any order of insertion". He then uses Figure 4, the same as below, to illustrate the connection between A and B, when A has some descendants and B some ascendants.
 
-![DAC with ascendants and descendants, from Erdogan](dags-with-materialized-paths-using-postgres-ltree/images/Figure4.gif "DAC with ascendants and descendants")
+![DAC with ascendants and descendants, from Erdogan](dags-with-materialized-paths-using-postgres-ltree/images/figure4.gif "DAC with ascendants and descendants")
 
 Let's compute the paths of B: `J.A, K.B, L.B, H.B, I.B` (edges 8 and 10 in the original post are different from the rest, but in here we can assume they are the equal). A has only one path, `A` itself. When connecting it to B: A copies the paths of B: `J.B.A, K.B.A, L.B.A, H.B.A, I.B.A` adding itself to the end of each path. So, now A has the paths inherited with B plus the paths that A had originally (`A`): `A, J.B.A, K.B.A, L.B.A, H.B.A, I.B.A`.
 
@@ -156,7 +156,7 @@ For deleting the paths we should perform the inverse operation of the Cartesian 
 
 Let's take back the original example:
 
-![Example of DAG from Kemal Erdogan](dags-with-materialized-paths-using-postgres-ltree/images/Figure3.gif "Same figure as the first example")
+![Example of DAG from Kemal Erdogan](dags-with-materialized-paths-using-postgres-ltree/images/figure3.gif "Same figure as the first example")
 
 We want to delete edge 4, deleting the relationship between nodes 5 and 2. The affected paths are the ones from nodes 5, 8, and 9. If the original paths are `5: 1.2.5, 1.3.5; 8: 1.2.5.8, 1.3.5.8; 9: 1.2.5.9, 1.3.5.9`, after the deletion they are `5: 1.3.5; 8: 1.3.5.8; 9: 1.3.5.9`. Now we face a similar design problem than when creating an edge: should 5 be a root node when deleting edge 4, so 5 ends up with the paths `5, 1.3.5`? For our use-case we decided it to be only when 5 has no other parent.
 
