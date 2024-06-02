@@ -1,4 +1,4 @@
-import { Scripts, useLoaderData } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
@@ -15,7 +15,6 @@ import Icon from '@jutils/ui/components/icon/Icon'
 import { PostNotFound } from '@src/adapters/posts/posts'
 import { raiseNotFound } from '@jutils/ui/responses'
 import { loaderCache } from '@ui/utils/cache'
-import { envPro } from '@src/service/utils'
 
 const MDX_BUNDLE = {
   ui,
@@ -102,7 +101,6 @@ export default function Post() {
           <Toc toc={mdxExport.toc} />
         </layout.Aside>
       </layout.MainContainer>
-      {envPro && post.js && <Scripts />}
     </>
   )
 }

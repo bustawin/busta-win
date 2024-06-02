@@ -24,7 +24,7 @@ import * as ut from '@jutils/ui/reactUtils'
 import { Category } from '@src/domain/category'
 import { feedLink } from '@ui/routes/posts.feed/link'
 import { documentCache } from '@ui/utils/cache'
-import { envPro } from '@src/service/utils'
+import GlobalLoading from '@jutils/ui/components/globalLoading'
 
 export const meta: MetaFunction = () => {
   return [
@@ -141,10 +141,11 @@ function AppLayout({ categories = [], children }: Props) {
         <Links />
       </head>
       <body>
+        <GlobalLoading />
         <MainNavigation categories={categories} />
         {children}
-        {!envPro && <Scripts />}
-        {!envPro && <ScrollRestoration />}
+        <ScrollRestoration />
+        <Scripts />
       </body>
     </html>
   )
