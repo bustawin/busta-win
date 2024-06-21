@@ -25,15 +25,14 @@ const POST_FILENAME = 'post.mdx'
 export async function posts(category?: Category): Promise<Array<Post>> {
   return it.pipe(
     await postIds(),
-    it.map.p(post),
-    it.async,
+    it.map(post),
     it.await,
-    it.filter.p((post) => {
+    it.filter((post) => {
       if (post.id.startsWith('_')) return false
       if (category) return isPostInCategory(post, category)
       return true
     }),
-    it.sort.p(postChronologicalComparator)
+    it.sort(postChronologicalComparator)
   )
 }
 

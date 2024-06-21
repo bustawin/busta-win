@@ -5,7 +5,7 @@ import it from 'iterated'
 
 const oldPosts = it.pipe(
   await readdir('posts'),
-  it.map.p((post) => `/${post}`),
+  it.map((post) => `/${post}`),
   it.set
 )
 
