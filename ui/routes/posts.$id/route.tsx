@@ -91,6 +91,8 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
     ...rootMetas,
     {
       title: post.title,
+    },
+    {
       keywords: [...post.categories, ...post.tags, 'blog post'],
     },
   ]
