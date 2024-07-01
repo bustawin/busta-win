@@ -358,7 +358,7 @@ const withIterated = it.pipe([1, 2, 3], it.map(), it.reduce())
 And the JavaScript team is repeating it with the proposal
 for [built-in iterable methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator/map):
 
-```typescript title='Comparison between applying map/reduce with the built-in methods and iterated'
+```typescript title='Comparison between applying map/reduce with the built-in methods and iterated.'
 const iterator = [1, 2, 3].values()
 const withBuiltIn = iterator.map().reduce()
 
@@ -376,7 +376,7 @@ new methods, because the only non-over-the-top solution I can think of
 is polluting the Iterator class itself.'>I mean adding your functions doesn't feel alien or
 quirky</Note>:
 
-```typescript
+```typescript title='Comparison of adding a custom function to an iterated pipe and a built-in chain.'
 function doStuffWithDevices(devices: Iterable<Device>): Iterable<Device> {
   // Loop devices and so something with them
 }
