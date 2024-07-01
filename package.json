@@ -11,6 +11,7 @@
     "start": "cross-env NODE_ENV=production tsx ./server.ts",
     "typecheck": "tsc",
     "test": "vitest",
+    "build-pro-restart": "docker-compose -f docker-compose-pro.yml down && docker-compose -f docker-compose-pro.yml up --build --detach",
     "build-start": "npm run build && npm run start"
   },
   "dependencies": {
