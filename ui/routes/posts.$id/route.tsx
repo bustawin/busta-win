@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { MetaFunction, useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
 import { json, LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
@@ -15,6 +15,7 @@ import Icon from '@jutils/ui/components/icon/Icon'
 import { PostNotFound } from '@src/adapters/posts/posts'
 import { raiseNotFound } from '@jutils/ui/responses'
 import { loaderCache } from '@ui/utils/cache'
+import * as postSer from '@src/adapters/serializers/post'
 
 const MDX_BUNDLE = {
   ui,
@@ -75,10 +76,24 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   }
   return json(
     {
-      post,
+      post: postSer.dump(post)[0],
     },
     { headers: { ...loaderCache } }
   )
+}
+
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+  if (!data?.post) return
+  const post = data.post
+  const rootMetas = matches[0].meta.filter(({ title }) => !title)
+
+  return [
+    ...rootMetas,
+    {
+      title: post.title,
+      keywords: [...post.categories, ...post.tags, 'blog post'],
+    },
+  ]
 }
 
 export default function Post() {

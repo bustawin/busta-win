@@ -1,5 +1,4 @@
 import { Category } from '@src/domain/category'
-import { comparator } from 'iterated/dist/operators/sort'
 
 export type Post = {
   id: string
@@ -16,7 +15,7 @@ export type Post = {
 /**
  * The way we want to sort posts, which is chronologically inverse.
  */
-export function postChronologicalComparator(a: Post, b: Post): comparator {
+export function postChronologicalComparator(a: Post, b: Post): number {
   return a.created < b.created ? 1 : -1
 }
 

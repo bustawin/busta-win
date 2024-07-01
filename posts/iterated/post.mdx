@@ -1,11 +1,17 @@
 ---
 title: JavaScript Iterables and Iterated
-created: "2024-07-01"
+created: 2024-07-01
 categories:
   - software
 tags:
   - project
   - package
+  - javascript
+  - typescript
+  - iterables
+  - async
+  - open source
+  - tutorial
 summary: Introducing Javascript iterables and why the library Iterated is a great way to unleash their potential.
 q:
   a:
@@ -56,9 +62,10 @@ q:
 
 export const q = frontmatter.q
 
-I explain why Iterables and AsyncIterables in JavaScript are great and why
+In this post, I explain why Iterables and AsyncIterables in JavaScript are great and why
 the library I released—[iterated](http://iterated.busta.win)—is
 a great tool to unleash their potential.
+It is time to move away from only Arrays into Iterables.
 
 Simply said, <Q {...q.b}>an <dfn>Iterable</dfn> is any data or variable that we can loop.
 This
@@ -67,7 +74,6 @@ includes [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/@@iterator),
 and
 [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/@@iterator).</Q>
-
 Usually data is in arrays, so we use iterables already "under the hood"
 even if we don’t know it.
 For example,<Q {...q.c}>when using `for..of`</Q>:
@@ -81,7 +87,8 @@ for (const value of values) {
 
 Javascript introduced iterables a while ago,
 <Q {...q.a}>and since 2017 is widely supported.</Q> Other languages
-like <Q {...q.e}>Python had it since 2001.</Q>
+like <Q {...q.e}>Python had it since 2001, and they are a core part
+of the language.</Q>
 However, in my experience, developers tend to focus on working only
 with arrays
 (e.g.,
@@ -93,7 +100,7 @@ even if iterables have several benefits:
 1. [Abstraction](#abstraction) over the collection where we contain our data.
 2. [Avoiding intermediate data structures](#avoiding-intermediate-data-structures), reducing CPU
    and RAM usage, and allowing infinite and streaming collections.
-3. [AsyncIterators](#async-iterators), joining promises into iterables to iterate with I/O and API
+3. [AsyncIterators](#async-iterators), putting promises into iterables to iterate with I/O and API
    calls.
 4. They are a great fit with [pipes](#pipes).
 
