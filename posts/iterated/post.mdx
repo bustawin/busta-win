@@ -1,54 +1,423 @@
 ---
-title: "Iterated"
+title: JavaScript Iterables and Iterated
 created: "2024-06-21"
 categories:
-  - "software"
+  - software
 tags:
-  - "project"
-  - "package"
-summary: I published iterated, functional methods to work with Javascript iterables.
+  - project
+  - package
+summary: Introducing Javascript iterables and why the library Iterated is a great way to unleash their potential.
+q:
+  a:
+    url: https://caniuse.com/mdn-javascript_builtins_iterator
+    title: "Javascript builtin iterator: can I use?"
+    author: Fyrd
+  b:
+    url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
+    title: Iteration protocols
+    author: Mozilla
+    year: 2024
+    month: 6
+  c:
+    url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of
+    title: for...of
+    author: Mozilla
+    year: 2024
+    month: 5
+  d:
+    url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator
+    title: Generator functions
+    author: Mozilla
+    year: 2024
+    month: 6
+  e:
+    url: https://www.python.org/download/releases/2.2/
+    title: Python 2.2 release notes
+    author: PSF (Python Software Foundation)
+    year: 2001
+    month: 12
+  f:
+    url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators#advanced_generators
+    title: Iterators and Generators. Advanced generators
+    author: Mozilla
+    year: 2023
+    month: 12
+  g:
+    url: https://advancedweb.hu/ditch-for-loops-here-is-a-case-study-to-convince-you/
+    title: Ditch for loops. Here is a case study to convince you
+    author: Tamás Sallai
+    year: 2017
+    month: 11
+  h:
+    url: https://github.com/tc39/proposal-async-iteration
+    title: Asynchronous Iterators for JavaScript
+    year: 2018
 ---
 
-I released [iterated](https://github.com/bustawin/iterated),
-a collection of functional methods to transform data in Javascript with prime
-typing support.
+export const q = frontmatter.q
 
-```javascript
+I explain why Iterables and AsyncIterables in JavaScript are great and why
+the library I released—[iterated](http://iterated.busta.win)—is
+a great tool to unleash their potential.
+
+Simply said, <Q {...q.b}>an <dfn>Iterable</dfn> is any data or variable that we can loop.
+This
+includes [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/@@iterator),
+[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/@@iterator),
+[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/@@iterator),
+and
+[Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/@@iterator).</Q>
+
+Usually data is in arrays, so we use iterables already "under the hood"
+even if we don’t know it.
+For example,<Q {...q.c}>when using `for..of`</Q>:
+
+```typescript title='looping with for..of works with any iterable.'
+const values = [1, 2, 3]
+for (const value of values) {
+  console.log(value)
+}
+```
+
+Javascript introduced iterables a while ago,
+<Q {...q.a}>and since 2017 is widely supported.</Q> Other languages
+like <Q {...q.e}>Python had it since 2001.</Q>
+However, in my experience, developers tend to focus on working only
+with arrays
+(e.g.,
+[Array.map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map),
+[Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter))
+instead of shifting their mind and working with iterables,
+even if iterables have several benefits:
+
+1. [Abstraction](#abstraction) over the collection where we contain our data.
+2. [Avoiding intermediate data structures](#avoiding-intermediate-data-structures), reducing CPU
+   and RAM usage, and allowing infinite and streaming collections.
+3. [AsyncIterators](#asynciterators), joining promises into iterables to iterate with I/O and API
+   calls.
+4. They are a great fit with [pipes](#pipes).
+
+In this post, I plan to entice you to move from an Array-centric vision
+to an Iterable-centric one.
+
+## Abstraction
+
+The first benefit is **abstraction**. As we have several types of collections,
+like Array, String, or Map, iterables allows us to make agnostic
+functions that can work with any of these collections. Or said
+in another way, functions that need only something that loops:
+
+```typescript title='This function accepts any kind of iterables, including Array, String, and Set.'
+function printValues(iterable: Iterable<any>) {
+  for (const value in iterable) {
+    console.log(value)
+  }
+}
+
+printValues([1, 2, 3])
+printValues('foo bar')
+printValues(new Set([1, 2, 3]))
+```
+
+## Avoiding intermediate data structures
+
+Transforming arrays of data means in many ways creating intermediate
+data
+structures <Note text={<span>Because
+JavaScript <a href='https://hilalarsa.medium.com/javascript-map-will-only-shallow-copy-your-object-1579da63b98f'>
+generates shallow copies of objects</a> this is not usually disastrous.</span>}>
+that cost RAM and CPU</Note>.
+
+In the following example, `Array.map` and `Array.filter`
+create new arrays, so we now have three arrays: `input`, `x`, `y`.
+
+```typescript title="Example of applying map and filter the regular way, which copy the array multiple times."
+const input = [1, 2, 3]
+const x: Array<number> = input.map(x => x * 2)
+const y: Array<number> = input.filter(x => x < 4)
+```
+
+Iterables do not generate an intermediate data structure:
+
+```typescript title="Example of applying map and filter with iterables, which do not generate array copies."
 import it from 'iterated'
 
-// result is inferred as Iterator<number>
-const result = it.pipe(
-  [
-    { foo: 1, baz: 'x' },
-    { foo: 2, baz: 'x' }
-  ],
-  it.map((item) => item['foo'])
-)
-// myArray is inferred as number[]
-const myArray = it.pipe(
-  result,
-  it.array
+const input = [1, 2, 3]
+const x: Iterable<number> = it.map(input, x => x * 2)
+const y: Iterable<number> = it.filter(x, x => x < 4)
+```
+
+This is because <Q {...q.f}>iterables are lazy: they do not iterate until necessary, only on
+demand.</Q>
+For example, when a function forces them to generate an array.
+
+```typescript title='Transforming an iterable into an array, creating a single copy.'
+const result: Array<number> = it.array(y)
+```
+
+In sum, with iterables we avoid intermediate data structures, which is
+crucial when working with big datasets.
+
+### Generators and yielding
+
+<Q {...q.d}>The same way that arrays and strings are now iterables, functions
+can be iterables too. Rephrasing it: **we can iterate functions**.
+To tell JavaScript that a function can be iterated, we use
+two things: the `yield` keyword and an asterisk after `function`</Q>:
+
+```typescript title='Example of creating and executing a generator function.'
+function* iterableFunction() {
+  yield 1
+  yield 2
+  yield 3
+}
+
+for (const val of iterableFunction()) {
+  console.log(val) // prints 1 2 3
+}
+```
+
+For a function accepting an Iterable (like the `printValues` we defined
+earlier) this is still a regular Iterable:
+
+```typescript title='printValues accept any iterable, including iterableFunction().'
+printValues(iterableFunction()) // prints 1 2 3
+printValues([1, 2, 3]) // prints 1 2 3
+```
+
+<p><Q {...q.d}> We call these iterable functions <dfn>generators</dfn>.</Q></p>
+
+A function that yields avoids creating intermediate data structures. We
+can demonstrate this by comparing the implementation of a regular `Array.map`
+and a yielding `map` functions:
+
+```typescript title='Implementations of a map function with and without iterables.'
+function regularOldMap(input: Array, func): Array {
+  const newArray = []
+  for (const val of input) {
+    const result = func(val)
+    newArray.push(result)
+  }
+
+  // By now we have two arrays full of data: input and newArray
+  return newArray
+}
+
+function* yieldingMap(input: Iterable, func): Iterable {
+  for (const val of input) {
+    const result = func(val)
+    yield result
+  }
+}
+```
+
+Even if both functions achieve the same:
+
+* The Iterable one allows any type of iterable (i.e. `Array`, `String`, `Set`, `function*`)
+* The Iterable one avoids creating an intermediate data structure (i.e. `newArray`).
+
+And thus `yieldingMap` is superior to `regularOldMap`.
+
+[iterated](http://iterated.busta.win) provides functions such as
+`yieldingMap` (i.e., [`map`](http://iterated.busta.win/functions/map-1.html))
+to handle iterables.
+
+Finally, <Q {...q.f}>thanks to their lazy nature, generator functions enable collections
+of infinite values, such as computing the fibonacci sequence or streaming
+information.</Q>
+
+## AsyncIterators
+
+Converting the `yieldingMap` example to an async function
+(e.g., for fetching data) transforms the return from an `Iterable`
+to an `AsyncIterable`:
+
+```typescript title='An async generator function that fetches users.'
+async function* fetchUsers(usersID: Iterable<UserID>): AsyncIterable<User> {
+  for (const userId of usersId) {
+    const user = await fetch(`${baseUrl}/${userId}`)
+    // do something
+    yield user
+  }
+}
+```
+
+This means that in every loop of `AsyncIterable` it has to `await`:
+
+```typescript title='Looping the users from the previous example.'
+async function doSomething() {
+  const usersId = [1, 2, 3]
+  for await (const user of fetchUsers(usersId)) {
+    // do something
+  }
+}
+```
+
+The beauty of this approach is that we only loop after fetching a user (i.e., lazily).
+
+We can achieve the same without using `AsyncIterable` but increasing
+the code boilerplate:
+
+```typescript title='Same functionality than the previous example without using AsyncIterable.'
+function fetchUsers(usersID: Array<UserId>): Array<Promise<User>> {
+  const users: Array<Promise<User>> = []
+  for (const userId of usersId) {
+    const user = fetch(`${baseUrl}/${userId}`)
+    // do something
+    users.push(user)
+  }
+  return users
+}
+
+
+async function doSomething() {
+  const usersId = [1, 2, 3]
+  for (const userPromise of fetchUsers(usersId)) {
+    const user = await userPromise
+    // do something
+  }
+}
+```
+
+As JavaScript’s async/await is everywhere, having a simple way to handle async
+calls helps to reduce code and complexity.
+
+<Q {...q.h}>AsyncIterables are specially useful when we do not know at the moment
+of starting the loop when it is going to be done, for example when
+accessing I/O</Q>.
+
+An issue is that the same function cannot handle `Iterable` and `AsyncIterable`
+(because `AsyncIterable` requires to be inside `async` functions and
+`for ... of` loops), so
+we partially lose the value of having a function that just works with
+any kind of collection of data.
+
+[iterated](http://iterated.busta.win) fixes this by auto-handling
+`Iterable` and `AsyncIterable` transparently:
+
+```typescript title="iterated's functions (like filter) accept both Iterables and AsyncIterables"
+const users: AsyncIterable<User> = await fetchUsers([1, 2, 3])
+const successfulUsers: AsyncIterable<User> = it.filter(users, ({ success }) => success)
+```
+
+## pipes
+
+When processing data, <Q {...q.g}>pipes increase legibility by focusing on the
+operations to do to over the data, instead of constructors like `for...of`</Q>.
+
+<Note text='Pipes built with Arrays loop multiple times of have to resort to intricate
+implementations.'>Pipes are a natural fit for iterables because they both focus on the
+data and the operations we want to apply on them</Note>.
+The following example is what I use to load the posts of this blog:
+
+```typescript title='A pipe that fetches posts from disk and filters out private ones.'
+import it from 'iterated'
+
+const posts: AsyncIterable<Post> = it.pipe(
+  postIds(),
+  it.map(fetchPost), // This returns a Promise<Post>
+  it.await, // transform an Iterable<Promise<Post>> to an AsyncIterable<Post>
+  it.filter(post => !post.id.startsWith('_')), // filter private posts
 )
 ```
 
-It has great Typescript typing inference, pipe support with sensible
-currying, uses the iterator protocol (`Iterator` and `AsyncIterator`) handling it transparently,
-and it's extensible without coupling your code.
+Executing the previous example still does not trigger loading any posts,
+it only happens when calling an operation that returns an actual data structure.
 
-Feel free to [check out the documentation](http://iterated.busta.win) and
-`npm i iterated`.
+```typescript title='Obtaining an array from the result of the pipe.'
+const response = {
+  posts: await it.array(posts)
+}
+```
 
-I, for example, use it in this website to load posts from disk:
+Note how the function `fetchPost` only fetches a single post,
+ignoring whether it is used in a collection, thanks to `map`.
+
+A usual problem with pipes is following the **shape of the data**, specially
+after applying several transformations.
+That is why I ensured that Iterated brings TypeScript support,
+inferring the data type in each step.
+For example, the following causes TypeScript to complain:
+
+```typescript title="An example of iterated's inference. Filter's 'x' is defined as string, and result as Iterable<string>."
+const result = it.pipe(
+  'foobar',
+  it.filter(x => x < 3) // Error: operator < can't be applied to a string and number
+)
+```
+
+### About the built-in methods
+
+When handling Arrays, JavaScript’s built-ins use chaining instead of piping:
+
+```typescript title='Comparison between applying map and reduce using the built-in and iterated.'
+const withBuiltIn = [1, 2, 3].map().reduce()
+const withIterated = it.pipe([1, 2, 3], it.map(), it.reduce())
+```
+
+And the JavaScript team is repeating it with the proposal
+for [built-in iterable methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator/map):
+
+```typescript title='Comparison between applying map/reduce with the built-in methods and iterated'
+const iterator = [1, 2, 3].values()
+const withBuiltIn = iterator.map().reduce()
+
+const withIterated = it.pipe([1, 2, 3], it.map(), it.reduce())
+```
+
+Although both methods work, `pipe` has an advantage over `chain`:
+it is functional.
+Thanks to this, we can easily allow to use `AsyncIterable` and,
+most importantly, it is extensible.
+
+By extensible, <Note text='I would be interested to know if there is a better way for built-ins to
+handle
+new methods, because the only non-over-the-top solution I can think of
+is polluting the Iterator class itself.'>I mean adding your functions doesn't feel alien or
+quirky</Note>:
 
 ```typescript
-import it from 'iterated'
+function doStuffWithDevices(devices: Iterable<Device>): Iterable<Device> {
+  // Loop devices and so something with them
+}
 
-// posts are inferred as Post[]
-const posts = await it.pipe(
-  await postIds(),
-  it.map(fetchPost), // This returns a Promise<Post>
-  it.await,
-  it.filter(post => !post.id.startsWith('_')),
-  it.sort(postChronologicalComparator)
-)
+const withIterated = it.pipe([{ id: 'device-1' }], doStuffWithDevices)
+
+// ???
+Iterator.prototype.doStuffWithDevices = doStuffWithDevices
+const withBuiltIn = [{ id: 'device-1' }].values().doStuffWithDevices()
 ```
+
+And finally, a word of warning with the built-ins as [they don't work
+for all iterables](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator#proper_iterators),
+which iterated does.
+
+## Conclusions
+
+Iterables and AsyncIterables are an improvement
+when working with JavaScript, as they abstract us from collections
+(e.g., Array, Set, Map, `function*`) and focus on our data, they iterate
+only once, and they reduce RAM and increase performance.
+Issues are changing our mental process and functions to iterables,
+or embrace pipes.
+
+Pipes are a good way to transform data with iterables as they focus
+on the transformations we want to do to our data.
+Although there is a JavaScript proposal for iterable chaining,
+I believe pipes are more agnostic and extensible, especially
+when moving between Iterable and AsyncIterable, and supporting any
+kind of iterable.
+
+Moreover, although there are many good libraries to work with iterables
+(e.g., [iterate-iterator](https://www.npmjs.com/package/iterate-iterator),
+[iterare](https://www.npmjs.com/package/iterare), [the new built-in methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator/map))
+only [iterated](http://iterated.busta.win) brings all the following:
+
+* Pipes.
+* Great typing support.
+* Iterable and AsyncIterable transparent support.
+* Simple extensibility.
+* Simple interface.
+
+As its biggest drawback, [iterated](http://iterated.busta.win) is new and would benefit from more
+and improved functions.

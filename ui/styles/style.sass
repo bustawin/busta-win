@@ -53,3 +53,10 @@
 /* Theme */
 
 @import 'theme'
+
+/* Syntax code highlighter */
+@media (prefers-color-scheme: light)
+  @import "@highlight/github.scss"
+
+@media (prefers-color-scheme: dark)
+  @import "@highlight/github-dark.scss"

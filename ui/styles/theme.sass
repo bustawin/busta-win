@@ -7,12 +7,20 @@ h1
   color: $headings-color
 
 pre
+  margin-bottom: 0 !important
+
   code
+    @extend .card
+    padding: var(--#{$prefix}card-spacer-y) var(--#{$prefix}card-spacer-x) !important
+    background-color: var(--#{$prefix}card-bg) !important
+
     &::before
+      @extend .card-title
+      display: block
       white-space: pre
       color: $figure-caption-color
       font-family: $font-family-base
-      font-size: .875rem
+
 
     &:not([class^="language-"])
       &::before

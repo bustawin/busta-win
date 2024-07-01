@@ -15,6 +15,8 @@ import { remarkMdxToc } from 'remark-mdx-toc' // @ts-expect-error We don't have 
 import remarkHeaderId from 'remark-heading-id'
 import remarkMdxImages from 'remark-mdx-images'
 import { postIds, POSTS_DIR } from '@src/adapters/posts/postsDir'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeMdxCodeProps from 'rehype-mdx-code-props'
 
 const PUBLIC_DIR = relativePath(
   import.meta.url,
@@ -91,6 +93,7 @@ export async function _post(id: string): Promise<Post> {
         remarkMdxToc,
         remarkMdxImages,
       ]
+      options.rehypePlugins = [rehypeHighlight, rehypeMdxCodeProps]
 
       return options
     },

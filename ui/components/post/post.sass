@@ -1,10 +1,19 @@
+@use '../../styles/style' as *
+
 .post
   counter-reset: h2counter
 
   &__figure
     display: block
     margin: auto
-    text-align: center
+    margin-bottom: $spacer
+
+    figcaption
+      text-align: center
+
+    &--image
+      text-align: center
+
 
   h2
     counter-increment: h2counter

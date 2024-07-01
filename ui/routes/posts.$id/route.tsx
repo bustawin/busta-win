@@ -22,7 +22,7 @@ const MDX_BUNDLE = {
 
 function PostImage(props) {
   return (
-    <Figure className="post__figure">
+    <Figure className="post__figure post__figure--image">
       <Figure.Image {...props} />
       {props.title && <Figure.Caption>{props.title}</Figure.Caption>}
     </Figure>
@@ -44,6 +44,15 @@ function Table({ children }) {
     <ui.rb.Table striped bordered hover responsive>
       {children}
     </ui.rb.Table>
+  )
+}
+
+function pre(props) {
+  return (
+    <Figure className="post__figure post__figure--pre">
+      <pre {...props} />
+      {props.title && <Figure.Caption>{props.title}</Figure.Caption>}
+    </Figure>
   )
 }
 
@@ -93,6 +102,7 @@ export default function Post() {
                 Q,
                 Icon,
                 Subtitle,
+                pre,
               }}
             />
           </article>
