@@ -5,8 +5,6 @@ import {
   Links,
   Meta,
   Outlet,
-  Scripts,
-  ScrollRestoration,
   useLoaderData,
   useRouteError,
 } from '@remix-run/react'
@@ -26,6 +24,7 @@ import { feedLink } from '@ui/routes/posts.feed/link'
 import { documentCache } from '@ui/utils/cache'
 import GlobalLoading from '@jutils/ui/components/globalLoading'
 import NotFound from '@ui/components/NotFound/NotFound'
+import HydrateOnEligibleRoutes from '@jutils/ui/components/HydrateOnEligibleRoutes/HydrateOnEligibleRoutes'
 
 export const meta: MetaFunction = () => {
   return [
@@ -90,6 +89,7 @@ export default function App() {
   return (
     <AppLayout categories={categories}>
       <Outlet />
+      <HydrateOnEligibleRoutes />
     </AppLayout>
   )
 }
@@ -103,7 +103,7 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     if (error.status === 404) {
-      title = 'A dramatic 404!'
+      title = 'A dramatic short story'
       description = <NotFound />
     } else {
       title = `${error.status} ${error.statusText}`
@@ -150,8 +150,6 @@ function AppLayout({ categories = [], children }: Props) {
         <GlobalLoading />
         <MainNavigation categories={categories} />
         {children}
-        <ScrollRestoration />
-        <Scripts />
       </body>
     </html>
   )

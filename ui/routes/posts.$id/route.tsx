@@ -8,6 +8,9 @@ import { raiseNotFound } from '@jutils/ui/responses'
 import { loaderCache } from '@ui/utils/cache'
 import * as postSer from '@src/adapters/serializers/post'
 import PostComponent from '@ui/components/post/post'
+import { Handler } from '@jutils/ui/components/HydrateOnEligibleRoutes/HydrateOnEligibleRoutes'
+
+export const handle: Handler = { useScripts: true }
 
 export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   invariant(id, 'Post ID Required')
