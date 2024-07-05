@@ -1,4 +1,4 @@
-import timmy from './timmy.png'
+import timmy from './timmy.webp'
 
 import { Category } from '@src/domain/category'
 import { Col, Container, Image, Nav, Row } from 'react-bootstrap'
