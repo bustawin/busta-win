@@ -1,6 +1,6 @@
 import { getMDXExport } from 'mdx-bundler/client'
 import React from 'react'
-import { Figure } from 'react-bootstrap'
+import { Figure, Table as RBTable } from 'react-bootstrap'
 import Note from '@jutils/ui/components/note/note'
 import { Plot } from '@ui/utils/graph'
 import Q from '@jutils/ui/components/quote/quote'
@@ -8,7 +8,6 @@ import Icon from '@jutils/ui/components/icon/Icon'
 import { Post as PostType } from '@src/domain/post'
 import Toc from './toc'
 import { Props } from '@jutils/ui/reactUtils'
-import RBTable from 'react-bootstrap/esm/Table'
 
 interface PostProps {
   content: PostType['content']
