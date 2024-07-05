@@ -25,6 +25,7 @@ import { Category } from '@src/domain/category'
 import { feedLink } from '@ui/routes/posts.feed/link'
 import { documentCache } from '@ui/utils/cache'
 import GlobalLoading from '@jutils/ui/components/globalLoading'
+import NotFound from '@ui/components/NotFound/NotFound'
 
 export const meta: MetaFunction = () => {
   return [
@@ -101,14 +102,19 @@ export function ErrorBoundary() {
   let description = null
 
   if (isRouteErrorResponse(error)) {
-    title = `${error.status} ${error.statusText}`
-    description = error.data
+    if (error.status === 404) {
+      title = 'A dramatic 404!'
+      description = <NotFound />
+    } else {
+      title = `${error.status} ${error.statusText}`
+      description = error.data
+    }
   } else if (error instanceof Error) {
     title = 'Error'
     description = (
       <div>
         <p>{error.message}</p>
-        <p>The stack trace is:</p>
+        {error.stack && <p>The stack trace is:</p>}
         <pre>{error.stack}</pre>
       </div>
     )
@@ -119,7 +125,7 @@ export function ErrorBoundary() {
       <layout.MainContainer top={title}>
         <layout.Main>
           {description}
-          <p>
+          <p className="text-center">
             <Link to="/">Let&apos;s go back home</Link>
           </p>
         </layout.Main>
