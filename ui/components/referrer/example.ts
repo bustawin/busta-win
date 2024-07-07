@@ -1,40 +1,144 @@
 const foo = `
-[cites.nice_paper]
-title = "Nice Paper"
-publish_date = "2024-04-02"
-access_date = "2024-06-01"
-authors = ['xavi', 'ryan']
-journal = 'amj'
-volume = 4
-issue = 2
-page_start = 100
-page_end = 110
-
-[journals.amj]
-name = 'Academy of Management Journal'
-
-[authors.xavi]
-name='Xavier'
-surname='Bustamante'
-
-[authors.ryan]
-name='Ryan'
-surname='Federo'
-email='foo@bar.com'
-
-[templates.journal_a]
-authors_max = 3
-authors_separator = '&'
-publish_date = '([cites.publish_date:year])'
-issue = '([cites.issue])'
-volume_and_issue = '[cite.volume] [issue]'
-pages = '[cite.page_start]-[cite.page_end]'
-template = '[authors] [publish_date] [cite.title], [cite.journal], [volume_and_issue] [pages]'
-
-[templates.journal_a.authors]
-max = 3
-max_ending = '& etc.'
-separator = '&'
-template = '[author.surname], [author.name:initial]'
+[
+  {
+    name: 'amj',
+    type: 'article',
+    fields: [
+      {
+        type: 'set',
+        max: 5,
+        max_ending: ', et al',
+        // if there's more than 5, discard the 6th onwards and put this
+        separator: ', ',
+        last_author_separator: ', &',
+        end: ' ',
+        fields: [
+          {
+            type: 'field',
+            field: 'author',
+            format: [
+              'surname'
+            ],
+            end: ', '
+          },
+          {
+            type: 'field',
+            field: 'author',
+            format: [
+              'name',
+              'initial'
+            ],
+            end: '.'
+          }
+        ]
+      },
+      {
+        type: 'field',
+        field: 'year',
+        end: '. '
+      },
+      {
+        type: 'field',
+        field: 'title',
+        end: '. '
+      },
+      {
+        type: 'field',
+        field: 'journal',
+        end: ', ',
+        format: [
+          'bold',
+          'italics'
+        ]
+      },
+      {
+        type: 'field',
+        field: 'volume',
+        end: ', '
+      },
+      {
+        type: 'field',
+        field: 'pages',
+        separator: '-',
+        end: '.'
+      }
+    ]
+  },
+  {
+    name: 'asq',
+    type: 'article',
+    fields: [
+      {
+        type: 'set',
+        max: 5,
+        max_ending: ', et al',
+        // if there's more than 5, discard the 6th onwards and put this
+        separator: ', ',
+        last_author_separator: ', and',
+        end: ' \\n',
+        format: [
+          'bold'
+        ],
+        fields: [
+          {
+            type: 'field',
+            field: 'author',
+            format: [
+              'surname'
+            ],
+            end: ', '
+          },
+          {
+            type: 'field',
+            field: 'author',
+            format: [
+              'name',
+              'initial'
+            ],
+            end: '.'
+          }
+        ]
+      },
+      {
+        type: 'table',
+        columns: [
+          {
+            fields: [
+              {
+                type: 'field',
+                field: 'year',
+              }
+            ]
+          },
+          {
+            fields: [
+              {
+                type: 'field',
+                field: 'title',
+                end: '. '
+              },
+              {
+                type: 'field',
+                field: 'journal',
+                end: ', ',
+              },
+              {
+                type: 'field',
+                field: 'volume',
+                end: ', '
+              },
+              {
+                type: 'field',
+                field: 'pages',
+                separator: '-',
+                end: '.'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+]
 `
 export default foo
