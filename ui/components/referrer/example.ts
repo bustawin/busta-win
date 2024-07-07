@@ -1,8 +1,9 @@
+const foo = `
 [cites.nice_paper]
 title = "Nice Paper"
-publish_date = 2024-04-02
-access_date = 2024-06-01
-authors = ['Xavi', 'ryan']
+publish_date = "2024-04-02"
+access_date = "2024-06-01"
+authors = ['xavi', 'ryan']
 journal = 'amj'
 volume = 4
 issue = 2
@@ -35,3 +36,5 @@ max = 3
 max_ending = '& etc.'
 separator = '&'
 template = '[author.surname], [author.name:initial]'
+`
+export default foo
