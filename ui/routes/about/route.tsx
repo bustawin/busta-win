@@ -16,7 +16,7 @@ export const loader = async () => {
   )
 }
 
-export default function Post() {
+export default function About() {
   const { post } = useLoaderData<typeof loader>()
 
   const [Post] = PostComponent({ content: post.content })

@@ -1,0 +1,37 @@
+[cites.nice_paper]
+title = "Nice Paper"
+publish_date = 2024-04-02
+access_date = 2024-06-01
+authors = ['Xavi', 'ryan']
+journal = 'amj'
+volume = 4
+issue = 2
+page_start = 100
+page_end = 110
+
+[journals.amj]
+name = 'Academy of Management Journal'
+
+[authors.xavi]
+name='Xavier'
+surname='Bustamante'
+
+[authors.ryan]
+name='Ryan'
+surname='Federo'
+email='foo@bar.com'
+
+[templates.journal_a]
+authors_max = 3
+authors_separator = '&'
+publish_date = '([cites.publish_date:year])'
+issue = '([cites.issue])'
+volume_and_issue = '[cite.volume] [issue]'
+pages = '[cite.page_start]-[cite.page_end]'
+template = '[authors] [publish_date] [cite.title], [cite.journal], [volume_and_issue] [pages]'
+
+[templates.journal_a.authors]
+max = 3
+max_ending = '& etc.'
+separator = '&'
+template = '[author.surname], [author.name:initial]'
