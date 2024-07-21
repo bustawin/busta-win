@@ -7,6 +7,7 @@
     display: block
     margin: auto
     margin-bottom: $spacer
+    margin-top: $spacer
 
     figcaption
       text-align: center
@@ -14,6 +15,11 @@
     &--image
       text-align: center
 
+      img:not([src$=".svg"])
+        border-radius: $border-radius
+
+  h2, h3, h4, h5
+    margin-top: $spacer * 2
 
   h2
     counter-increment: h2counter

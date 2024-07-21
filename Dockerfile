@@ -1,15 +1,31 @@
-FROM node:current-alpine AS base
+FROM node:current-bookworm AS base
+
+# Required for pintora
+RUN apt update
+# Packages required for pintora
+RUN apt install --yes build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
 
 RUN mkdir -p /app
 WORKDIR /app
 
-FROM base as pro-build
+FROM base as packages
+ENV NODE_ENV production
+
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm install --no-audit --no-fund
 
-FROM pro-build AS pro-start
+FROM packages AS build
+COPY tsconfig.json vite.config.ts ./
+COPY jutils jutils
+COPY src.server src.server
+COPY public public
+COPY ui ui
 
-COPY server.ts tsconfig.json vite.config.ts ./
+RUN npm run build
+
+FROM build AS start
+
+COPY server.ts ./
 
 ENV PORT 3210
 EXPOSE 3210

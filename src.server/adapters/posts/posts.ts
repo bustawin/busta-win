@@ -17,6 +17,7 @@ import remarkMdxImages from 'remark-mdx-images'
 import { postIds, POSTS_DIR } from '@src/adapters/posts/postsDir'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeMdxCodeProps from 'rehype-mdx-code-props'
+import pintora from '@src/adapters/posts/pintora'
 
 const PUBLIC_DIR = relativePath(
   import.meta.url,
@@ -24,13 +25,17 @@ const PUBLIC_DIR = relativePath(
 )
 const POST_FILENAME = 'post.mdx'
 
-export async function posts(category?: Category): Promise<Array<Post>> {
+export async function posts(
+  category?: Category,
+  draft: boolean = false
+): Promise<Array<Post>> {
   return it.pipe(
     await postIds(),
     it.map(post),
     it.await,
     it.filter((post) => {
       if (post.id.startsWith('_')) return false
+      if (!draft && post.draft) return false
       if (category) return isPostInCategory(post, category)
       return true
     }),
@@ -89,6 +94,7 @@ export async function _post(id: string): Promise<Post> {
       // plugins in the future.
       options.remarkPlugins = [
         ...(options.remarkPlugins ?? []),
+        pintora,
         [remarkHeaderId, { defaults: true }],
         remarkMdxToc,
         remarkMdxImages,

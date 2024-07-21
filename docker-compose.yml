@@ -1,15 +1,11 @@
-version: "3.9"
 services:
   bustawin:
     build:
       context: .
-      target: pro-start
+      target: start
     restart: unless-stopped
     volumes:
-      - ./build:/app/build
       - ./posts:/app/posts
-      - ./jutils:/app/jutils
-      - ./src.server:/app/src.server
     ports: # Only used to access from the host to test
       - 3210:3210
   

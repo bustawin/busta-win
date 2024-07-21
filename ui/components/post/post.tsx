@@ -8,6 +8,7 @@ import Icon from '@jutils/ui/components/icon/Icon'
 import { Post as PostType } from '@src/domain/post'
 import Toc from './toc'
 import { Props } from '@jutils/ui/reactUtils'
+import Pintora, { isPintora } from '@ui/components/post/pintora'
 
 interface PostProps {
   content: PostType['content']
@@ -68,6 +69,8 @@ function Table({ children }: Props) {
 }
 
 function pre(props: Props) {
+  if (isPintora(props))
+    return Pintora(props.children.props.children, props.title)
   return (
     <Figure className="post__figure post__figure--pre">
       <pre {...props} />

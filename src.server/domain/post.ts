@@ -10,6 +10,7 @@ export type Post = {
   created: Date
   image?: string
   js?: boolean
+  draft?: boolean
 }
 
 /**

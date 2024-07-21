@@ -1,0 +1,264 @@
+---
+title: 'busta.win: a self-hosted blog built with React Remix using the Edge'
+created: 2024-07-14
+categories:
+  - software
+tags:
+  - programming
+  - javascript
+  - remix
+  - remix js
+  - react
+  - edge computing
+  - html
+  - web
+  - html5
+  - typescript
+  - self-hosted
+  - cloudflare
+  - open-source
+draft: true
+summary: I break down the code of this blog to explain how I achieved a self-hosted blog with complex user interactivity taking advantage of Cloudflare's free Edge services.
+q:
+  a:
+    url: https://1mb.club/about
+    title: About 1MB Club
+    author: Bradley Taunt
+    direct: true
+  b:
+    url: https://github.com/justSem/r-selfhosted-security/tree/main/beginners-guide
+    title: Selfhosted security beginner's guide
+    authors:
+      - justSem
+      - cameronetchart
+      - bbilly1
+  c:
+    url: https://www.reddit.com/r/selfhosted/comments/17zj450/how_are_so_many_sites_ok_with_using_cloudflare/?rdt=37849
+    title: How are so many sites OK with using cloudflare when they are basically a MITM?
+  d:
+    direct: true
+    author: Anonymous
+
+---
+
+export const q = frontmatter.q
+
+I moved my blog away from WordPress,
+building a self-hosted one using top modern technologies like [React Remix](https://remix.run),
+[server-side rendering](https://solutionshub.epam.com/blog/post/what-is-server-side-rendering), and
+the [edge computing](https://www.cloudflare.com/en-gb/learning/serverless/glossary/what-is-edge-computing/).
+
+I want something [small and joyful](https://benhoyt.com/writings/the-small-web-is-beautiful/)
+to code and blog with total creative freedom, putting my grain of sand
+to bring back an [indie Internet](https://indieweb.org/IndieWeb) that empowers people to do good.
+
+With this post, I want to introduce you to the main pieces this website is built upon (like the
+server) and how to put them together to run it.
+This is the **high-level architecture** of the website.
+
+By setting things up the way I do, you have something fairly easy, efficient, secure, and modern,
+which then you can use as the basis of your own website.
+
+*And you know this works because you are reading from it.*
+
+Specifically, I focus on setting up the project and CloudFlare as a way to learn by example,
+leaving
+the low-level architecture, or how does my website internally work for another post.
+
+I assume you know tools such as [Docker](https://www.docker.com/101-tutorial/)
+and [git](https://git-scm.com) a bit.
+
+## What I want for my personal website
+
+The goals of this project are:
+
+1. Give myself something basic that I can easily understand (e.g., posting
+   in [Markdown files](https://daringfireball.net/projects/markdown/)).
+2. Have something highly customizable that does not meddle in my way, so I have full creative
+   control.
+3. Allow complex UIs only when needed (e.g., some blog posts require complex graphs or tables)
+4. Something I can self-host, because <Q {...q.d}>there is no cloud, it is just someone else’s
+   computer</Q> and I want to control my data—it is fun and cheap too.
+5. Lightweight to users, because people have unstable connections and
+   the <Q {...q.a}>Internet has become a bloated mess</Q>.
+6. I find coding and blogging fun.
+
+If some resonate with you, then keep reading.
+
+## The high level architecture
+
+Considering these goals, I decided to build the blog with the following architecture,
+which I detail and explain how to set up in the following sections:
+
+```pintora title="This website's  arquitecture seen by  the data flow from the user requesting https://busta.win until the posts are read from a file."
+componentDiagram
+
+interface "HTTP request from user" as User
+component "CDN Cache" as CDN
+component "React Remix" as Remix
+component "Posts in Markdown files" as Posts
+
+rectangle "1. CloudFlare Edge" {
+  [busta.win domain]
+  [CDN]
+  [Zero Trust]
+  [busta.win domain] -- CDN
+  CDN -- [Zero Trust]
+}
+
+rectangle "2. Docker Compose in a lightweight PC" {
+    [Cloudflared]
+    rectangle "Server" {
+        [Express Server]
+        [Remix]
+        [Posts]
+        
+        [Express Server] -- [Remix]
+        [Remix] -- [Posts]
+    }
+}
+
+User -- [busta.win domain]
+[Zero Trust] -- [Cloudflared] : Secure tunnel
+[Cloudflared] -- [Express Server]
+```
+
+1. A free CloudFlare App that has:
+    1. The [busta.win](https://busta.win) domain.
+    2. A [CDN Cache](https://www.cloudflare.com/en-gb/application-services/products/cdn/) that
+       serves the blog to users. As the blog is mainly static files, the majority of times users
+       hit only this cache, reducing access to our server drastically.
+    3. <dfn>[Zero Trust](https://www.cloudflare.com/apps/zero-trust)</dfn>, a service that creates
+       a secure tunnel between the server and the Internet without having to configure routers or
+       firewalls.
+2. A lightweight computer
+   (a [Raspberry Pi 4](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/) in my case)
+   running a Docker Compose with:
+    1. A [Cloudflared](https://github.com/cloudflare/cloudflared) service.
+       <dfn>Cloudflared</dfn> is a service that runs in our server that
+       connects the self-hosted website to the Zero Trust.
+    2. The server itself, running an [Express](https://expressjs.com) server that
+       serves [React Remix](https://remix.run), which
+       renders the posts from the Markdown files.
+
+Let us see in the following sections how to set up these pieces.
+
+## The cloudFlare App
+
+In an ideal world, we would not need Cloudflare, as we would serve the website "the old way,"
+connecting the server directly to the Internet by opening ports in the router.
+
+However, <Q {...q.b}>this is insecure</Q> (and still requires a static or dynamic IP), and
+in my case, my lightweight computer is not powerful enough to handle traffic spikes.
+Moreover, we have to set up HTTPS and many other details better
+to avoid in the beginning.
+
+We can use CloudFlare for free to handle all of the above, which is more simple and secure than
+doing it ourselves. As a drawback, <Q {...q.c}>they become a man-in-the-middle</Q>, so we lose some
+control of our data.
+
+We set up CloudFlare by adding a **website**:
+
+![Adding a site](building-blog/images/cloudflare-add-website.webp "Adding a site. Checkout the 'Add a site' button at the top right of the screen.")
+
+[Cloudflare has a guide on how to add a site](https://developers.cloudflare.com/fundamentals/setup/manage-domains/add-site/).
+
+### The Domain
+
+The domain is [registered](https://www.cloudflare.com/en-gb/products/registrar/) with CloudFlare,
+so we avoid touching any DNS settings.
+Of course, we can use any domain registrar and point the domain to Cloudflare.
+
+### Zero Trust
+
+Once we have a website, we can link the website to our self-hosted server using Zero Trust.
+<dfn>Zero Trust</dfn> is a service to control access to our self-hosted server, so we mainly have
+to do two steps:
+
+1. [Create a policy that allows anyone to access our website](#create-a-policy-that-allows-anyone-to-access-our-website).
+2. [Create the tunnel connecting the website to our self-hosted server](#create-the-tunnel-connecting-the-website-to-our-self-hosted-server).
+
+#### Create a policy that allows anyone to access our website
+
+1. Enter into [Zero Trust](https://one.dash.cloudflare.com/) and complete the onboarding by
+   choosing a free plan.
+2. Once you are in the Zero Trust dashboard, go to *Access* → *Applications* and click on *Add an
+   application*.
+   ![Adding an application](building-blog/images/cloudflare-zero-trust-add-application.webp "Adding an application.")
+3. Select *Self Hosted* and click *Next*.
+   I left the defaults, configuring only the domain to be `busta.win`.
+   ![Configuring the domain](building-blog/images/cloudflare-zero-trust-bustawin.webp "Configuring the domain.")
+4. Create a policy that allows everyone to access the website.
+   ![Creating a public policy](building-blog/images/cloudflare-zero-trust-public-policy.webp "Creating a public policy.")
+   ![Setting the policy for everyone](building-blog/images/cloudflare-zero-trust-public-policy-everyone.webp "Setting the policy for everyone.")
+
+#### Create the tunnel connecting the website to our self-hosted server
+
+1. In the Zero Trust panel, go to *Networks* → *Tunnels* → *Create a
+   Tunnel*. ![Adding a tunnel](building-blog/images/cloudflare-zero-trust-tunnel-add.webp "Adding a tunnel")
+2. Select *cloudflared*, which is the technology we use in the Server.
+3. Add the domain of the website, so Cloudflare knows what to use the tunnel for
+   (i.e., providing for `busta.win` in my case).
+   The `busta.win:3210` piece will make sense later.
+   ![Linking the tunnel to the busta.win domain](building-blog/images/cloudflare-zero-trust-tunnel-public-hostname.webp "Linking the tunnel to the busta.win domain")
+4. The next page tells you how to install Cloudflared. The most important part is to copy the <dfn>
+   token</dfn>, which we use later to link the cloudflared service in our self-hosted system with
+   what we have just set up.
+
+## Running the self-hosted website
+
+We can use [busta.win](https://busta.win) as an example of how to run a website with *cloudfared*
+via Zero Tunnel.
+
+With Docker, the trick is
+in [the docker-compose of the project](https://github.com/bustawin/busta-win/blob/main/docker-compose-pro.yml),
+which I detail after:
+
+```yaml title='The docker-compose file of the project, used to run the self-hosted website for production.'
+services:
+  bustawin:
+    build:
+      context: .
+      target: start
+    restart: unless-stopped
+    volumes:
+      - ./posts:/app/posts
+    ports: # Only used to access from the host to test
+      - 3210:3210
+
+  tunnel:
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    env_file:
+      - .tunnel.env
+```
+
+This file runs two services:
+
+1. The self-hosted website itself (called `bustawin`).
+    1. This service runs our Dockerfile, which runs the server at a **docker’s internal network
+       port**
+       of `3210`.
+2. The cloudflared tunnel.
+    1. The service has an `env_file: .tunnel.env`, which expects
+       us to create a file called `.tunnel.env` with the **token** we got from Cloudflare.
+    2. In the Cloudflare website we wrote `busta.win:3210`.
+       This instructs cloudflared to link the public hostname of `busta.win` to the
+       **docker internal network port** of `3210`.
+       Thi is where the magic happens ✨.
+
+So, to run the website:
+
+1. Add a `.tunnel.env` file with the Zero Trust token in the root of this project.
+2. Start Docker and run `docker compose up`.
+
+## Conclusions
+
+We have seen how to set up a self-hosted website using Cloudflare’s free services by using this
+site—[busta.win](https://busta.win)—as an example.
+
+I hope you can use this basis to build your own website.
+
+In a future post, I will talk about the low-level architecture of the website—how React Remix works
+and how I structured the code.

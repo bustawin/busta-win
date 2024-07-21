@@ -38,7 +38,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const post = data.post
   const rootMetas = matches[0].meta.filter(({ title }) => !title)
 
-  return [
+  const meta = [
     ...rootMetas,
     {
       title: post.title,
@@ -47,6 +47,8 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
       keywords: [...post.categories, ...post.tags, 'blog post'],
     },
   ]
+  if (post.draft) meta.push({ name: 'robots', content: 'noindex, nofollow' })
+  return meta
 }
 
 export default function Post() {

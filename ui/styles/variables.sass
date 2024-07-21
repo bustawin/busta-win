@@ -112,11 +112,13 @@ $headings-color-dark: $headings-color
   --ui-secondary-faded: #{$secondary-faded}
   --ui-secondary-faded-extra: #{$secondary-faded-extra}
   --ui-card-bg: #{$gray-100}
+  --ui-slight-opacity: rgba(0, 0, 0, .07)
 
 @include color-mode(dark, true)
   --ui-secondary-faded: #{$secondary-dark}
   --ui-secondary-faded-extra: #{$secondary}
   --ui-card-bg: #{$gray-800}
+  --ui-slight-opacity: rgba(255, 255, 255, .07)
 
 // Card
 $card-bg: var(--ui-card-bg)

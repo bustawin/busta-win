@@ -12,7 +12,7 @@ export interface Props {
 export default function PostsContainer({ children, posts, top }: Props) {
   return (
     <layout.MainContainer top={top}>
-      <layout.Main className="post">
+      <layout.Main>
         <layout.Row>
           <layout.Col>{children}</layout.Col>
         </layout.Row>
