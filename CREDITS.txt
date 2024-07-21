@@ -1,0 +1,19 @@
+@ampproject/remapping@2.3.0: Justin Ridgewell
+@humanwhocodes/config-array@0.11.14: Nicholas C. Zakas
+@humanwhocodes/module-importer@1.0.1: Nicholas C. Zaks
+@react-aria/ssr@3.9.4: Unknown
+@swc/helpers@0.5.11: 강동윤
+aria-query@5.1.3: Jesse Beach
+axe-core@4.9.1: Unknown
+axobject-query@3.1.1: Jesse Beach
+bser@2.1.1: Wez Furlong
+detect-libc@2.0.3: Lovell Fuller
+doctrine@3.0.0: Unknown
+eslint-visitor-keys@3.4.3: Toru Nagashima
+fb-watchman@2.0.2: Wez Furlong
+human-signals@2.1.0: ehmicky
+typescript@5.5.3: Microsoft Corp.
+validate-npm-package-license@3.0.4: Kyle E. Mitchell
+walker@1.0.8: Naitik Shah
+weak-map@1.0.8: Mark Miller
+xml-name-validator@5.0.0: Domenic Denicola
