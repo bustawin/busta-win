@@ -14,5 +14,5 @@ export default function Pintora(svg: string, title?: string) {
 }
 
 export function isPintora(props: Props): boolean {
-  return props?.children?.props?.className.includes('pintora')
+  return props?.children?.props?.className?.includes('pintora')
 }
