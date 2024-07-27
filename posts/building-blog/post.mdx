@@ -1,6 +1,6 @@
 ---
 title: 'busta.win: a self-hosted blog built with React Remix using the Edge'
-created: 2024-07-14
+created: 2024-07-27
 categories:
   - software
 tags:
@@ -17,7 +17,6 @@ tags:
   - self-hosted
   - cloudflare
   - open-source
-draft: true
 summary: I break down the code of this blog to explain how I achieved a self-hosted blog with complex user interactivity taking advantage of Cloudflare's free Edge services.
 q:
   a:
@@ -65,8 +64,7 @@ Specifically, I focus on setting up the project and CloudFlare as a way to learn
 leaving
 the low-level architecture, or how does my website internally work for another post.
 
-I assume you know tools such as [Docker](https://www.docker.com/101-tutorial/)
-and [git](https://git-scm.com) a bit.
+I assume you [Docker](https://www.docker.com/101-tutorial/) a bit.
 
 ## What I want for my personal website
 
@@ -133,13 +131,12 @@ User -- [busta.win domain]
        firewalls.
 2. A lightweight computer
    (a [Raspberry Pi 4](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/) in my case)
-   running a Docker Compose with:
-    1. A [Cloudflared](https://github.com/cloudflare/cloudflared) service.
-       <dfn>Cloudflared</dfn> is a service that runs in our server that
-       connects the self-hosted website to the Zero Trust.
-    2. The server itself, running an [Express](https://expressjs.com) server that
-       serves [React Remix](https://remix.run), which
-       renders the posts from the Markdown files.
+   running a Docker Compose with two services:
+    1. <dfn>[Cloudflared](https://github.com/cloudflare/cloudflared)</dfn>, which connects the
+       self-hosted website to the Zero Trust.
+    2. An [Express](https://expressjs.com) server serving the web.
+       When the user accesses the website, Express calls [React Remix](https://remix.run)
+       to render the UI and the posts from the Markdown files.
 
 Let us see in the following sections how to set up these pieces.
 
@@ -148,7 +145,7 @@ Let us see in the following sections how to set up these pieces.
 In an ideal world, we would not need Cloudflare, as we would serve the website "the old way,"
 connecting the server directly to the Internet by opening ports in the router.
 
-However, <Q {...q.b}>this is insecure</Q> (and still requires a static or dynamic IP), and
+However, <Q {...q.b}>this is insecure</Q>, and
 in my case, my lightweight computer is not powerful enough to handle traffic spikes.
 Moreover, we have to set up HTTPS and many other details better
 to avoid in the beginning.
@@ -156,6 +153,7 @@ to avoid in the beginning.
 We can use CloudFlare for free to handle all of the above, which is more simple and secure than
 doing it ourselves. As a drawback, <Q {...q.c}>they become a man-in-the-middle</Q>, so we lose some
 control of our data.
+Cloudflare becomes our proxy.
 
 We set up CloudFlare by adding a **website**:
 
@@ -214,21 +212,17 @@ With Docker, the trick is
 in [the docker-compose of the project](https://github.com/bustawin/busta-win/blob/main/docker-compose-pro.yml),
 which I detail after:
 
-```yaml title='The docker-compose file of the project, used to run the self-hosted website for production.'
+```yaml title='A simplified version of the docker-compose file of the project, used to run the self-hosted website for production.'
 services:
   bustawin:
     build:
       context: .
       target: start
-    restart: unless-stopped
     volumes:
       - ./posts:/app/posts
-    ports: # Only used to access from the host to test
-      - 3210:3210
 
   tunnel:
     image: cloudflare/cloudflared
-    restart: unless-stopped
     command: tunnel run
     env_file:
       - .tunnel.env
@@ -246,7 +240,11 @@ This file runs two services:
     2. In the Cloudflare website we wrote `busta.win:3210`.
        This instructs cloudflared to link the public hostname of `busta.win` to the
        **docker internal network port** of `3210`.
-       Thi is where the magic happens ✨.
+
+So, to recap, in Cloudflare we got a token that we add in our project.
+This links the project to Cloudflare’s Zero Trust.
+Then, in Cloudflare we told to set the `busta.win` domain to the Docker’s
+port of `3210`, which is where our server is running—everything is linked now ✨.
 
 So, to run the website:
 
