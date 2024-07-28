@@ -64,7 +64,7 @@ Specifically, I focus on setting up the project and CloudFlare as a way to learn
 leaving
 the low-level architecture, or how does my website internally work for another post.
 
-I assume you [Docker](https://www.docker.com/101-tutorial/) a bit.
+I assume you [Docker](https://github.com/veggiemonk/awesome-docker) a bit.
 
 ## What I want for my personal website
 
@@ -251,12 +251,44 @@ So, to run the website:
 1. Add a `.tunnel.env` file with the Zero Trust token in the root of this project.
 2. Start Docker and run `docker compose up`.
 
+## Extras
+
+This is just an introduction, so there are more things you can deep dive into:
+
+<dl>
+<dt>Improving the cache</dt>
+<dd>
+By going to your website in Cloudflare’s
+*dashbaord* → *Caching* → *Configuration* you can turn on more caching features.
+For example, [Always Online](https://www.cloudflare.com/en-gb/always-online/) keeps delivering
+the cached version of our site even if our server is down, which is a real possibility for
+self-hosted home servers.
+</dd>
+<dt>Analytics</dt>
+<dd>
+Cloudflare provides basic Analytics that are enough to start with.
+Go to your website’s dashboard → *Analytics & Logs*.
+When ready to upgrade, there
+are [more powerful, self-hosted, and privacy-preserving alternatives](https://github.com/pluja/awesome-privacy?tab=readme-ov-file#analytics).
+</dd>
+<dt>Security</dt>
+<dd>
+Exposing anything on the Internet requires to follow good security practices.
+* Keep the system up to date, ideally with automatic unattended upgrades.
+* Follow
+  [security practices for the software you use](https://cheatsheetseries.owasp.org).
+* If using SSH to access the machine, follow practices such
+  as [removing login passwords](https://www.cyberciti.biz/faq/how-to-disable-ssh-password-login-on-linux/)
+  and [using Zero Conf to access the server through SSH remotely](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/).
+</dd>
+</dl>
+
 ## Conclusions
 
 We have seen how to set up a self-hosted website using Cloudflare’s free services by using this
 site—[busta.win](https://busta.win)—as an example.
 
-I hope you can use this basis to build your own website.
+I hope you can use this basis to build your own website 🙂.
 
 In a future post, I will talk about the low-level architecture of the website—how React Remix works
 and how I structured the code.
