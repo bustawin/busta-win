@@ -8,8 +8,11 @@ services:
       - ./posts:/app/posts
     ports: # Only used to access from the host to test
       - 3210:3210
+    init: true # Handle kernel signals: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#handling-kernel-signals
     security_opt:
       - no-new-privileges=true  # Security: https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html#rule-4-prevent-in-container-privilege-escalation
+    mem_limit: 256M
+    memswap_limit: 256M # Keep the same as mem_limit to disable swap
 
   tunnel:
     image: cloudflare/cloudflared
