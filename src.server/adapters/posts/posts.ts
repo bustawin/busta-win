@@ -99,7 +99,10 @@ export async function _post(id: string): Promise<Post> {
         remarkMdxToc,
         remarkMdxImages,
       ]
-      options.rehypePlugins = [rehypeHighlight, rehypeMdxCodeProps]
+      options.rehypePlugins = [
+        [rehypeHighlight, { plainText: ['pintora', 'hero', 'rst'] }],
+        rehypeMdxCodeProps,
+      ]
 
       return options
     },
