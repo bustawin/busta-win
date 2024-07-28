@@ -3,7 +3,16 @@ FROM node:lts-bookworm-slim AS base
 
 RUN apt update
 # Packages required for Pintora
-RUN apt install --yes build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+RUN apt install --yes build-essential  \
+    libcairo2-dev  \
+    libpango1.0-dev  \
+    libjpeg-dev  \
+    libgif-dev  \
+    librsvg2-dev
+# Remove apt cache
+RUN apt clean autoclean && \
+    apt autoremove --yes && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /app
 WORKDIR /app
