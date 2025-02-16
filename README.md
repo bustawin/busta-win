@@ -10,10 +10,12 @@ It is a (hopefully good) example of a not very complicated application running R
 3. Install the dependencies by executing `./install`.
 
 ## Developing
+Developing the project requires this [node version](.node-version).
 
 1. [Install the project](#installing).
-2. Install node packages by executing `npm install`.
-3. Run `npm run dev` to start a local development server.
+2. Install [node-canvas](https://github.com/Automattic/node-canvas/wiki/Installation).
+3. Install node packages by executing `npm install`.
+4. Run `npm run dev` to start a local development server.
 
 ## Running in production
 
