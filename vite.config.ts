@@ -7,7 +7,12 @@ export default defineConfig({
   plugins: [remix({
     appDirectory: 'ui', future: {
       // from https://remix.run/docs/en/main/guides/dependency-optimization
-      unstable_optimizeDeps: true
+      unstable_optimizeDeps: true,
+      v3_fetcherPersist: true,
+      v3_relativeSplatPath: true,
+      v3_throwAbortReason: true,
+      v3_lazyRouteDiscovery: true,
+      v3_singleFetch: true,
     }
   }), tsconfigPaths()],
   resolve: {
