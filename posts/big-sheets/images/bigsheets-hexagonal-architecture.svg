@@ -1,62 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 782 584" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
-    <style>
-    /* latin-ext */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7GxKKTU1Kvnz.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfChc4AMP6lbBP.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc4AMP6lQ.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/robotoslab/v10/BngbUXZYTXPIvIBgJJSb6s3BzlRRfKOFbvjo0oSmYWRlV9Su1caiTVo.woff) format('woff');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/robotoslab/v10/BngbUXZYTXPIvIBgJJSb6s3BzlRRfKOFbvjo0oSmb2RlV9Su1cai.woff) format('woff');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-    </style>
     <rect id="Artboard1" x="0" y="0" width="782" height="584" style="fill:none;"/>
     <clipPath id="_clip1">
         <rect x="0" y="0" width="782" height="584"/>
@@ -65,82 +9,82 @@
         <path d="M112.784,284l134.608,-233.147l269.216,0l134.608,233.147l-134.608,233.147l-269.216,0l-134.608,-233.147Z" style="fill:#cd4f64;"/>
         <g>
             <rect x="-0.396" y="-0.37" width="100" height="41.191" style="fill:#cda06e;"/>
-            <text x="21.846px" y="31.535px" style="font-family:'Roboto-Regular', 'Roboto';font-size:31.817px;">GUI</text>
+            <text x="21.846px" y="31.535px" style="font-size:31.817px;">GUI</text>
             <g transform="matrix(1,0,0,1,-133.832,-155.516)">
-                <text x="132.648px" y="213.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">Driver &amp; driven adapter</text>
-                <text x="132.648px" y="233.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">Presentation layer</text>
-                <text x="132.648px" y="253.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">MVC-like</text>
+                <text x="132.648px" y="213.21px" style="font-style:italic;font-size:20px;">Driver &amp; driven adapter</text>
+                <text x="132.648px" y="233.21px" style="font-style:italic;font-size:20px;">Presentation layer</text>
+                <text x="132.648px" y="253.21px" style="font-style:italic;font-size:20px;">MVC-like</text>
             </g>
         </g>
         <g>
             <rect x="541.523" y="481.512" width="163" height="41.191" style="fill:#cda06e;"/>
-            <text x="549.921px" y="508.118px" style="font-family:'Roboto-Regular', 'Roboto';font-size:21.983px;">SheetsAdapter</text>
+            <text x="549.921px" y="508.118px" style="font-size:21.983px;">SheetsAdapter</text>
             <g transform="matrix(1,0,0,1,409.667,326.493)">
-                <text x="132.648px" y="213.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">Driven adapter</text>
-                <text x="132.648px" y="233.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">Infrastructure layer</text>
-                <text x="132.648px" y="253.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">Repository pattern</text>
+                <text x="132.648px" y="213.21px" style="font-style:italic;font-size:20px;">Driven adapter</text>
+                <text x="132.648px" y="233.21px" style="font-style:italic;font-size:20px;">Infrastructure layer</text>
+                <text x="132.648px" y="253.21px" style="font-style:italic;font-size:20px;">Repository pattern</text>
             </g>
         </g>
         <g>
             <rect x="617.527" y="353.615" width="154" height="41.191" style="fill:#cda06e;"/>
-            <text x="625.925px" y="380.221px" style="font-family:'Roboto-Regular', 'Roboto';font-size:21.983px;">ErrorsAdapter</text>
+            <text x="625.925px" y="380.221px" style="font-size:21.983px;">ErrorsAdapter</text>
             <g transform="matrix(1,0,0,1,484.304,197.699)">
-                <text x="132.648px" y="213.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">Driven adapter</text>
-                <text x="132.648px" y="233.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">Infrastructure layer</text>
-                <text x="132.648px" y="253.21px" style="font-family:'Roboto-Italic', 'Roboto';font-style:italic;font-size:20px;">Repository pattern</text>
+                <text x="132.648px" y="213.21px" style="font-style:italic;font-size:20px;">Driven adapter</text>
+                <text x="132.648px" y="233.21px" style="font-style:italic;font-size:20px;">Infrastructure layer</text>
+                <text x="132.648px" y="253.21px" style="font-style:italic;font-size:20px;">Repository pattern</text>
             </g>
         </g>
         <g>
             <path d="M207.922,118.967l-54.08,93.671l32.995,19.049l54.08,-93.67l-32.995,-19.05Z" style="fill:#672832;"/>
             <g transform="matrix(0.866025,0.5,-0.5,0.866025,-92.0034,-123.008)">
-                <text x="380.903px" y="55.545px" style="font-family:'Roboto-Regular', 'Roboto';font-size:20px;fill:#672832;">Port</text>
+                <text x="380.903px" y="55.545px" style="font-size:20px;fill:#672832;">Port</text>
             </g>
             <g transform="matrix(0.5,-0.866025,0.866025,0.5,-343.593,36.8241)">
-                <text x="135.699px" y="550.631px" style="font-family:'Roboto-Regular', 'Roboto';font-size:31.817px;fill:#fffbf9;">UI</text>
+                <text x="135.699px" y="550.631px" style="font-size:31.817px;fill:#fffbf9;">UI</text>
             </g>
         </g>
         <g>
             <path d="M531.665,415.342l-27.05,46.852l32.995,19.05l27.05,-46.852l-32.995,-19.05Z" style="fill:#672832;"/>
             <g transform="matrix(0.866025,0.5,-0.5,0.866025,127.22,-216.608)">
-                <text x="665.176px" y="417.821px" style="font-family:'Roboto-Regular', 'Roboto';font-size:20px;fill:#672832;">Port</text>
+                <text x="665.176px" y="417.821px" style="font-size:20px;fill:#672832;">Port</text>
             </g>
             <g transform="matrix(0.5,-0.866025,0.866025,0.5,-274.199,582.537)">
-                <text x="498.004px" y="639.938px" style="font-family:'Roboto-Regular', 'Roboto';font-size:15.078px;fill:#fffbf9;">Sheets</text>
+                <text x="498.004px" y="639.938px" style="font-size:15.078px;fill:#fffbf9;">Sheets</text>
             </g>
         </g>
         <g>
             <path d="M587.462,318.382l-27.05,46.852l32.995,19.05l27.05,-46.852l-32.995,-19.05Z" style="fill:#672832;"/>
             <g transform="matrix(0.866025,0.5,-0.5,0.866025,58.7294,-286.175)">
-                <text x="760.743px" y="255.232px" style="font-family:'Roboto-Regular', 'Roboto';font-size:20px;fill:#672832;">Port</text>
+                <text x="760.743px" y="255.232px" style="font-size:20px;fill:#672832;">Port</text>
             </g>
             <g transform="matrix(0.5,-0.866025,0.866025,0.5,-171.504,573.023)">
-                <text x="551.478px" y="555.071px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16.275px;fill:#fffbf9;">Errors</text>
+                <text x="551.478px" y="555.071px" style="font-size:16.275px;fill:#fffbf9;">Errors</text>
             </g>
         </g>
         <circle cx="382" cy="284" r="186.523" style="fill:#cda06e;"/>
         <g transform="matrix(1,0,0,1,-106.802,-73.1319)">
-            <text x="399.131px" y="167.82px" style="font-family:'Roboto-Regular', 'Roboto';font-size:31.817px;fill:#cda06e;">Service layer</text>
+            <text x="399.131px" y="167.82px" style="font-size:31.817px;fill:#cda06e;">Service layer</text>
             <rect x="399.131" y="170.15" width="178.566" height="1.554" style="fill:#cda06e;"/>
         </g>
         <g transform="matrix(1,0,0,1,-1.80402,-45.5533)">
-            <text x="287.422px" y="206.282px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Command / event handlers</text>
-            <text x="336.148px" y="222.282px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Message bus</text>
-            <text x="313.555px" y="238.282px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Read model (CQRS)</text>
-            <text x="340.91px" y="254.282px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Unit of work</text>
+            <text x="287.422px" y="206.282px" style="font-size:16px;">Command / event handlers</text>
+            <text x="336.148px" y="222.282px" style="font-size:16px;">Message bus</text>
+            <text x="313.555px" y="238.282px" style="font-size:16px;">Read model (CQRS)</text>
+            <text x="340.91px" y="254.282px" style="font-size:16px;">Unit of work</text>
         </g>
         <g>
             <circle cx="382" cy="355.095" r="88.428" style="fill:#8e6f4c;"/>
             <g transform="matrix(1,0,0,1,-110.452,96.0579)">
-                <text x="399.131px" y="167.82px" style="font-family:'Roboto-Regular', 'Roboto';font-size:31.817px;fill:#8e6f4c;">Domain layer</text>
+                <text x="399.131px" y="167.82px" style="font-size:31.817px;fill:#8e6f4c;">Domain layer</text>
                 <rect x="399.131" y="170.15" width="184.624" height="1.554" style="fill:#8e6f4c;"/>
             </g>
             <g transform="matrix(1,0,0,1,-61.2146,57.8416)">
-                <text x="417.031px" y="267.175px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Models</text>
+                <text x="417.031px" y="267.175px" style="font-size:16px;">Models</text>
                 <rect x="417.031" y="268.347" width="52.727" height="0.781"/>
-                <text x="423.152px" y="285.175px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Sheet</text>
-                <text x="426.242px" y="303.175px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Error</text>
-                <text x="423.859px" y="321.175px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Event</text>
-                <text x="406.324px" y="339.175px" style="font-family:'Roboto-Regular', 'Roboto';font-size:16px;">Command</text>
+                <text x="423.152px" y="285.175px" style="font-size:16px;">Sheet</text>
+                <text x="426.242px" y="303.175px" style="font-size:16px;">Error</text>
+                <text x="423.859px" y="321.175px" style="font-size:16px;">Event</text>
+                <text x="406.324px" y="339.175px" style="font-size:16px;">Command</text>
             </g>
         </g>
         <path d="M556.6,457.962c-1.613,-0.374 -3.226,0.632 -3.6,2.245c-0.374,1.612 0.632,3.226 2.245,3.6c1.613,0.374 3.226,-0.632 3.6,-2.245c0.374,-1.613 -0.632,-3.226 -2.245,-3.6Z" style="fill:#cd4f64;"/>

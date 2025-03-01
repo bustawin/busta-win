@@ -37,12 +37,12 @@ export const meta: MetaFunction = () => {
     {
       name: 'theme-color',
       media: '(prefers-color-scheme: light)',
-      content: '#45695F',
+      content: '#fffbf5',
     },
     {
       name: 'theme-color',
       media: '(prefers-color-scheme: dark)',
-      content: '#233530',
+      content: '#1a1919',
     },
   ]
 }

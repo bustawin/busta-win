@@ -36,23 +36,17 @@ export default function PostsContainer({ children, posts, top }: Props) {
                     <layout.Col
                       className="post-preview__image"
                       style={{
-                        backgroundImage: `url('${post.image}')`,
+                        backgroundImage: `url('${post.image}')`
                       }}
                     ></layout.Col>
                   )}
                 </layout.Row>
-                <card.Footer className="post-preview__footer" as="footer">
-                  <ul className="list-inline mb-0">
-                    <li className="list-inline-item ">
-                      <time>{post.created.toISOString().split('T')[0]}</time>
-                    </li>
-                    {Array.from(post.categories).map((category) => (
-                      <li key={category} className="list-inline-item">
-                        {category}
-                      </li>
-                    ))}
-                  </ul>
-                </card.Footer>
+                <div className="post-preview__aside">
+                  <time dateTime={post.created.toISOString()}>
+                    {post.created.toLocaleString('en-US', { month: 'short' })}<br/>
+                    {post.created.toISOString().slice(0, 4)}
+                  </time>
+                </div>
               </Link>
             </card.Card>
           </layout.Col>

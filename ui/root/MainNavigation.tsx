@@ -3,7 +3,6 @@ import timmy from './timmy.webp'
 import { Category } from '@src/domain/category'
 import { Col, Container, Image, Nav, Row } from 'react-bootstrap'
 import { NavLink } from '@remix-run/react'
-import MainNavigationBg from './mainNavigationBg'
 import { humanize } from '@ui/utils/categories'
 
 interface MainNavigationProps {
@@ -13,7 +12,6 @@ interface MainNavigationProps {
 export default function MainNavigation({ categories }: MainNavigationProps) {
   return (
     <Container className="main-navigation" fluid>
-      <MainNavigationBg />
       <Row className="d-flex justify-content-center">
         <Col xs="auto" className="d-flex align-items-center p-0">
           <NavLink to="/" id="logo">

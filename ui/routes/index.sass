@@ -1,13 +1,12 @@
+@use 'sass:math'
 @use '../styles/style' as *
 
 .post-preview
-  @include margin-bottom($spacer)
+  @include margin-bottom(math.div($spacer, 2))
 
   &:hover
     background-color: rgba($secondary, .25)
 
-    .post-preview__image
-      filter: sepia(.2) brightness(.9)
 
   .card-footer
     text-align: center
@@ -27,6 +26,20 @@
     background-size: cover
 
   &__footer
-    font-size: .9em
+    font-size: $code-font-size
+    font-family: $font-family-code
     padding-top: var(--bs-card-cap-padding-y)/2
     padding-bottom: var(--bs-card-cap-padding-y)/2
+
+  &__aside
+    @extend .d-none
+    @extend .d-sm-block
+    @extend .text-muted
+    @include padding-left(math.div($spacer, 2))
+    position: absolute
+    white-space: nowrap
+    font-size: $code-font-size
+    font-family: $font-family-code
+    left: 100%
+    top: 50%
+    transform: translateY(-50%)

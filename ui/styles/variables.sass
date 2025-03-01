@@ -3,11 +3,11 @@
 @import '/node_modules/bootstrap/scss/mixins/color-mode'
 @import '/node_modules/bootstrap/scss/functions'
 
-$font-family-sans-serif: "EB Garamond", "Garamond", serif !default
-$headings-font-family: "EB Garamond", "Garamond", serif !default
+$font-family-sans-serif: "Libre Baskerville", serif !default
+$headings-font-family: "EB Garamond", serif !default
 $headings-font-weight: 800 !default
 
-$white-yellow: #fffbf9
+$white-yellow: #fffbf5
 $white: $white-yellow
 
 $body-bg: $white-yellow
@@ -18,12 +18,13 @@ $gray-400: shade-color($white-yellow, 40%)
 $gray-500: shade-color($white-yellow, 50%)
 $gray-600: shade-color($white-yellow, 60%)
 $gray-700: shade-color($white-yellow, 70%)
-$gray-800: shade-color($white-yellow, 80%)
+$gray-800: shade-color($white-yellow, 87%)
 $gray-900: shade-color($white-yellow, 90%)
 
 $black: shade-color($white-yellow, 95%)
 $red: #CD4F64
-$yellow: #cda06e
+$yellow: color.scale(#cda06e, $lightness: -15%)
+//$yellow: #cda06e
 $orange: #9D510B
 $green: rgb(119, 146, 86)
 $cyan: #45695F
@@ -99,9 +100,8 @@ $color-mode-type: media-query
 
 // Fonts
 // Bootstrap's default
-$font-size-base: 1.1rem
-$font-size-sm: $font-size-base
-$h1-font-size: $font-size-base * 3
+$font-size-base: 1rem
+$h1-font-size: $font-size-base * 2.5
 
 $headings-color: $secondary
 $headings-color-dark: $headings-color
@@ -111,10 +111,11 @@ $headings-color-dark: $headings-color
   --ui-primary-dark: #{$primary-dark}
   --ui-secondary-faded: #{$secondary-faded}
   --ui-secondary-faded-extra: #{$secondary-faded-extra}
-  --ui-card-bg: #{$gray-100}
+  --ui-card-bg: rgba(0, 0, 0, .02)
   --ui-slight-opacity: rgba(0, 0, 0, .07)
 
 @include color-mode(dark, true)
+  --ui-primary: #{$primary}
   --ui-secondary-faded: #{$secondary-dark}
   --ui-secondary-faded-extra: #{$secondary}
   --ui-card-bg: #{$gray-800}
@@ -131,3 +132,6 @@ $btn-active-transform: scale(.9)
 
 
 $container-max-widths: (sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1600px)
+
+// Navs
+$link-shade-percentage: 40%

@@ -3,22 +3,21 @@
 @use '/ui/styles/style' as *
 
 #logo
-  font: italic bolder 2em "Permanent Marker", sans-serif
+  font: 2em Coustard, sans-serif
   text-decoration: none
-  color: $gray-100
-  text-shadow: 2px 2px 0 $primary-dark
+  color: var(--bs-body-color)
 
-  &:hover
-    color: color.scale($primary, $lightness: -25%)
+  &:hover, &:focus
+    color: $primary
     text-shadow: 2px 2px 0 $gray-100
-
 
   &__period
     letter-spacing: -.1em
 
 @include color-mode(dark)
   #logo
-    color: $primary-faded
+    &:hover
+      text-shadow: 2px 2px 0 $gray-800
 
 #timmy
   width: 12vw
@@ -27,17 +26,13 @@
 
 // Align to the logo
 .main-navigation
-  background-size: 100% 100%
-  background-repeat: no-repeat
-  border-bottom: 3px solid var(--ui-secondary-faded)
-
   &__nav-link
-    @extend .link-light
+    margin-top: -.25em
     padding-left: 0 !important
     padding-top: 0 !important
 
-    &:hover
-      color: $white !important
+    &:hover, &:focus
+      text-decoration: underline
 
 
 @include media-breakpoint-down(sm)

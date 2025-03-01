@@ -7,6 +7,7 @@
     "build": "remix vite:build",
     "dev": "tsx ./server.ts",
     "dev-debug": "export DEBUG=vite:* && npm run dev",
+    "dev-debug-open": "export DEBUG=vite:* && export HOST=0.0.0.0 && npm run dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "restart-docker": "docker-compose down --remove-orphans -v && docker-compose up --build --detach",
     "start": "cross-env NODE_ENV=production tsx ./server.ts",
