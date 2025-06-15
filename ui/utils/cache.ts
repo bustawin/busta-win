@@ -1,11 +1,18 @@
 const proxyTtlInHours = 24
-const proxyTtl = proxyTtlInHours * 60 * 60
-
 const browserTtlInHours = 4
-const browserTtl = browserTtlInHours * 60 * 60
+const extraCacheWhileStaleInDays = 30
+const extraCacheWhileStale = extraCacheWhileStaleInDays * 24 * 60 * 60
+
+const cache = [
+  'public',
+  `max-age=${browserTtlInHours * 60 * 60}`,
+  `s-maxage=${proxyTtlInHours * 60 * 60}`,
+  `stale-while-revalidate=${extraCacheWhileStale}`,
+  `stale-if-error=${extraCacheWhileStale}`,
+]
 
 export const loaderCache = {
-  'Cache-Control': `public, max-age=${browserTtl}, s-maxage=${proxyTtl}`,
+  'Cache-Control': cache.join(','),
 }
 
 export const documentCache = loaderCache
