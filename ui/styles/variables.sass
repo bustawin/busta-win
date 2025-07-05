@@ -3,9 +3,10 @@
 @import '/node_modules/bootstrap/scss/mixins/color-mode'
 @import '/node_modules/bootstrap/scss/functions'
 
-$font-family-sans-serif: "Libre Baskerville", serif !default
-$headings-font-family: "EB Garamond", serif !default
-$headings-font-weight: 800 !default
+$font-family-sans-serif: "Lora", serif !default
+$headings-font-family: "Lora", serif !default
+$headings-font-weight: 400 !default
+$dt-font-weight: $headings-font-weight
 
 $white-yellow: #fffbf5
 $white: $white-yellow
@@ -123,6 +124,7 @@ $headings-color-dark: $headings-color
 
 // Card
 $card-bg: var(--ui-card-bg)
+$highlight-bg: rgba($secondary, .25)
 
 
 // Same transition as in bootstrap but adding fill
@@ -135,3 +137,9 @@ $container-max-widths: (sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1600px
 
 // Navs
 $link-shade-percentage: 40%
+
+// Tooltips
+$tooltip-opacity: .98
+$tooltip-bg: $body-bg
+$tooltip-color: var(--bs-body-color)
+$tooltip-max-width: min(30em, 80vw)

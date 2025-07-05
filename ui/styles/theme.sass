@@ -1,3 +1,5 @@
+@use 'sass:math'
+@import '/node_modules/bootstrap/scss/mixins/color-mode'
 h1
   color: $secondary
 
@@ -69,3 +71,35 @@ dd
 
 dfn
   font-weight: bold
+
+details
+  background-color: $card-bg
+  padding-top: var(--bs-card-cap-padding-y)
+  border-radius: $border-radius-sm
+  padding-bottom: var(--bs-card-cap-padding-y)
+  margin-bottom: $paragraph-margin-bottom
+
+  summary
+    padding-top: .25em
+    padding-bottom: .25em
+
+  summary:hover
+    background-color: $highlight-bg
+    border-radius: $border-radius-sm
+
+  &>:not(summary)
+    margin-left: 1em
+    margin-right: 1em
+
+.bquote
+  border-left: 2px solid $gray-100
+  padding-left: 1em
+  >figcaption
+    @extend .text-muted
+
+    &:before
+      content: "—"
+
+
+.tooltip-inner
+  box-shadow: $box-shadow-lg
