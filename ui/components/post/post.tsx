@@ -1,6 +1,5 @@
 import { getMDXExport } from 'mdx-bundler/client'
 import React from 'react'
-import { Figure, Table as RBTable } from 'react-bootstrap'
 import Note from '@jutils/ui/components/note/note'
 import { Plot } from '@ui/utils/graph'
 import Q from '@jutils/ui/components/quote/quote'
@@ -9,6 +8,7 @@ import { Post as PostType } from '@src/domain/post'
 import Toc from './toc'
 import { Props } from '@jutils/ui/reactUtils'
 import Pintora, { isPintora } from '@ui/components/post/pintora'
+import './post.css'
 
 interface PostProps {
   content: PostType['content']
@@ -21,7 +21,7 @@ export default function Post({
   const Component = React.useMemo(() => mdxExport.default, [content])
 
   const post = (
-    <article className="post">
+    <article className="post" itemProp="articleBody">
       <Component
         components={{
           img: PostImage,
@@ -43,10 +43,10 @@ export default function Post({
 
 function PostImage(props: Props) {
   return (
-    <Figure className="post__figure post__figure--image">
-      <Figure.Image {...props} />
-      {props.title && <Figure.Caption>{props.title}</Figure.Caption>}
-    </Figure>
+    <figure className="figure--image">
+      <img {...props} />
+      {props.title && <figcaption className="muted">{props.title}</figcaption>}
+    </figure>
   )
 }
 
@@ -61,24 +61,52 @@ function Paragraph(props: Props) {
 }
 
 function Table({ children }: Props) {
-  return (
-    <RBTable striped bordered hover responsive>
-      {children}
-    </RBTable>
-  )
+  return <table>{children}</table>
 }
 
 function pre(props: Props) {
   if (isPintora(props))
     return Pintora(props.children.props.children, props.title)
   return (
-    <Figure className="post__figure post__figure--pre">
+    <figure className="post__figure post__figure--pre">
       <pre {...props} />
-      {props.title && <Figure.Caption>{props.title}</Figure.Caption>}
-    </Figure>
+      {props.title && <figcaption className="muted">{props.title}</figcaption>}
+    </figure>
   )
 }
 
 function Subtitle({ children }: Props) {
   return <strong className="subtitle">{children}</strong>
+}
+
+export interface postInfoProps {
+  created: PostType['created']
+  short?: boolean
+}
+
+export function postInfo({ created, short }: postInfoProps) {
+  return (
+    <div className="muted">
+      <time
+        className="post-info__created"
+        itemProp="dateCreated"
+        dateTime={created.toISOString()}
+      >
+        {!short && 'Published in '}
+        <span className="post-info__created__month">
+          {created.toLocaleString('en-US', {
+            month: short ? 'short' : 'long',
+          })}
+        </span>
+        <span className="post-info__created__year">
+          {created.toISOString().slice(0, 4)}
+        </span>
+      </time>
+      {!short && (
+        <div>
+          by <span itemProp="author">bustawin</span>
+        </div>
+      )}
+    </div>
+  )
 }

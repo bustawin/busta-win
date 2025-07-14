@@ -1,6 +1,6 @@
 import { TocEntry } from 'remark-mdx-toc'
 import { Link } from '@remix-run/react'
-import card from '@jutils/ui/components/card/card'
+import './toc.css'
 
 interface Props {
   toc: TocEntry[]
@@ -26,11 +26,9 @@ export default function Toc({ toc }: Props) {
   if (toc.length == 0) return null
 
   return (
-    <aside className="toc">
-      <card.Card>
-        <card.Header>Table of contents</card.Header>
-        <card.Body className="toc__body">{list(toc)}</card.Body>
-      </card.Card>
-    </aside>
+    <div className="toc">
+      <h6 className="toc__title">Table of contents</h6>
+      {list(toc)}
+    </div>
   )
 }

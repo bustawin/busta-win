@@ -1,0 +1,160 @@
+.post {
+  counter-reset: h2counter;
+
+  h2 {
+    counter-increment: h2counter;
+    counter-reset: h3counter;
+
+    &::before {
+      content: counter(h2counter) '. ';
+    }
+  }
+
+  h3 {
+    counter-increment: h3counter;
+    counter-reset: h4counter;
+
+    &::before {
+      content: counter(h2counter) '.' counter(h3counter) '. ';
+    }
+  }
+
+  h4 {
+    counter-increment: h4counter;
+
+    &::before {
+      content: counter(h2counter) '.' counter(h3counter) '.' counter(h4counter)
+        '. ';
+    }
+  }
+}
+
+h2 + .subtitle,
+h3 + .subtitle {
+  position: relative;
+  top: -1em;
+}
+
+.subtitle {
+  font-style: italic;
+  color: var(--font-header-color);
+}
+
+sub,
+sup {
+  position: relative;
+  font-size: 0.9em;
+}
+
+pre {
+  margin: 0 0 var(--half-spacer);
+
+  code {
+    display: block;
+    padding: var(--spacer);
+    background-color: var(--ui-card-bg) !important;
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+
+    &::before {
+      display: block;
+      white-space: pre;
+      color: var(--font-header-color);
+      font-family: var(--font-body);
+    }
+
+    &:not([class^='language-']) {
+      &::before {
+        content: '>_ code' '\A';
+      }
+    }
+
+    &.language-shell {
+      &::before {
+        content: '>_ shell' '\A';
+      }
+    }
+
+    &.language-python {
+      &::before {
+        content: '>_ python' '\A';
+      }
+    }
+
+    &.language-rst {
+      &::before {
+        content: '>_ rst' '\A';
+      }
+    }
+
+    &.language-sql {
+      &::before {
+        content: '>_ SQL' '\A';
+      }
+    }
+
+    &.language-typescript {
+      &::before {
+        content: '>_ TypeScript' '\A';
+      }
+    }
+
+    &.language-javascript {
+      &::before {
+        content: '>_ Javascript' '\A';
+      }
+    }
+  }
+}
+
+dt {
+  color: var(--font-header-color);
+}
+
+dd {
+  margin-left: var(--spacer);
+}
+
+dfn {
+  font-weight: bold;
+}
+
+details {
+  background: var(--ui-card-bg);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacer);
+
+  & > :not(summary) {
+    margin-left: var(--spacer);
+    margin-right: var(--spacer);
+
+    &:last-child {
+      padding-bottom: var(--half-spacer);
+    }
+  }
+}
+
+summary {
+  padding-top: var(--half-spacer);
+  padding-bottom: var(--half-spacer);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--ui-card-bg-highlight);
+    border-radius: var(--border-radius);
+  }
+}
+
+.icon-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.icon-list__icon {
+  margin-right: var(--half-spacer);
+  color: var(--font-color);
+}
+
+.post-info__created__month::after {
+  content: ' ';
+}

@@ -1,0 +1,28 @@
+.layout {
+  margin-top: var(--spacer);
+}
+
+.layout__main-container {
+  /* Ideal with from https://practicaltypography.com/line-length.html */
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 70ch) 1fr;
+  grid-template-areas: '. center right';
+  grid-gap: var(--layout-spacer-x) var(--layout-spacer-y);
+  margin-left: var(--half-spacer);
+  margin-right: var(--half-spacer);
+}
+
+.layout__main {
+  /* Ideal with from https://practicaltypography.com/line-length.html */
+  grid-column-start: center;
+}
+
+.layout__aside {
+  grid-column-start: right;
+}
+
+@media (max-width: 900px) {
+  .layout__aside {
+    display: none;
+  }
+}

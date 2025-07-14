@@ -1,0 +1,42 @@
+.post__figure--pintora {
+  text {
+    /*All texts*/
+    font-family: inherit !important;
+    fill: var(--font-color) !important;
+  }
+
+  .label-bg {
+    /*---this label's bg-->*/
+    fill: var(--bg-color) !important;
+  }
+
+  .component__rel-line,
+  [stroke-linecap] {
+    /*Arrows -->*/
+    stroke: var(--primary) !important;
+  }
+
+  & .component__component-rect {
+    /* _______
+      | A box |
+      --------
+    */
+    stroke-width: 0 !important;
+    fill: var(--container-bg-sceondary) !important;
+  }
+
+  & .component__type {
+    /*Text describing the type of group*/
+    display: none;
+  }
+
+  & .component__group-rect {
+    /*The border of a group*/
+    fill: var(--container-bg-secondary-light) !important;
+    stroke: var(--container-bg-secondary-light);
+  }
+
+  & .component__group-label {
+    fill: var(--primary) !important;
+  }
+}

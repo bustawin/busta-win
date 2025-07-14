@@ -1,4 +1,5 @@
-import './root.sass'
+import './reboot.css'
+import './root.css'
 import {
   isRouteErrorResponse,
   Link,
@@ -126,7 +127,7 @@ export function ErrorBoundary() {
         <layout.Main>
           {description}
           <p className="text-center">
-            <Link to="/">Let&apos;s go back home</Link>
+            <Link to="/">🔙 Let&apos;s go back home</Link>
           </p>
         </layout.Main>
       </layout.MainContainer>

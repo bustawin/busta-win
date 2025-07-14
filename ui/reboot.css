@@ -1,0 +1,67 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 !important;
+}
+
+p {
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: pretty;
+}
+
+img,
+svg {
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  margin: var(--spacer) auto;
+
+  figcaption {
+    text-align: center;
+  }
+}
+
+.figure--image {
+  text-align: center;
+
+  img {
+    max-width: 100%;
+  }
+
+  img:not([src$='.svg']) {
+    border-radius: var(--border-radius);
+  }
+}
+
+.bquote {
+  border-left: 1px solid var(--container-bg-sceondary);
+  padding-left: var(--spacer);
+  margin: 0 0 var(--spacer);
+
+  & > blockquote {
+    margin: 0;
+  }
+
+  & > figcaption {
+    text-align: left;
+
+    &:before {
+      content: '—';
+    }
+  }
+}

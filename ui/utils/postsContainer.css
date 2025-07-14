@@ -1,0 +1,35 @@
+.post-preview {
+  background-color: var(--ui-card-bg);
+  border-radius: var(--border-radius);
+  position: relative;
+
+  &:hover {
+    background-color: var(--ui-card-bg-highlight);
+  }
+}
+.post-preview__link {
+  display: block;
+  color: var(--font-color);
+  padding: var(--spacer);
+
+  &:hover {
+    text-decoration: none !important;
+    color: var(--font-color);
+  }
+}
+
+.post-preview__title {
+  color: var(--link-color);
+  font-size: var(--h3-font-size);
+  margin: 0;
+}
+
+.post-preview__aside {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .post-info__created__month {
+    display: block;
+  }
+}

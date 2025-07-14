@@ -1,0 +1,260 @@
+/* from https://fonts.googleapis.com/css2?family=Coustard:wght@400&display=swap&text=busta.win */
+@font-face {
+  font-family: 'Coustard';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=3XFpErgg3YsZ5fqUU9UKvWPuRc7V8p0oBirsIMM2&skey=c590e3818c6baa04&v=v16)
+    format('woff2');
+}
+
+/* from https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap */
+/* latin */
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/lora/v36/0QIhMX1D_JOuMw_LIftLtfOm8w.woff2)
+    format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin */
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/lora/v36/0QIvMX1D_JOuMwr7I_FMl_E.woff2)
+    format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --font-body: 'Lora', serif;
+  --font-body-weight: 400;
+  --font-header: 'Lora', serif;
+  --font-header-weight: 400;
+  --font-header-color: var(--secondary);
+  --font-code: monospace;
+  --font-sm: 0.9em;
+  --spacer: 1rem;
+  --half-spacer: 0.5rem;
+  --quarter-spacer: 0.25rem;
+  --spacer-big: 2rem;
+  --white-yellow: #fffbf5;
+  --gray-100: color-mix(in srgb, var(--white-yellow) 90%, black);
+  --gray-200: color-mix(in srgb, var(--white-yellow) 80%, black);
+  --gray-300: color-mix(in srgb, var(--white-yellow) 70%, black);
+  --gray-400: color-mix(in srgb, var(--white-yellow) 60%, black);
+  --gray-500: color-mix(in srgb, var(--white-yellow) 50%, black);
+  --gray-700: color-mix(in srgb, var(--white-yellow) 30%, black);
+  --gray-800: color-mix(in srgb, var(--white-yellow) 20%, black);
+  --gray-900: color-mix(in srgb, var(--white-yellow) 10%, black);
+  --layout-spacer-y: var(--half-spacer);
+  --layout-spacer-x: var(--spacer);
+  --h1-font-size: 2em;
+  --h2-font-size: 1.5em;
+  --h3-font-size: 1.4em;
+  --h4-font-size: 1.3em;
+  --h5-font-size: 1.2em;
+  --h6-font-size: 1em;
+}
+
+:root {
+  color-scheme: light dark;
+  /*Variables to be overridden by the dark theme*/
+  --bg-color: light-dark(var(--white-yellow), var(--gray-900));
+  --primary: #cd4f64;
+  --primary-light: color-mix(in srgb, var(--primary) 60%, white);
+  --primary-dark: color-mix(in srgb, var(--primary) 60%, black);
+  --primary-em: light-dark(var(--primary-dark), var(--primary-light));
+  --secondary: rgb(193, 137, 75);
+  --secondary-dark: color-mix(in srgb, var(--secondary) 60%, black);
+  --secondary-darker: color-mix(in srgb, var(--secondary) 40%, black);
+  --secondary-darker-transparent: color-mix(
+    in srgb,
+    var(--secondary) 40%,
+    transparent
+  );
+  --secondary-darkest: color-mix(in srgb, var(--secondary) 20%, black);
+  --secondary-light: color-mix(in srgb, var(--secondary) 60%, white);
+  --secondary-lighter: color-mix(in srgb, var(--secondary) 40%, white);
+  --secondary-lighter-transparent: color-mix(
+    in srgb,
+    var(--secondary) 40%,
+    transparent
+  );
+  --secondary-lightest: color-mix(in srgb, var(--secondary) 20%, white);
+  --font-color: light-dark(var(--gray-900), var(--gray-300));
+  --transition: 250ms ease;
+  --text-muted: light-dark(var(--gray-700), var(--gray-400));
+  --ui-card-bg: light-dark(rgba(0, 0, 0, 0.02), var(--gray-800));
+  --ui-card-bg-highlight: rgb(from var(--secondary) r g b / 0.25);
+  --tooltip-bg: light-dark(
+    var(--secondary-lighter-transparent),
+    var(--secondary-darker-transparent)
+  );
+  --link-color: var(--primary);
+  --border-radius: 12px;
+  --border-radius-sm: 4px;
+  --container-bg-sceondary-lighter: light-dark(
+    rgba(0, 0, 0, 0.05),
+    rgba(1, 1, 1, 0.05)
+  );
+  --container-bg-secondary-light: light-dark(
+    var(--secondary-lightest),
+    var(--secondary-darkest)
+  );
+  --container-bg-sceondary: light-dark(
+    var(--secondary-light),
+    var(--secondary-dark)
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+  }
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: var(--font-body);
+  font-weight: var(--font-body-weight);
+  color: var(--font-color);
+  line-height: 1.5;
+  font-size: 1.03em;
+}
+
+a,
+.note__link {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color var(--transition);
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+    color: var(--primary-em);
+  }
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--spacer);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: var(--spacer-big);
+  margin-bottom: var(--half-spacer);
+  font-family: var(--font-header);
+  font-weight: var(--font-header-weight);
+  color: var(--font-header-color);
+}
+
+h1 {
+  font-size: 2em;
+  text-align: center;
+  padding-left: var(--layout-spacer);
+  padding-right: var(--layout-spacer);
+  margin-bottom: var(--spacer);
+  margin-top: 0;
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+}
+
+h3 {
+  font-size: var(--h3-font-size);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+}
+
+h5 {
+  font-size: var(--h5-font-size);
+}
+
+h6 {
+  font-size: var(--h6-font-size);
+}
+
+.muted {
+  font-size: var(--font-sm);
+  color: var(--text-muted);
+}
+
+hr {
+  border-top: 1px solid var(--gray-500);
+  border-bottom: none;
+}
+
+/* Lists */
+ol,
+ul {
+  padding-left: 1.5em;
+}
+
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: var(--spacer);
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+  margin-bottom: 0;
+  padding-left: var(--spacer);
+}
+
+table {
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  position: relative;
+  margin: auto;
+
+  th {
+    color: var(--font-header-color);
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-color);
+    font-weight: normal;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: var(--ui-card-bg);
+  }
+
+  tbody tr:hover {
+    background-color: var(--ui-card-bg-highlight);
+  }
+
+  td,
+  th {
+    padding: var(--quarter-spacer);
+  }
+
+  caption {
+  }
+}

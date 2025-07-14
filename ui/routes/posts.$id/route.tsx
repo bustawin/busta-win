@@ -1,16 +1,31 @@
 import { MetaFunction, useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
-import { json, LoaderFunctionArgs } from '@remix-run/node'
+import { json, LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import * as layout from '@ui/components/layout/layout'
 import { PostNotFound } from '@src/adapters/posts/posts'
 import { raiseNotFound } from '@jutils/ui/responses'
 import { loaderCache } from '@ui/utils/cache'
 import * as postSer from '@src/adapters/serializers/post'
-import PostComponent from '@ui/components/post/post'
+import PostComponent, { postInfo } from '@ui/components/post/post'
 import { Handler } from '@jutils/ui/components/HydrateOnEligibleRoutes/HydrateOnEligibleRoutes'
+import githubLightCSS from 'highlight.js/styles/github.css?url'
+import githubDarkCSS from 'highlight.js/styles/github-dark.css?url'
 
 export const handle: Handler = { useScripts: true }
+
+export const links: LinksFunction = () => [
+  {
+    rel: 'stylesheet',
+    href: githubLightCSS,
+    media: '(prefers-color-scheme: light)',
+  },
+  {
+    rel: 'stylesheet',
+    href: githubDarkCSS,
+    media: '(prefers-color-scheme: dark)',
+  },
+]
 
 export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   invariant(id, 'Post ID Required')
@@ -52,13 +67,24 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
 }
 
 export default function Post() {
-  const { post } = useLoaderData<typeof loader>()
-  const [Post, Toc] = PostComponent({ content: post.content })
+  const raw = useLoaderData<typeof loader>()
+  const [post] = postSer.load(raw.post)
+
+  const [Post, Toc] = PostComponent(post)
+
+  const Info = postInfo(post)
 
   return (
-    <layout.MainContainer top={post.title}>
+    <layout.MainContainer
+      top={post.title}
+      itemScope
+      itemType="https://schema.org/BlogPosting"
+    >
       <layout.Main>{Post}</layout.Main>
-      <layout.Aside>{Toc}</layout.Aside>
+      <layout.Aside>
+        <div>{Toc}</div>
+        <div>{Info}</div>
+      </layout.Aside>
     </layout.MainContainer>
   )
 }

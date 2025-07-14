@@ -1,0 +1,37 @@
+#logo-name {
+    font: 2em Coustard, sans-serif;
+    text-decoration: none;
+    color: var(--font-color);
+
+    &:hover, &:focus {
+        color: var(--primary);
+        text-shadow: light-dark(2px 2px 0 var(--gray-100), 2px 2px 0 var(--gray-800));
+    }
+
+    & .period {
+        letter-spacing: -.1em
+    }
+}
+
+#main-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & .nav{
+        margin-left: var(--half-spacer);
+        margin-top: -.25em
+    }
+
+    & .nav-links {
+        display: flex;
+        gap: 0 var(--half-spacer);
+        align-items: center;
+    }
+}
+
+#timmy {
+    width: 12vw;
+    min-width: 30px;
+    max-width: 90px;
+}

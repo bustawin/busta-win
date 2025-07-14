@@ -9,7 +9,16 @@ tags:
   - "programming"
   - "python"
 summary: I explain the architecture of a pet project that uses DDD, a hexagonal architecture, and it's event driven.
+q:
+  martin:
+    url: https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html
+    title: Screaming Architecture
+    author: Robert C. Martin
+    year: 2011
+    month: 9
 ---
+
+export const q = frontmatter.q
 
 [Big Sheets](https://github.com/bustawin/big-sheets) is my attempt to build a software using
 concepts
@@ -273,12 +282,15 @@ effects. [Similar knowledge](https://www.cosmicpython.com/book/epilogue_1_how_to
 ### You command the framework, not otherwise
 
 Robert C.
-Martin [describes it the following way in the Screaming Architecture](https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html):
+Martin describes it the following way:
 
-> So what does the architecture of your application scream? When you look at the top level
-> directory structure, and the source files in the highest level package; do they scream:**Health
-Care System**, or**Accounting System**, or**Inventory Management System**? Or do they scream:*
-*Rails**, or**Spring/Hibernate**, or**ASP**?
+
+<Q {...q.martin} blockquote>
+So what does the architecture of your application scream? When you look at the top level
+directory structure, and the source files in the highest level package; do they scream:**Health
+Care System**, or **Accounting System**, or **Inventory Management System**? Or do they scream: *
+*Rails**, or **Spring/Hibernate**, or **ASP**?
+</Q>
 
 When running an app, like a Flask, React, or Django one, the first lines of the _main.py_ or
 _index.js_ usually bootstrap the framework and, then, the framework loads your views, database,

@@ -25,10 +25,10 @@ export default function Index() {
         <div>
           <div className="lead">Hello, I'm bustawin.</div>
         </div>
-        <p>
+        <div>
           In this website I talk about things I do—publications, notes, and
           tricks.
-        </p>
+        </div>
       </article>
     </PostsContainer>
   )

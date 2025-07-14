@@ -1,15 +1,15 @@
-import { Figure } from 'react-bootstrap'
 import { Props } from '@jutils/ui/reactUtils'
+import './pintora.css'
 
 /**
  * Renders an SVG image from a Pintora SVG string.
  */
 export default function Pintora(svg: string, title?: string) {
   return (
-    <Figure className="post__figure post__figure--image">
+    <figure className="post__figure figure--image post__figure--pintora">
       <div dangerouslySetInnerHTML={{ __html: svg }} />
-      {title && <Figure.Caption>{title}</Figure.Caption>}
-    </Figure>
+      {title && <figcaption>{title}</figcaption>}
+    </figure>
   )
 }
 
