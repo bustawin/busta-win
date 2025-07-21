@@ -27,7 +27,10 @@ import GlobalLoading from '@jutils/ui/components/globalLoading'
 import NotFound from '@ui/components/NotFound/NotFound'
 import HydrateOnEligibleRoutes from '@jutils/ui/components/HydrateOnEligibleRoutes/HydrateOnEligibleRoutes'
 
-export const meta: MetaFunction = () => {
+const site = 'https://busta.win'
+
+export const meta: MetaFunction = ({ location }) => {
+  const url = `${site}${location.pathname}`
   return [
     { title: 'bustawin' },
     { charSet: 'utf-8' },
@@ -44,6 +47,23 @@ export const meta: MetaFunction = () => {
       name: 'theme-color',
       media: '(prefers-color-scheme: dark)',
       content: '#1a1919',
+    },
+    {
+      property: 'og:site_name',
+      content: 'bustawin',
+    },
+    {
+      name: 'author',
+      content: 'Xavier Bustamante',
+    },
+    {
+      property: 'og:url',
+      content: url,
+    },
+    {
+      tagName: 'link',
+      rel: 'canonical',
+      href: url,
     },
   ]
 }

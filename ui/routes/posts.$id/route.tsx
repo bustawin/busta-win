@@ -1,3 +1,4 @@
+import it from 'iterated'
 import { MetaFunction, useLoaderData } from '@remix-run/react'
 import * as commands from '@src/service/commands'
 import { json, LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
@@ -50,8 +51,20 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   if (!data?.post) return
-  const post = data.post
+  const [post] = postSer.load(data.post)
   const rootMetas = matches[0].meta.filter(({ title }) => !title)
+
+  const properties: [string, string][] = [
+    ['og:title', post.title],
+    ['og:type', 'article'],
+    ['og:description', post.summary],
+    ['og:locale', 'en_US'],
+    ...it.map(
+      post.categories,
+      (category) => ['article:section', category] as [string, string]
+    ),
+    ...it.map(post.tags, (tag) => ['article:tag', tag] as [string, string]),
+  ]
 
   const meta = [
     ...rootMetas,
@@ -59,8 +72,13 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
       title: post.title,
     },
     {
+      name: 'description',
+      content: post.summary,
+    },
+    {
       keywords: [...post.categories, ...post.tags, 'blog post'],
     },
+    ...properties.map(([property, content]) => ({ property, content })),
   ]
   if (post.draft) meta.push({ name: 'robots', content: 'noindex, nofollow' })
   return meta
