@@ -22,7 +22,7 @@
       --------
     */
     stroke-width: 0 !important;
-    fill: var(--container-bg-sceondary) !important;
+    fill: var(--container-bg-secondary) !important;
   }
 
   & .component__type {

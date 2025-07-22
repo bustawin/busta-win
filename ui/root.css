@@ -111,7 +111,7 @@
     var(--secondary-lightest),
     var(--secondary-darkest)
   );
-  --container-bg-sceondary: light-dark(
+  --container-bg-secondary: light-dark(
     var(--secondary-light),
     var(--secondary-dark)
   );
@@ -139,7 +139,6 @@ a,
 
   &:hover,
   &:focus {
-    text-decoration: underline;
     color: var(--primary-em);
   }
 }

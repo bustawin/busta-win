@@ -49,7 +49,7 @@ figure {
 }
 
 .bquote {
-  border-left: 1px solid var(--container-bg-sceondary);
+  border-left: 1px solid var(--container-bg-secondary);
   padding-left: var(--spacer);
   margin: 0 0 var(--spacer);
 
