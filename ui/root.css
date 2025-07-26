@@ -53,6 +53,7 @@
   --gray-300: color-mix(in srgb, var(--white-yellow) 70%, black);
   --gray-400: color-mix(in srgb, var(--white-yellow) 60%, black);
   --gray-500: color-mix(in srgb, var(--white-yellow) 50%, black);
+  --gray-600: color-mix(in srgb, var(--white-yellow) 40%, black);
   --gray-700: color-mix(in srgb, var(--white-yellow) 30%, black);
   --gray-800: color-mix(in srgb, var(--white-yellow) 20%, black);
   --gray-900: color-mix(in srgb, var(--white-yellow) 10%, black);
@@ -71,15 +72,15 @@
   /*Variables to be overridden by the dark theme*/
   --bg-color: light-dark(var(--white-yellow), var(--gray-900));
   --primary: #cd4f64;
-  --primary-light: color-mix(in srgb, var(--primary) 60%, white);
-  --primary-dark: color-mix(in srgb, var(--primary) 60%, black);
+  --primary-light: color-mix(in srgb, var(--primary) 80%, white);
+  --primary-dark: color-mix(in srgb, var(--primary) 85%, black);
   --primary-em: light-dark(var(--primary-dark), var(--primary-light));
   --secondary: rgb(193, 137, 75);
   --secondary-dark: color-mix(in srgb, var(--secondary) 60%, black);
   --secondary-darker: color-mix(in srgb, var(--secondary) 40%, black);
   --secondary-darker-transparent: color-mix(
     in srgb,
-    var(--secondary) 40%,
+    var(--secondary) 30%,
     transparent
   );
   --secondary-darkest: color-mix(in srgb, var(--secondary) 20%, black);
@@ -95,17 +96,22 @@
   --transition: 250ms ease;
   --text-muted: light-dark(var(--gray-700), var(--gray-400));
   --ui-card-bg: light-dark(rgba(0, 0, 0, 0.02), var(--gray-800));
+  --table-border: light-dark(var(--gray-200), var(--gray-800));
   --ui-card-bg-highlight: rgb(from var(--secondary) r g b / 0.25);
   --tooltip-bg: light-dark(
     var(--secondary-lighter-transparent),
     var(--secondary-darker-transparent)
   );
-  --link-color: var(--primary);
+  --link-color: var(--primary-em);
   --border-radius: 12px;
   --border-radius-sm: 4px;
   --container-bg-sceondary-lighter: light-dark(
+    rgba(0, 0, 0, 0.2),
+    rgba(255, 255, 255, 0.2)
+  );
+  --container-bg-sceondary-lightest: light-dark(
     rgba(0, 0, 0, 0.05),
-    rgba(1, 1, 1, 0.05)
+    rgba(255, 255, 255, 0.05)
   );
   --container-bg-secondary-light: light-dark(
     var(--secondary-lightest),
@@ -127,7 +133,7 @@ body {
   font-family: var(--font-body);
   font-weight: var(--font-body-weight);
   color: var(--font-color);
-  line-height: 1.5;
+  line-height: 1.45;
   font-size: 1.03em;
 }
 
@@ -139,7 +145,7 @@ a,
 
   &:hover,
   &:focus {
-    color: var(--primary-em);
+    color: var(--primary);
   }
 }
 
@@ -231,7 +237,7 @@ table {
   overflow-x: auto;
   border-collapse: collapse;
   position: relative;
-  margin: auto;
+  margin: auto auto var(--spacer);
 
   th {
     color: var(--font-header-color);
@@ -241,19 +247,23 @@ table {
     font-weight: normal;
   }
 
-  tbody tr:nth-child(odd) {
-    background-color: var(--ui-card-bg);
-  }
-
   tbody tr:hover {
-    background-color: var(--ui-card-bg-highlight);
+    background-color: var(--ui-card-bg);
   }
 
   td,
   th {
-    padding: var(--quarter-spacer);
+    padding: var(--half-spacer);
   }
 
-  caption {
+  thead tr {
+    vertical-align: bottom;
+  }
+
+  td + td {
+    border-left: 1px solid var(--table-border);
+  }
+  tr + tr {
+    border-top: 1px solid var(--table-border);
   }
 }
