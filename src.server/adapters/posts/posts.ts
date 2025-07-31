@@ -18,6 +18,7 @@ import { postIds, POSTS_DIR } from '@src/adapters/posts/postsDir'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeMdxCodeProps from 'rehype-mdx-code-props'
 import pintora from '@src/adapters/posts/pintora'
+import { ellipsisReplacer } from '@src/adapters/posts/post-replacer'
 
 const PUBLIC_DIR = relativePath(
   import.meta.url,
@@ -98,6 +99,7 @@ export async function _post(id: string): Promise<Post> {
         [remarkHeaderId, { defaults: true }],
         remarkMdxToc,
         remarkMdxImages,
+        ellipsisReplacer,
       ]
       options.rehypePlugins = [
         [rehypeHighlight, { plainText: ['pintora', 'hero', 'rst'] }],
