@@ -72,8 +72,8 @@
   /*Variables to be overridden by the dark theme*/
   --bg-color: light-dark(var(--white-yellow), var(--gray-900));
   --primary: #cd4f64;
-  --primary-light: color-mix(in srgb, var(--primary) 80%, white);
-  --primary-dark: color-mix(in srgb, var(--primary) 85%, black);
+  --primary-light: color-mix(in srgb, var(--primary) 85%, white);
+  --primary-dark: color-mix(in srgb, var(--primary) 90%, black);
   --primary-em: light-dark(var(--primary-dark), var(--primary-light));
   --secondary: rgb(193, 137, 75);
   --secondary-dark: color-mix(in srgb, var(--secondary) 60%, black);
