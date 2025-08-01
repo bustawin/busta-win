@@ -61,7 +61,11 @@ function Paragraph(props: Props) {
 }
 
 function Table({ children }: Props) {
-  return <table>{children}</table>
+  return (
+    <div className="table-wrapper">
+      <table>{children}</table>
+    </div>
+  )
 }
 
 function pre(props: Props) {

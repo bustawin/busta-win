@@ -232,18 +232,17 @@ ul ol {
   padding-left: var(--spacer);
 }
 
-table {
-  max-width: 100%;
+.table-wrapper {
   overflow-x: auto;
+}
+
+table {
   border-collapse: collapse;
-  position: relative;
   margin: auto auto var(--spacer);
+  max-width: 100%;
 
   th {
     color: var(--font-header-color);
-    position: sticky;
-    top: 0;
-    background-color: var(--bg-color);
     font-weight: normal;
   }
 

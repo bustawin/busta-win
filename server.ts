@@ -17,6 +17,8 @@ const redirect: RequestHandler = (req, res, next) => {
   if (shouldRedirect) {
     const path = `/posts${normalizedPath}`
     res.redirect(301, path)
+  } else if (normalizedPath.includes('/posts/interorg-network-dataset')) {
+    res.redirect(301, '/interorg-network#the-dataset')
   } else {
     next()
   }
