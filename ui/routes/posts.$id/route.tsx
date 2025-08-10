@@ -76,7 +76,8 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
       content: post.summary,
     },
     {
-      keywords: [...post.categories, ...post.tags, 'blog post'],
+      name: 'keywords',
+      content: [...post.categories, ...post.tags, 'blog post'],
     },
     ...properties.map(([property, content]) => ({ property, content })),
   ]
