@@ -2,7 +2,7 @@ import { getMDXExport } from 'mdx-bundler/client'
 import React from 'react'
 import Note from '@jutils/ui/components/note/note'
 import { Plot } from '@ui/utils/graph'
-import Q from '@jutils/ui/components/quote/quote'
+import C from '@jutils/ui/components/citation/citation'
 import Icon from '@jutils/ui/components/icon/Icon'
 import { Post as PostType } from '@src/domain/post'
 import Toc from './toc'
@@ -29,7 +29,7 @@ export default function Post({
           p: Paragraph,
           Table,
           Plot,
-          Q,
+          C,
           Icon,
           Subtitle,
           pre,

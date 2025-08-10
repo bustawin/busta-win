@@ -67,16 +67,16 @@ the library I released—[iterated](http://iterated.busta.win)—is
 a great tool to unleash their potential.
 It is time to move away from only Arrays into Iterables.
 
-Simply said, <Q {...q.b}>an <dfn>Iterable</dfn> is any data or variable that we can loop.
+Simply said, <C {...q.b}>an <dfn>Iterable</dfn> is any data or variable that we can loop.
 This
 includes [String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/@@iterator),
 [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/@@iterator),
 [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/@@iterator),
 and
-[Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/@@iterator).</Q>
+[Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/@@iterator).</C>
 Usually data is in arrays, so we use iterables already "under the hood"
 even if we don’t know it.
-For example,<Q {...q.c}>when using `for..of`</Q>:
+For example,<C {...q.c}>when using `for..of`</C>:
 
 ```typescript title='looping with for..of works with any iterable.'
 const values = [1, 2, 3]
@@ -86,9 +86,9 @@ for (const value of values) {
 ```
 
 Javascript introduced iterables a while ago,
-<Q {...q.a}>and since 2017 is widely supported.</Q> Other languages
-like <Q {...q.e}>Python had it since 2001, and they are a core part
-of the language.</Q>
+<C {...q.a}>and since 2017 is widely supported.</C> Other languages
+like <C {...q.e}>Python had it since 2001, and they are a core part
+of the language.</C>
 However, in my experience, developers tend to focus on working only
 with arrays
 (e.g.,
@@ -154,8 +154,8 @@ const x: Iterable<number> = it.map(input, x => x * 2)
 const y: Iterable<number> = it.filter(x, x => x < 4)
 ```
 
-This is because <Q {...q.f}>iterables are lazy: they do not iterate until necessary, only on
-demand.</Q>
+This is because <C {...q.f}>iterables are lazy: they do not iterate until necessary, only on
+demand.</C>
 For example, when a function forces them to generate an array.
 
 ```typescript title='Transforming an iterable into an array, creating a single copy.'
@@ -167,10 +167,10 @@ crucial when working with big datasets.
 
 ### Generators and yielding
 
-<Q {...q.d}>The same way that arrays and strings are now iterables, functions
+<C {...q.d}>The same way that arrays and strings are now iterables, functions
 can be iterables too. Rephrasing it: **we can iterate functions**.
 To tell JavaScript that a function can be iterated, we use
-two things: the `yield` keyword and an asterisk after `function`</Q>:
+two things: the `yield` keyword and an asterisk after `function`</C>:
 
 ```typescript title='Example of creating and executing a generator function.'
 function* iterableFunction() {
@@ -192,7 +192,7 @@ printValues(iterableFunction()) // prints 1 2 3
 printValues([1, 2, 3]) // prints 1 2 3
 ```
 
-<p><Q {...q.d}> We call these iterable functions <dfn>generators</dfn>.</Q></p>
+<p><C {...q.d}> We call these iterable functions <dfn>generators</dfn>.</C></p>
 
 A function that yields avoids creating intermediate data structures. We
 can demonstrate this by comparing the implementation of a regular `Array.map`
@@ -229,9 +229,9 @@ And thus `yieldingMap` is superior to `regularOldMap`.
 `yieldingMap` (i.e., [`map`](http://iterated.busta.win/functions/map-1.html))
 to handle iterables.
 
-Finally, <Q {...q.f}>thanks to their lazy nature, generator functions enable collections
+Finally, <C {...q.f}>thanks to their lazy nature, generator functions enable collections
 of infinite values, such as computing the fibonacci sequence or streaming
-information.</Q>
+information.</C>
 
 ## AsyncIterators
 
@@ -289,9 +289,9 @@ async function doSomething() {
 As JavaScript’s async/await is everywhere, having a simple way to handle async
 calls helps to reduce code and complexity.
 
-<Q {...q.h}>AsyncIterables are specially useful when we do not know at the moment
+<C {...q.h}>AsyncIterables are specially useful when we do not know at the moment
 of starting the loop when it is going to be done, for example when
-accessing I/O</Q>.
+accessing I/O</C>.
 
 An issue is that the same function cannot handle `Iterable` and `AsyncIterable`
 (because `AsyncIterable` requires to be inside `async` functions and
@@ -309,8 +309,8 @@ const successfulUsers: AsyncIterable<User> = it.filter(users, ({ success }) => s
 
 ## pipes
 
-When processing data, <Q {...q.g}>pipes increase legibility by focusing on the
-operations to do to over the data, instead of constructors like `for...of`</Q>.
+When processing data, <C {...q.g}>pipes increase legibility by focusing on the
+operations to do to over the data, instead of constructors like `for...of`</C>.
 
 <Note text='Pipes built with Arrays loop multiple times of have to resort to intricate
 implementations.'>Pipes are a natural fit for iterables because they both focus on the
