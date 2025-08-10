@@ -1,0 +1,61 @@
+---
+title: "Prose style in this blog"
+created: "2025-08-31"
+categories:
+  - software
+js: false
+draft: true
+tags:
+  - blogging
+summary: My rules when writing on this blog, in a foil attempt to remember them. 
+q:
+  hyperlink:
+    url: https://www.w3.org/QA/Tips/noClickHere
+    title: Don't use “click here” as link text
+    author: QA Team of the W3C
+    year: 2001
+  APAAbbreviation:
+    url: https://apastyle.apa.org/style-grammar-guidelines/abbreviations
+    year: 2021
+    month: 12
+    title: Abbreviations
+    author: American Psychological Association
+  APAItalicsQuotations:
+    url: https://apastyle.apa.org/style-grammar-guidelines/italics-quotations
+    year: 2019
+    month: 9
+    title: Italics and Quotation Marks
+    author: American Psychological Association
+  ABANumbers:
+    url: https://apastyle.apa.org/style-grammar-guidelines/numbers
+    year: 2019
+    title: Numbers
+    author: American Psychological Association
+---
+
+export const q = frontmatter.q
+
+This is an attempt for myself to write cohesively, and a work in progress.
+
+* I use typography rules from [PracticalTypography](https://practicaltypography.com).
+* I use the following APA styles:
+    * [Numbers & Statistics](https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_formatting_and_style_guide/apa_numbers_statistics.html)
+    * [Footnotes](https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_formatting_and_style_guide/footnotes_and_endnotes.html).
+    * [Citations](https://apastyle.apa.org/style-grammar-guidelines/citations), substituting the
+      in-text references by less intrusive tooltips.
+
+
+## Interesting rules
+
+* Abbreviations
+  * <C {...q.APAAbbreviation} direct>Periods are not used with abbreviations in APA Style.</C>
+  * <C {...q.APAAbbreviation}>APA uses the *i.e.,* form.</C>
+* Italics and quotations
+  * <C {...q.APAITalicsQuotations} direct>Italics are used to draw attention to key terms and phrases
+  when providing definitions and to format parts of reference list entries (e.g., titles of books
+  and periodicals). Quotation marks are used to present linguistic examples and titles of book
+  chapters and articles in the text.</C>
+* <C {...q.hyperlink}>Not putting verb phrases in hyperlinks</C>.
+
+## Writing styles I should check
+* [Microsoft writing Style](https://learn.microsoft.com/en-us/style-guide/welcome/).
