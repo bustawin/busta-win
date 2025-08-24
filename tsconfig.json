@@ -8,6 +8,7 @@
     "**/*.mdx"
   ],
   "compilerOptions": {
+    "types": ["@remix-run/node", "vite/client"],
     "lib": [
       "DOM",
       "DOM.Iterable",
