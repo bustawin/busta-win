@@ -1,5 +1,5 @@
 import { TocEntry } from 'remark-mdx-toc'
-import { Link } from '@remix-run/react'
+import { Link } from 'react-router';
 import './toc.css'
 
 interface Props {

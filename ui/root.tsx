@@ -8,13 +8,8 @@ import {
   Outlet,
   useLoaderData,
   useRouteError,
-} from '@remix-run/react'
-import type {
-  HeadersFunction,
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from '@remix-run/node'
+} from 'react-router';
+import type { HeadersFunction, LinksFunction, LoaderFunction, MetaFunction } from 'react-router';
 import * as commands from '@src/service/commands'
 import { dump } from '@src/adapters/serializers/categories'
 import * as layout from '@ui/components/layout/layout'

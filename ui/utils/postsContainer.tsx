@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react'
+import { Link } from 'react-router'
 import * as layout from '@ui/components/layout/layout'
 import { Post } from '@src/domain/post'
 import './postsContainer.css'
@@ -20,9 +20,8 @@ export default function PostsContainer({ children, posts, top }: Props) {
 
       {posts.map((post) => (
         <>
-          <layout.Main>
+          <layout.Main key={post.id}>
             <article
-              key={post.id}
               id={post.id}
               className="post-preview"
               itemScope

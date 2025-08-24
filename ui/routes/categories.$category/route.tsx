@@ -1,6 +1,5 @@
-import { useLoaderData } from '@remix-run/react'
+import { data, LoaderFunctionArgs, useLoaderData } from 'react-router'
 import * as commands from '@src/service/commands'
-import { json, LoaderFunctionArgs } from '@remix-run/node'
 import { isCategory } from '@src/domain/category'
 import { raiseNotFound } from '@jutils/ui/responses'
 import invariant from 'tiny-invariant'
@@ -15,12 +14,12 @@ export const loader = async ({ params: { category } }: LoaderFunctionArgs) => {
 
   const posts = await commands.posts(category)
   const rawPosts = postSer.dump(...posts)
-  return json(
+  return data(
     {
       rawPosts,
       category,
     },
-    { headers: { ...loaderCache } }
+    { headers: { ...loaderCache } },
   )
 }
 

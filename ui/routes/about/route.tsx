@@ -1,5 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
-import { json } from '@remix-run/node'
+import { data, useLoaderData } from 'react-router'
 import * as commands from '@src/service/commands'
 import * as layout from '@ui/components/layout/layout'
 import { loaderCache } from '@ui/utils/cache'
@@ -8,11 +7,11 @@ import * as postSer from '@src/adapters/serializers/post'
 
 export const loader = async () => {
   const post = await commands.post('_about')
-  return json(
+  return data(
     {
       post: postSer.dump(post)[0],
     },
-    { headers: { ...loaderCache } }
+    { headers: { ...loaderCache } },
   )
 }
 

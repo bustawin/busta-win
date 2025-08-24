@@ -1,7 +1,7 @@
 import timmy from './timmy.webp'
 
 import { Category } from '@src/domain/category'
-import { NavLink } from '@remix-run/react'
+import { NavLink } from 'react-router';
 import { humanize } from '@ui/utils/categories'
 import './main-navigation.css'
 

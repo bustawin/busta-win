@@ -2,13 +2,15 @@
   "include": [
     "env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "./react-router/types/**/*"
   ],
   "exclude": [
     "**/*.mdx"
   ],
   "compilerOptions": {
-    "types": ["@remix-run/node", "vite/client"],
+    "types": ["@react-run/node", "vite/client"],
+    "rootDirs": [".", "./.react-router/types"],
     "lib": [
       "DOM",
       "DOM.Iterable",

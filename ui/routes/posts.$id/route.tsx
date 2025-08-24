@@ -1,7 +1,12 @@
 import it from 'iterated'
-import { MetaFunction, useLoaderData } from '@remix-run/react'
+import {
+  MetaFunction,
+  useLoaderData,
+  data,
+  LinksFunction,
+  LoaderFunctionArgs,
+} from 'react-router'
 import * as commands from '@src/service/commands'
-import { json, LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import * as layout from '@ui/components/layout/layout'
 import { PostNotFound } from '@src/adapters/posts/posts'
@@ -41,11 +46,11 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
       throw err
     }
   }
-  return json(
+  return data(
     {
       post: postSer.dump(post)[0],
     },
-    { headers: { ...loaderCache } }
+    { headers: { ...loaderCache } },
   )
 }
 
@@ -61,7 +66,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
     ['og:locale', 'en_US'],
     ...it.map(
       post.categories,
-      (category) => ['article:section', category] as [string, string]
+      (category) => ['article:section', category] as [string, string],
     ),
     ...it.map(post.tags, (tag) => ['article:tag', tag] as [string, string]),
   ]
