@@ -24,7 +24,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund
 
 FROM packages AS build
-COPY tsconfig.json vite.config.ts ./
+COPY tsconfig.json vite.config.ts react-router.config.ts ./
 COPY jutils jutils
 COPY src.server src.server
 COPY public public
