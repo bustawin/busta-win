@@ -1,0 +1,9 @@
+.git
+.idea
+.react-router
+build
+node_modules
+posts
+*.log
+.DS_Store
+.tunnel.env
