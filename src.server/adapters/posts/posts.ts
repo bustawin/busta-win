@@ -53,7 +53,7 @@ export async function post(id: string): Promise<Post> {
   let stats
   try {
     stats = await stat(filepath)
-  } catch (error) {
+  } catch {
     // File doesn't exist or is invalid
     throw new PostNotFound(id)
   }
@@ -73,7 +73,7 @@ export async function _post(id: string): Promise<Post> {
   let rawPost
   try {
     rawPost = await readFile(filepath, 'utf-8')
-  } catch (error) {
+  } catch {
     // File doesn't exist or is invalid
     throw new PostNotFound(id)
   }
