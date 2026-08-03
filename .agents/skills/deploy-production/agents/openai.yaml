@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deploy busta.win"
+  short_description: "Deploy busta.win safely to production"
+  default_prompt: "Use $deploy-production to deploy the current busta.win changes to production."
