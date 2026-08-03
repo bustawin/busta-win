@@ -9,5 +9,7 @@ node_modules
 
 .DS_Store
 public/posts
+/playwright-report
+/test-results
 
 .react-router/

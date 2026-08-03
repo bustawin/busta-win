@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GBrowserService"><![CDATA[{
+  "defaultHomePage": "http://localhost:3000",
+  "history": [
+    {
+      "name": "GBrowser - IntelliJ IDEs Plugin | Marketplace",
+      "url": "https://plugins.jetbrains.com/plugin/14458-gbrowser"
+    },
+    {
+      "name": "GBrowser Plugin for JetBrains IDEs | JetBrains Marketplace",
+      "url": "https://plugins.jetbrains.com/plugin/14458-gbrowser#"
+    },
+    {
+      "name": "bustawin",
+      "url": "http://localhost:3000/"
+    },
+    {
+      "name": "bustawin",
+      "url": "http://localhost:3000/categories/software"
+    },
+    {
+      "name": "bustawin",
+      "url": "http://localhost:3000/categories/research"
+    },
+    {
+      "name": "Planning effective meetings",
+      "url": "http://localhost:3000/posts/planning-effective-meetings"
+    },
+    {
+      "name": "Writing on the internet",
+      "url": "http://localhost:3000/posts/writing-internet"
+    },
+    {
+      "name": "busta.win: a self-hosted blog built with React Remix using the Edge",
+      "url": "http://localhost:3000/posts/building-blog"
+    },
+    {
+      "name": "JavaScript Iterables and Iterated",
+      "url": "http://localhost:3000/posts/iterated"
+    },
+    {
+      "name": "From the vision to the task: an introduction to goal-setting",
+      "url": "http://localhost:3000/posts/goal-setting-vision-okrs"
+    },
+    {
+      "name": "The global interorganizational network before and during a global pandemic",
+      "url": "http://localhost:3000/posts/interorg-network"
+    },
+    {
+      "name": "Configurations to empower your macOS",
+      "url": "http://localhost:3000/posts/configurations-to-empower-your-macos"
+    },
+    {
+      "name": "Butterick’s Practical Typography",
+      "url": "https://practicaltypography.com/"
+    },
+    {
+      "name": "Prose style in this blog",
+      "url": "http://localhost:3000/posts/prose-style"
+    }
+  ],
+  "bookmarks": [
+    {
+      "url": "http://localhost:3000/posts/planning-effective-meetings",
+      "name": "Planning effective meetings"
+    }
+  ]
+}]]></component>
+</project>

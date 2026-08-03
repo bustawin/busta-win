@@ -22,13 +22,13 @@ import { ellipsisReplacer } from '@src/adapters/posts/post-replacer'
 
 const PUBLIC_DIR = relativePath(
   import.meta.url,
-  utils.envPro ? '../client' : '../../../public'
+  utils.envPro ? '../client' : '../../../public',
 )
 const POST_FILENAME = 'post.mdx'
 
 export async function posts(
   category?: Category,
-  draft: boolean = false
+  draft: boolean = false,
 ): Promise<Array<Post>> {
   return it.pipe(
     await postIds(),
@@ -40,7 +40,7 @@ export async function posts(
       if (category) return isPostInCategory(post, category)
       return true
     }),
-    it.sort(postChronologicalComparator)
+    it.sort(postChronologicalComparator),
   )
 }
 
@@ -48,12 +48,7 @@ const cache: Record<Post['id'], number> = {}
 const cachedPosts: Record<Post['id'], Post> = {}
 
 export async function post(id: string): Promise<Post> {
-  const filepath = path.join(POSTS_DIR, id, POST_FILENAME) // Join normalizes
-
-  if (!filepath.startsWith(POSTS_DIR)) {
-    // Avoid people trying to access outside the posts dir
-    throw new PostNotFound(id)
-  }
+  const filepath = postFilepath(id)
 
   let stats
   try {
@@ -73,7 +68,7 @@ export async function post(id: string): Promise<Post> {
 }
 
 export async function _post(id: string): Promise<Post> {
-  const filepath = path.join(POSTS_DIR, id, POST_FILENAME) // Join normalizes
+  const filepath = postFilepath(id)
 
   let rawPost
   try {
@@ -130,6 +125,29 @@ export async function _post(id: string): Promise<Post> {
     ...frontmatter,
   } as postSerializer.RawPost)
   return convertedPost
+}
+
+function postFilepath(id: string): string {
+  const containsSeparator = id.includes('/') || id.includes('\\')
+  const postDirectory = path.resolve(POSTS_DIR, id)
+  const relativePostDirectory = path.relative(POSTS_DIR, postDirectory)
+  const isOutsidePostsDirectory =
+    relativePostDirectory === '..' ||
+    relativePostDirectory.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relativePostDirectory)
+
+  if (
+    !id ||
+    id === '.' ||
+    id === '..' ||
+    id.includes('\0') ||
+    containsSeparator ||
+    isOutsidePostsDirectory
+  ) {
+    throw new PostNotFound(id)
+  }
+
+  return path.join(postDirectory, POST_FILENAME)
 }
 
 export class PostNotFound extends Error {
