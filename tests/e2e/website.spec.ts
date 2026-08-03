@@ -35,7 +35,11 @@ test('lists published posts and filters them by category', async ({ page }) => {
 
 test('renders a post after client-side navigation', async ({ page }) => {
   const pageErrors: Error[] = []
+  const consoleErrors: string[] = []
   page.on('pageerror', (error) => pageErrors.push(error))
+  page.on('console', (message) => {
+    if (message.type() === 'error') consoleErrors.push(message.text())
+  })
 
   await page.goto('/')
   await page.getByRole('link', { name: buildingPost }).click()
@@ -57,6 +61,19 @@ test('renders a post after client-side navigation', async ({ page }) => {
   )
   await expect(page.getByText('Table of contents')).toBeVisible()
   await expect(page.locator('.post__figure--pintora svg')).toBeVisible()
+  expect(pageErrors).toEqual([])
+  expect(consoleErrors).toEqual([])
+})
+
+test('renders interactive Plotly graphs', async ({ page }) => {
+  const pageErrors: Error[] = []
+  page.on('pageerror', (error) => pageErrors.push(error))
+
+  const response = await page.goto('/posts/interorg-network')
+
+  expect(response?.status()).toBe(200)
+  await expect(page.locator('.js-plotly-plot')).toHaveCount(2)
+  await expect(page.locator('.js-plotly-plot').first()).toBeVisible()
   expect(pageErrors).toEqual([])
 })
 

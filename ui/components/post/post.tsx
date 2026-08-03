@@ -1,5 +1,5 @@
 import { getMDXExport } from 'mdx-bundler/client'
-import { isValidElement } from 'react'
+import { isValidElement, type ReactElement } from 'react'
 import Note from '@jutils/ui/components/note/note'
 import { Plot } from '@ui/utils/graph'
 import C from '@jutils/ui/components/citation/citation'
@@ -16,7 +16,7 @@ interface PostProps {
 
 export default function Post({
   content,
-}: PostProps): [JSX.Element, JSX.Element] {
+}: PostProps): [ReactElement, ReactElement] {
   const mdxExport = getMDXExport(content)
   const Component = mdxExport.default
 
