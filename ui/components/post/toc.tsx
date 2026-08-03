@@ -1,5 +1,5 @@
-import { TocEntry } from 'remark-mdx-toc'
-import { Link } from 'react-router';
+import type { TocEntry } from '@src/adapters/posts/remark-mdx-toc'
+import { Link } from 'react-router'
 import './toc.css'
 
 interface Props {
@@ -10,9 +10,9 @@ function list(entries: TocEntry[]) {
   return (
     <nav>
       <ol>
-        {entries.map(({ attributes: { id }, value }) => (
-          <li key={id}>
-            <Link to={`#${id}`} className="toc__link">
+        {entries.map(({ attributes, value }) => (
+          <li key={String(attributes.id)}>
+            <Link to={`#${String(attributes.id)}`} className="toc__link">
               {value}
             </Link>
           </li>

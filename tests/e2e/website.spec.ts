@@ -55,6 +55,8 @@ test('renders a post after client-side navigation', async ({ page }) => {
     'href',
     '/posts/building-blog#what-i-want-for-my-personal-website',
   )
+  await expect(page.getByText('Table of contents')).toBeVisible()
+  await expect(page.locator('.post__figure--pintora svg')).toBeVisible()
   expect(pageErrors).toEqual([])
 })
 
