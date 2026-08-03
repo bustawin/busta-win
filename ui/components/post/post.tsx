@@ -1,5 +1,5 @@
 import { getMDXExport } from 'mdx-bundler/client'
-import React from 'react'
+import { isValidElement } from 'react'
 import Note from '@jutils/ui/components/note/note'
 import { Plot } from '@ui/utils/graph'
 import C from '@jutils/ui/components/citation/citation'
@@ -18,7 +18,7 @@ export default function Post({
   content,
 }: PostProps): [JSX.Element, JSX.Element] {
   const mdxExport = getMDXExport(content)
-  const Component = React.useMemo(() => mdxExport.default, [content])
+  const Component = mdxExport.default
 
   const post = (
     <article className="post" itemProp="articleBody">
@@ -41,17 +41,17 @@ export default function Post({
   return [post, toc]
 }
 
-function PostImage(props: Props) {
+function PostImage(props: Props & { alt?: string }) {
   return (
     <figure className="figure--image">
-      <img {...props} />
+      <img {...props} alt={props.alt ?? ''} />
       {props.title && <figcaption className="muted">{props.title}</figcaption>}
     </figure>
   )
 }
 
 function Paragraph(props: Props) {
-  if (props.children!.type === PostImage) {
+  if (isValidElement(props.children) && props.children.type === PostImage) {
     // Remove <p> from figures as it's invalid HTML
     //  failing hydration
     //  from https://github.com/kentcdodds/mdx-bundler/blob/main/README.md#image-bundling
@@ -69,8 +69,9 @@ function Table({ children }: Props) {
 }
 
 function pre(props: Props) {
-  if (isPintora(props))
-    return Pintora(props.children.props.children, props.title)
+  if (isPintora(props) && isValidElement<Props>(props.children)) {
+    return Pintora(String(props.children.props.children), props.title)
+  }
   return (
     <figure className="post__figure post__figure--pre">
       <pre {...props} />

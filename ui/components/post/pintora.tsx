@@ -1,4 +1,5 @@
 import { Props } from '@jutils/ui/reactUtils'
+import { isValidElement } from 'react'
 import './pintora.css'
 
 /**
@@ -14,5 +15,8 @@ export default function Pintora(svg: string, title?: string) {
 }
 
 export function isPintora(props: Props): boolean {
-  return props?.children?.props?.className?.includes('pintora')
+  return (
+    isValidElement<Props>(props.children) &&
+    Boolean(props.children.props.className?.includes('pintora'))
+  )
 }

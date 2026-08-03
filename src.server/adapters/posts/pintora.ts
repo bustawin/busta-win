@@ -1,9 +1,10 @@
 import { visit } from 'unist-util-visit'
 import { render } from '@pintora/cli'
+import type { Code, Root } from 'mdast'
 
 export default function pintora() {
-  return async function transformer(tree) {
-    const nodes = []
+  return async function transformer(tree: Root) {
+    const nodes: Code[] = []
 
     visit(tree, 'code', (node) => {
       // Example async operation: simulate async operation with a delay
@@ -24,7 +25,7 @@ export default function pintora() {
         // such as code, so we can handle it in React
         // we have the extra of being able to use markdown code title
         node.type = 'code'
-        node.value = svgString
+        node.value = String(svgString)
       })
     )
     return tree

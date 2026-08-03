@@ -6,10 +6,15 @@
     "./react-router/types/**/*"
   ],
   "exclude": [
-    "**/*.mdx"
+    "**/*.mdx",
+    "build/**",
+    "node_modules/**",
+    "jutils/src/ui/components/form/**",
+    "jutils/src/ui/components/icon/IconWithText.tsx",
+    "jutils/src/ui/components/tooltip/**"
   ],
   "compilerOptions": {
-    "types": ["@react-run/node", "vite/client"],
+    "types": ["@react-router/node", "vite/client"],
     "rootDirs": [".", "./.react-router/types"],
     "lib": [
       "DOM",

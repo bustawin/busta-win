@@ -6,7 +6,7 @@ import { postInfo } from '@ui/components/post/post'
 
 export interface Props {
   posts: Post[]
-  children: layout.MainContainerProps['children']
+  children?: layout.MainContainerProps['children']
   top?: layout.MainContainerProps['top']
 }
 

@@ -9,7 +9,7 @@ import {
   useLoaderData,
   useRouteError,
 } from 'react-router';
-import type { HeadersFunction, LinksFunction, LoaderFunction, MetaFunction } from 'react-router';
+import type { HeadersFunction, LinksFunction, MetaFunction } from 'react-router';
 import * as commands from '@src/service/commands'
 import { dump } from '@src/adapters/serializers/categories'
 import * as layout from '@ui/components/layout/layout'
@@ -93,7 +93,7 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const categories = commands.categories()
   return {
     categories: dump(categories),

@@ -13,7 +13,7 @@ import { relativePath } from '@jutils/path'
 import { bundleMDX } from 'mdx-bundler'
 import { remarkMdxToc } from 'remark-mdx-toc' // @ts-expect-error We don't have types for this
 import remarkHeaderId from 'remark-heading-id'
-import remarkMdxImages from 'remark-mdx-images'
+import remarkMdxImages from '@src/adapters/posts/remark-mdx-images'
 import { postIds, POSTS_DIR } from '@src/adapters/posts/postsDir'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeMdxCodeProps from 'rehype-mdx-code-props'

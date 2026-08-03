@@ -22,7 +22,7 @@ export default function Index() {
     <PostsContainer posts={posts}>
       <article>
         <div>
-          <div className="lead">Hello, I'm bustawin.</div>
+          <div className="lead">Hello, I&apos;m bustawin.</div>
         </div>
         <div>
           In this website I talk about things I do—publications, notes, and

@@ -1,14 +1,15 @@
 import { ClientOnly } from 'remix-utils/client-only'
 
 import { lazy, Suspense } from 'react'
+import type { Data, Layout } from 'plotly.js'
 import Spinner from '@jutils/ui/components/spinner/spinner'
 
 // Plotly library can only be imported at client side
 const Plotly = lazy(() => import('./plot'))
 
 export interface PlotProps {
-  data: Record<string, unknown>
-  layout: Record<string, unknown>
+  data: Data[]
+  layout: Partial<Layout>
 }
 
 export function Plot({ data, layout }: PlotProps) {

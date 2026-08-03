@@ -57,7 +57,8 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   if (!data?.post) return
   const [post] = postSer.load(data.post)
-  const rootMetas = matches[0].meta.filter(({ title }) => !title)
+  const rootMetas =
+    matches[0]?.meta.filter((descriptor) => !('title' in descriptor)) ?? []
 
   const properties: [string, string][] = [
     ['og:title', post.title],
