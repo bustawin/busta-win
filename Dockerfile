@@ -1,29 +1,35 @@
-# Use lts node: https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html
-FROM node:lts-bookworm-slim AS base
+# Keep the container aligned with .node-version.
+FROM node:22.23.1-bookworm-slim AS runtime-base
 
-RUN apt update
-# Packages required for Pintora
-RUN apt install --yes build-essential  \
+# Runtime libraries required by Pintora's canvas renderer.
+RUN apt-get update && apt-get install --yes --no-install-recommends \
+    libcairo2 \
+    libpango-1.0-0 \
+    libjpeg62-turbo \
+    libgif7 \
+    librsvg2-2 && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+FROM runtime-base AS build-base
+
+# Build packages used if native canvas dependencies need to compile.
+RUN apt-get update && apt-get install --yes --no-install-recommends \
+    build-essential \
     libcairo2-dev  \
     libpango1.0-dev  \
     libjpeg-dev  \
     libgif-dev  \
-    librsvg2-dev
-# Remove apt cache
-RUN apt clean autoclean && \
-    apt autoremove --yes && \
+    librsvg2-dev && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /app
-WORKDIR /app
-
-FROM base as packages
-ENV NODE_ENV production
+FROM build-base AS build-packages
 
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+RUN npm ci --include=dev --no-audit --no-fund
 
-FROM packages AS build
+FROM build-packages AS build
 COPY tsconfig.json vite.config.ts react-router.config.ts ./
 COPY jutils jutils
 COPY src.server src.server
@@ -32,13 +38,24 @@ COPY ui ui
 
 RUN npm run build
 
-FROM build AS start
+FROM build-base AS production-packages
+ENV NODE_ENV=production
 
-COPY server.ts ./
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --no-audit --no-fund
 
-ENV PORT 3210
+FROM runtime-base AS start
+
+ENV NODE_ENV=production
+
+COPY --from=production-packages /app/node_modules ./node_modules
+COPY --from=build /app/build ./build
+COPY package.json tsconfig.json server.ts ./
+COPY jutils/src jutils/src
+
+ENV PORT=3210
 EXPOSE 3210
-ENV HOST '0.0.0.0'
+ENV HOST=0.0.0.0
 
 # Use a non-privileged user: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
 # Posts are computed on the fly, and the server requires a cache directory
