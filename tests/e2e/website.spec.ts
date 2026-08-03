@@ -118,3 +118,21 @@ test('redirects a legacy post URL to its canonical URL', async ({
   expect(response.status()).toBe(301)
   expect(response.headers().location).toBe('/posts/building-blog')
 })
+
+test('serves the Atom feed', async ({ request }) => {
+  const response = await request.get('/posts/feed')
+
+  expect(response.status()).toBe(200)
+  expect(response.headers()['content-type']).toContain('application/atom+xml')
+  expect(await response.text()).toContain('<feed')
+})
+
+test('serves trailing-slash documents and data requests', async ({
+  request,
+}) => {
+  const documentResponse = await request.get('/posts/building-blog/')
+  const dataResponse = await request.get('/posts/building-blog/_.data')
+
+  expect(documentResponse.status()).toBe(200)
+  expect(dataResponse.status()).toBe(200)
+})

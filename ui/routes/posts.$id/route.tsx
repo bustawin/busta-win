@@ -54,9 +54,9 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   )
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
-  if (!data?.post) return
-  const [post] = postSer.load(data.post)
+export const meta: MetaFunction<typeof loader> = ({ loaderData, matches }) => {
+  if (!loaderData?.post) return
+  const [post] = postSer.load(loaderData.post)
   const rootMetas =
     matches[0]?.meta.filter((descriptor) => !('title' in descriptor)) ?? []
 
