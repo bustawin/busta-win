@@ -32,34 +32,33 @@
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
     "paths": {
       "@src": [
-        "src.server"
+        "./src.server"
       ],
       "@src/*": [
-        "src.server/*"
+        "./src.server/*"
       ],
       "@ui": [
-        "ui"
+        "./ui"
       ],
       "@ui/*": [
-        "ui/*"
+        "./ui/*"
       ],
       "@jutils/*": [
-        "jutils/src/*"
+        "./jutils/src/*"
       ],
       "@bootstrap/*": [
-        "node_modules/bootstrap/scss"
+        "./node_modules/bootstrap/scss"
       ],
       "@highlight/*": [
-        "node_modules/highlight.js/scss"
+        "./node_modules/highlight.js/scss"
       ],
       "@posts/*": [
-        "posts/*"
+        "./posts/*"
       ],
       "@style": [
-        "ui/styles/style.sass"
+        "./ui/styles/style.sass"
       ]
     },
     // Vite takes care of building everything, not tsc.
