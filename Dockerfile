@@ -1,5 +1,5 @@
 # Keep the container aligned with .node-version.
-FROM node:22.23.1-bookworm-slim AS runtime-base
+FROM node:24.21.0-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6 AS runtime-base
 
 # Runtime libraries required by Pintora's canvas renderer.
 RUN apt-get update && apt-get install --yes --no-install-recommends \
@@ -9,6 +9,10 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     libgif7 \
     librsvg2-2 && \
     rm -rf /var/lib/apt/lists/*
+
+# Node 24.21.0 bundles npm 11.19.0, whose transitive dependencies have
+# fixable security advisories. Keep the package manager patched in the image.
+RUN npm install --global npm@12.1.0 --no-audit --no-fund
 
 WORKDIR /app
 
@@ -42,7 +46,10 @@ FROM build-base AS production-packages
 ENV NODE_ENV=production
 
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --no-audit --no-fund
+# Node 24 has no compatible prebuilt canvas binary in this dependency graph.
+# Build it here; this stage has the native libraries and compilers it requires.
+RUN npm ci --omit=dev --no-audit --no-fund && \
+    npm rebuild canvas --no-audit --no-fund
 
 FROM runtime-base AS start
 
