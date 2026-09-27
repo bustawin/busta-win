@@ -39,7 +39,7 @@ export function feed(posts: Post[]): string {
 function postToFeed(post: Post): Item {
   return {
     title: post.title,
-    id: post.id,
+    id: `${postsUrl}/${post.id}`,
     link: `${postsUrl}/${post.id}`,
     description: post.summary,
     content: '',
