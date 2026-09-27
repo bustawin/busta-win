@@ -13,3 +13,10 @@ public/posts
 /test-results
 
 .react-router/
+
+# IDEA files
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
+.idea/micropython-tools-settings.xml
