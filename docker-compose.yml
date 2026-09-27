@@ -15,7 +15,7 @@ services:
     memswap_limit: 256M # Keep the same as mem_limit to disable swap
 
   tunnel:
-    image: cloudflare/cloudflared
+    image: cloudflare/cloudflared:2026.9.3@sha256:072c067d25ccbe61d46e18f0d0723255f2bb5304f7317caa95b27031520ff92c
     restart: unless-stopped
     command: tunnel run
     env_file:
