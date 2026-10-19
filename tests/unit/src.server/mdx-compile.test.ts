@@ -68,6 +68,25 @@ describe('compileMdx', () => {
     )
   })
 
+  it('emits relative jpeg and avif images', async () => {
+    const cwd = await createTemporaryDirectory()
+    const assetsDirectory = path.join(cwd, 'assets')
+    await writeFile(path.join(cwd, 'photo.jpeg'), Buffer.from('jpeg bytes'))
+    await writeFile(path.join(cwd, 'photo.avif'), Buffer.from('avif bytes'))
+
+    const { code } = await compileMdx({
+      cwd,
+      source: ['![JPEG](./photo.jpeg)', '', '![AVIF](./photo.avif)'].join('\n'),
+      assets: { directory: assetsDirectory, publicPath: '/assets' },
+    })
+
+    const assetFiles = await readdir(assetsDirectory)
+    expect(assetFiles.some((file) => file.endsWith('.jpeg'))).toBe(true)
+    expect(assetFiles.some((file) => file.endsWith('.avif'))).toBe(true)
+    expect(code).toMatch(/\/assets\/[^"']+\.jpeg/)
+    expect(code).toMatch(/\/assets\/[^"']+\.avif/)
+  })
+
   it('emits relative images and references the configured public path', async () => {
     const cwd = await createTemporaryDirectory()
     const assetsDirectory = path.join(cwd, 'assets')

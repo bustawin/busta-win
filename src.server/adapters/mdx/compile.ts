@@ -69,6 +69,8 @@ export async function compileMdx({
                 '.svg': 'file',
                 '.webp': 'file',
                 '.jpg': 'file',
+                '.jpeg': 'file',
+                '.avif': 'file',
               },
               publicPath: assets.publicPath,
               write: true,
