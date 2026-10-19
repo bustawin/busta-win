@@ -8,6 +8,7 @@ import { Post as PostType } from '@src/domain/post'
 import Toc from './toc'
 import { Props } from '@jutils/ui/reactUtils'
 import Pintora, { isPintora } from '@ui/components/post/pintora'
+import { MdxPre, MdxTable, mdxComponents } from '@ui/mdx/components'
 import './post.css'
 
 interface PostProps {
@@ -24,14 +25,12 @@ export default function Post({
     <article className="post" itemProp="articleBody">
       <Component
         components={{
-          img: PostImage,
+          ...mdxComponents,
+          Table: MdxTable,
           Note,
-          p: Paragraph,
-          Table,
           Plot,
           C,
           Icon,
-          Subtitle,
           pre,
         }}
       />
@@ -41,47 +40,11 @@ export default function Post({
   return [post, toc]
 }
 
-function PostImage(props: Props & { alt?: string }) {
-  return (
-    <figure className="figure--image">
-      <img {...props} alt={props.alt ?? ''} />
-      {props.title && <figcaption className="muted">{props.title}</figcaption>}
-    </figure>
-  )
-}
-
-function Paragraph(props: Props) {
-  if (isValidElement(props.children) && props.children.type === PostImage) {
-    // Remove <p> from figures as it's invalid HTML
-    //  failing hydration
-    //  from https://github.com/kentcdodds/mdx-bundler/blob/main/README.md#image-bundling
-    return <>{props.children}</>
-  }
-  return <p {...props} />
-}
-
-function Table({ children }: Props) {
-  return (
-    <div className="table-wrapper">
-      <table>{children}</table>
-    </div>
-  )
-}
-
 function pre(props: Props) {
   if (isPintora(props) && isValidElement<Props>(props.children)) {
     return Pintora(String(props.children.props.children), props.title)
   }
-  return (
-    <figure className="post__figure post__figure--pre">
-      <pre {...props} />
-      {props.title && <figcaption className="muted">{props.title}</figcaption>}
-    </figure>
-  )
-}
-
-function Subtitle({ children }: Props) {
-  return <strong className="subtitle">{children}</strong>
+  return <MdxPre {...props} />
 }
 
 export interface postInfoProps {

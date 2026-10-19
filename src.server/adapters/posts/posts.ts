@@ -10,15 +10,9 @@ import * as utils from '@src/service/utils'
 import { Category } from '@src/domain/category'
 import * as postSerializer from '@src/adapters/serializers/post'
 import { relativePath } from '@jutils/path'
-import { bundleMDX } from 'mdx-bundler'
-import remarkHeaderId from 'remark-heading-id'
-import remarkMdxImages from '@src/adapters/posts/remark-mdx-images'
-import remarkMdxToc from '@src/adapters/posts/remark-mdx-toc'
+import { compileMdx } from '@src/adapters/mdx/compile'
 import { postIds, POSTS_DIR } from '@src/adapters/posts/postsDir'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeMdxCodeProps from 'rehype-mdx-code-props'
 import pintora from '@src/adapters/posts/pintora'
-import { ellipsisReplacer } from '@src/adapters/posts/post-replacer'
 
 const PUBLIC_DIR = relativePath(
   import.meta.url,
@@ -78,45 +72,17 @@ export async function _post(id: string): Promise<Post> {
     throw new PostNotFound(id)
   }
 
-  const { code, frontmatter } = await bundleMDX({
+  const { code, frontmatter } = await compileMdx({
     source: rawPost,
     cwd: POSTS_DIR,
+    assets: {
+      directory: path.join(PUBLIC_DIR, 'posts'),
+      publicPath: '/posts',
+    },
     globals: {
       '@ui/utils/posts': 'ui',
     },
-    mdxOptions(options) {
-      // this is the recommended way to add custom remark/rehype plugins:
-      // The syntax might look weird, but it protects you in case we add/remove
-      // plugins in the future.
-      options.remarkPlugins = [
-        ...(options.remarkPlugins ?? []),
-        pintora,
-        [remarkHeaderId, { defaults: true }],
-        remarkMdxToc,
-        remarkMdxImages,
-        ellipsisReplacer,
-      ]
-      options.rehypePlugins = [
-        [rehypeHighlight, { plainText: ['pintora', 'hero', 'rst'] }],
-        rehypeMdxCodeProps,
-      ]
-
-      return options
-    },
-    esbuildOptions: (options) => ({
-      ...options,
-      outdir: `${PUBLIC_DIR}/posts`,
-      loader: {
-        ...options.loader,
-        '.gif': 'file',
-        '.png': 'file',
-        '.svg': 'file',
-        '.webp': 'file',
-        '.jpg': 'file',
-      },
-      publicPath: '/posts',
-      write: true,
-    }),
+    remarkPlugins: [pintora],
   })
 
   const [convertedPost] = postSerializer.load({
