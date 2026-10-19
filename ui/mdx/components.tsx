@@ -46,6 +46,7 @@ export const mdxComponents = {
   img: MdxImage,
   p: MdxParagraph,
   table: MdxTable,
+  Table: MdxTable,
   pre: MdxPre,
   Subtitle: MdxSubtitle,
 }

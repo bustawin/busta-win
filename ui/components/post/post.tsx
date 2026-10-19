@@ -8,7 +8,7 @@ import { Post as PostType } from '@src/domain/post'
 import Toc from './toc'
 import { Props } from '@jutils/ui/reactUtils'
 import Pintora, { isPintora } from '@ui/components/post/pintora'
-import { MdxPre, MdxTable, mdxComponents } from '@ui/mdx/components'
+import { MdxPre, mdxComponents } from '@ui/mdx/components'
 import './post.css'
 
 interface PostProps {
@@ -26,7 +26,6 @@ export default function Post({
       <Component
         components={{
           ...mdxComponents,
-          Table: MdxTable,
           Note,
           Plot,
           C,
