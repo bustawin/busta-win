@@ -14,7 +14,7 @@ Use the existing `@ui`, `@src`, and `@jutils` aliases instead of adding long rel
 
 ## Setup and commands
 
-Use the Node version in `.node-version` (currently 22.14.0).
+Use the Node version in `.node-version`.
 
 ```sh
 ./install        # initialize/update the jutils submodule
